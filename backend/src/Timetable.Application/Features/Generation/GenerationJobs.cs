@@ -52,12 +52,24 @@ public sealed record GetGenerationJobQuery(Guid JobId) : IQuery<Result<Generatio
     public string RequiredPermission => Permissions.ScheduleGenerate + "|" + Permissions.DashboardView;
 }
 
-/// <summary>Queue of job ids consumed by the background worker (single reader).</summary>
+/// <summary>
+/// Wake-up signal for the background worker. The database is the queue: a job is enqueued inside the request's
+/// transaction (before commit), so the worker always re-reads queued jobs instead of trusting the signal's payload.
+/// </summary>
 public sealed class GenerationQueue
 {
     private readonly Channel<Guid> _channel = Channel.CreateUnbounded<Guid>(new UnboundedChannelOptions { SingleReader = true });
     public void Enqueue(Guid jobId) => _channel.Writer.TryWrite(jobId);
-    public IAsyncEnumerable<Guid> ReadAllAsync(CancellationToken ct) => _channel.Reader.ReadAllAsync(ct);
+
+    /// <summary>Waits for a signal or <paramref name="max"/>, whichever comes first, then drains pending signals.</summary>
+    public async Task WaitAsync(TimeSpan max, CancellationToken ct)
+    {
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        timeout.CancelAfter(max);
+        try { await _channel.Reader.WaitToReadAsync(timeout.Token); }
+        catch (OperationCanceledException) when (!ct.IsCancellationRequested) { /* periodic re-check */ }
+        while (_channel.Reader.TryRead(out _)) { }
+    }
 }
 
 /// <summary>Live state of running jobs (progress between database writes) and their cancellation sources.</summary>
@@ -146,7 +158,7 @@ internal sealed class GenerationJobHandlers(IAppDbContext db, ICurrentUser user,
 /// <summary>Executes one generation job end to end (called by the background worker inside its own scope).</summary>
 public sealed class GenerationRunner(IAppDbContext db, ITenantContext tenant, ScheduleProblemFactory problems, ConstraintConfigurationProvider configs,
     IEnumerable<ISchedulerEngine> engines, GenerationRegistry registry, IRealtimeNotifier notifier, IMessageLocalizer localizer, ConfigExporter exporter,
-    ScheduleStateStore states, ConfigVersion versions, ILogger<GenerationRunner> logger)
+    ScheduleStateStore states, ConfigVersion versions, Microsoft.Extensions.Options.IOptions<SolverOptions> solver, ILogger<GenerationRunner> logger)
 {
     private static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
 
@@ -200,10 +212,11 @@ public sealed class GenerationRunner(IAppDbContext db, ITenantContext tenant, Sc
             job.ResultScheduleId = result.Id;
             await db.SaveChangesAsync(cts.Token);
 
-            var engine = SelectEngine(request.Engine);
+            var engine = SelectEngine(request.Engine, pending.Count);
             job.Engine = engine.Code;
             var progress = new Progress<EngineProgress>(p => _ = Report(job, p, lang));
-            var options = new EngineOptions(request.TimeLimitSeconds, Environment.ProcessorCount, 1, hints);
+            var workers = solver.Value.DefaultWorkers > 0 ? solver.Value.DefaultWorkers : Environment.ProcessorCount;
+            var options = new EngineOptions(request.TimeLimitSeconds, workers, 1, hints);
             var outcome = await engine.SolveAsync(problem, config, fixedPlacements, pending, options, progress, cts.Token);
             var engineUsed = engine.Code;
             if (outcome.Status is EngineStatus.Failed && engine.Code != "heuristic")
@@ -218,6 +231,9 @@ public sealed class GenerationRunner(IAppDbContext db, ITenantContext tenant, Sc
 
             await Report(job, new EngineProgress("PROGRESS_VERIFYING", 92), lang);
             var verified = Verifier.VerifyAndRepair(problem, config, fixedPlacements, outcome.Placements, cts.Token);
+            if (verified.Repaired > 0)
+                logger.LogWarning("Safety net repaired {Count} placements from {Engine}; initial hard findings: {Codes}", verified.Repaired, engineUsed,
+                    string.Join(", ", verified.InitialHardCodes));
 
             foreach (var e in kept)
             {
@@ -274,11 +290,12 @@ public sealed class GenerationRunner(IAppDbContext db, ITenantContext tenant, Sc
         }
     }
 
-    private ISchedulerEngine SelectEngine(string requested)
+    private ISchedulerEngine SelectEngine(string requested, int pending)
     {
         var list = engines.ToList();
         var heuristic = list.First(e => e.Code == "heuristic");
         if (requested == "heuristic") return heuristic;
+        if (requested == "auto" && solver.Value.HeuristicThresholdSessions > 0 && pending > solver.Value.HeuristicThresholdSessions) return heuristic;
         return list.FirstOrDefault(e => e.Code == "cpsat" && e.IsAvailable) ?? heuristic;
     }
 

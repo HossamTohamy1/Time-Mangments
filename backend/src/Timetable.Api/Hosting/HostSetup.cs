@@ -161,6 +161,8 @@ public static class HostSetup
         }
 
         app.UseMiddleware<CorrelationIdMiddleware>();
+        app.UseMiddleware<SecurityHeadersMiddleware>();
+        if (!app.Environment.IsDevelopment() && !app.Environment.IsEnvironment("Testing")) app.UseHsts();
         app.UseSerilogRequestLogging();
         app.UseExceptionHandler();
         app.UseResponseCompression();

@@ -18,17 +18,37 @@ public sealed class GenerationWorker(GenerationQueue queue, IServiceScopeFactory
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await RecoverAsync(stoppingToken);
-        await foreach (var jobId in queue.ReadAllAsync(stoppingToken))
+        while (!stoppingToken.IsCancellationRequested)
         {
-            try
+            await queue.WaitAsync(TimeSpan.FromSeconds(3), stoppingToken);
+            foreach (var jobId in await QueuedAsync(stoppingToken))
             {
-                using var scope = scopes.CreateScope();
-                await scope.ServiceProvider.GetRequiredService<GenerationRunner>().RunAsync(jobId, stoppingToken);
+                try
+                {
+                    using var scope = scopes.CreateScope();
+                    await scope.ServiceProvider.GetRequiredService<GenerationRunner>().RunAsync(jobId, stoppingToken);
+                }
+                catch (Exception ex) when (ex is not OperationCanceledException)
+                {
+                    logger.LogError(ex, "Generation job {Job} crashed", jobId);
+                }
             }
-            catch (Exception ex) when (ex is not OperationCanceledException)
-            {
-                logger.LogError(ex, "Generation job {Job} crashed", jobId);
-            }
+        }
+    }
+
+    private async Task<List<Guid>> QueuedAsync(CancellationToken ct)
+    {
+        try
+        {
+            using var scope = scopes.CreateScope();
+            using var _ = scope.ServiceProvider.GetRequiredService<ITenantContext>().Bypass();
+            return await scope.ServiceProvider.GetRequiredService<AppDbContext>().GenerationJobs.AsNoTracking()
+                .Where(j => j.Status == GenerationJobStatus.Queued).OrderBy(j => j.CreatedAt).Select(j => j.Id).ToListAsync(ct);
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            logger.LogError(ex, "Could not read queued generation jobs");
+            return [];
         }
     }
 
@@ -54,8 +74,6 @@ public sealed class GenerationWorker(GenerationQueue queue, IServiceScopeFactory
                 }
             }
             await db.SaveChangesAsync(ct);
-            foreach (var id in await db.GenerationJobs.Where(j => j.Status == GenerationJobStatus.Queued).OrderBy(j => j.CreatedAt).Select(j => j.Id).ToListAsync(ct))
-                queue.Enqueue(id);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {

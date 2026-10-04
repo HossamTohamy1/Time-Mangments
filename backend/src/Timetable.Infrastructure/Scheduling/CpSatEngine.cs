@@ -222,9 +222,20 @@ public sealed class CpSatEngine(ILogger<CpSatEngine> logger) : ISchedulerEngine
         var callback = new ProgressCallback(occs, pending.Count, progress, ct);
         var solveClock = Stopwatch.StartNew();
         var solveTask = Task.Run(() => solver.Solve(model, callback), CancellationToken.None);
+        var stopRequested = false;
         while (!solveTask.Wait(400))
         {
-            if (ct.IsCancellationRequested) solver.StopSearch();
+            // Wall-clock guard: the native time limit should end the search, but never let a job hang past it.
+            if (ct.IsCancellationRequested || (!stopRequested && solveClock.Elapsed.TotalSeconds > limit + 10))
+            {
+                solver.StopSearch();
+                stopRequested = true;
+            }
+            if (solveClock.Elapsed.TotalSeconds > limit + 60)
+            {
+                logger.LogError("CP-SAT did not stop {Seconds}s after its time limit; abandoning the search", 60);
+                return new EngineResult(EngineStatus.Failed, [], pending, null, Code, "TIMEOUT");
+            }
             var pct = 15 + (int)(75 * Math.Min(1.0, solveClock.Elapsed.TotalSeconds / limit));
             progress.Report(new EngineProgress("PROGRESS_SOLVING", pct, callback.Objective, callback.Placed, pending.Count));
         }

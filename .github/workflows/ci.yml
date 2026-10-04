@@ -7,10 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # 22.04: SQL Server 2022 for Linux is installed from Microsoft's apt repository (no containers).
+    runs-on: ubuntu-22.04
     env:
       DOTNET_NOLOGO: 'true'
       DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+      SA_PASSWORD: 'Ci#Timetable2026!'
     steps:
       - uses: actions/checkout@v4
 
@@ -23,6 +25,15 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
+
+      - name: SQL Server 2022 (Developer edition, apt)
+        run: |
+          curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc > /dev/null
+          curl -fsSL https://packages.microsoft.com/config/ubuntu/22.04/mssql-server-2022.list | sudo tee /etc/apt/sources.list.d/mssql-server-2022.list
+          sudo apt-get update
+          sudo apt-get install -y mssql-server
+          sudo MSSQL_SA_PASSWORD="$SA_PASSWORD" MSSQL_PID=Developer /opt/mssql/bin/mssql-conf -n setup accept-eula
+          for i in $(seq 1 30); do (echo > /dev/tcp/127.0.0.1/1433) 2>/dev/null && break; sleep 2; done
 
       - name: Client - install
         working-directory: frontend
@@ -46,20 +57,46 @@ jobs:
           dotnet restore Timetable.sln
           dotnet build Timetable.sln -c Release --no-restore
 
-      - name: Server - tests
+      - name: Server - tests (integration tests on SQL Server, migrations included)
         working-directory: backend
+        env:
+          TIMETABLE_TEST_SQLSERVER: 'Server=127.0.0.1;User Id=sa;Password=${{ env.SA_PASSWORD }};TrustServerCertificate=True'
         run: dotnet test Timetable.sln -c Release --no-build --logger trx
 
       - name: Publish single deployable app
         working-directory: backend
         run: dotnet publish src/Timetable.Api/Timetable.Api.csproj -c Release -o ../artifacts/publish -p:SkipClientBuild=true
 
-      - name: Verify SPA hosting (index, deep link, API 404 JSON)
+      - name: Verify the published app (migrations, demo seed, login, SPA hosting, API 404 JSON)
+        env:
+          ASPNETCORE_URLS: http://localhost:5299
+          ConnectionStrings__Default: 'Server=127.0.0.1;Database=TimetableCi;User Id=sa;Password=${{ env.SA_PASSWORD }};TrustServerCertificate=True'
+          Database__ApplyMigrationsOnStartup: 'true'
+          Database__SeedDemoData: 'true'
+          Jwt__SigningKey: 'ci-only-signing-key-0123456789abcdef0123456789'
         run: |
           cd artifacts/publish
-          ASPNETCORE_URLS=http://localhost:5199 Database__ApplyMigrationsOnStartup=false dotnet Timetable.Api.dll &
-          for i in $(seq 1 30); do curl -sf http://localhost:5199/health && break; sleep 1; done
-          cd ../../frontend && node scripts/verify-build.mjs http://localhost:5199
+          dotnet Timetable.Api.dll > ../app.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://localhost:5299/health && break; sleep 2; done
+          curl -sf -X POST http://localhost:5299/api/v1/auth/login -H 'content-type: application/json' \
+            -d '{"email":"admin@demo.local","password":"Demo#12345"}' > /dev/null || (cat ../app.log; exit 1)
+          cd ../../frontend && node scripts/verify-build.mjs http://localhost:5299
+
+      - name: E2E - Playwright (en/ar x light/dark)
+        working-directory: frontend
+        env:
+          CI: 'true'
+        run: |
+          npx playwright install --with-deps chromium
+          npm run e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: diagnostics
+          path: |
+            frontend/playwright-report
+            artifacts/app.log
 
       - uses: actions/upload-artifact@v4
         with:
