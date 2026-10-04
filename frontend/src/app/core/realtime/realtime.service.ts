@@ -1,10 +1,20 @@
 import { Injectable, inject, signal } from '@angular/core';
+import type { EntryDto } from '../api/models';
 import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
 import { Subject } from 'rxjs';
 import { AuthStore } from '../auth/auth.store';
 import { ConfigStore } from '../config/config.store';
 
-export interface ScheduleChangedEvent { scheduleId: string; kind: string; entryIds?: string[]; by?: string; }
+export interface ScheduleChangedEvent {
+  scheduleId: string;
+  kind: string;
+  upserted?: EntryDto[];
+  removed?: string[];
+  userId?: string | null;
+  userName?: string | null;
+  hard?: number;
+  soft?: number;
+}
 export interface NotificationEvent { id: string; type: string; message: string; link?: string | null; }
 
 /** SignalR connection to /hubs/timetable: ConfigChanged, ScheduleChanged and Notification events. */

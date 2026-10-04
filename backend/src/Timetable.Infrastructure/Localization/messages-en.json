@@ -27,7 +27,7 @@
   "SCHEDULE_LOCKED": "This schedule is locked while a generation job is running.",
   "SCHEDULE_NOT_DRAFT": "Only draft schedules can be edited (current status: {status}).",
   "ENTRY_PINNED": "This session is pinned. Unpin it before moving.",
-  "MOVE_CONFLICT": "The move collides with existing sessions.",
+  "MOVE_CONFLICT": "This placement breaks {count} mandatory rule(s).",
   "OCCURRENCE_ALREADY_PLACED": "All weekly occurrences of this session are already placed.",
   "SCHEDULE_HAS_HARD_VIOLATIONS": "The schedule has {count} hard conflicts. Resolve them before publishing.",
   "GENERATION_ALREADY_RUNNING": "A generation job is already running for this term.",
@@ -118,5 +118,12 @@
   "PROGRESS_BUILDING_MODEL": "Building the optimization model…",
   "PROGRESS_SOLVING": "Searching for better timetables… best score {score}",
   "PROGRESS_VERIFYING": "Verifying the result…",
-  "PROGRESS_DONE": "Done."
+  "PROGRESS_DONE": "Done.",
+  "NOTHING_TO_UNDO": "There is nothing to undo.",
+  "NOTHING_TO_REDO": "There is nothing to redo.",
+  "UNDO_CONFLICT": "These entries were changed by someone else since; the change cannot be undone.",
+  "NOTHING_TO_PLACE": "All sessions are already placed.",
+  "AUTO_PLACE_NONE": "No valid slot was found for the {count} remaining session occurrence(s).",
+  "SCHEDULE_PUBLISHED_DELETE": "A published schedule cannot be deleted. Publish another version first.",
+  "SAVE_CONFLICT": "This change collides with a change saved at the same time. Refresh and try again."
 }

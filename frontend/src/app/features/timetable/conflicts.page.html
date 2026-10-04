@@ -1,0 +1,87 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="alert" [size]="22" class="head-icon" />
+    <h1>{{ t('timetable.conflicts.title') }}</h1>
+    <span class="tt-spacer"></span>
+    <label class="tt-row">
+      <span class="sr-only">{{ t('timetable.editor.schedule') }}</span>
+      <select class="tt-input" [value]="context.currentId() ?? ''" (change)="selectSchedule($any($event.target).value)">
+        @for (s of context.schedules(); track s.id) { <option [value]="s.id" [selected]="s.id === context.currentId()">{{ scheduleLabel(s) }}</option> }
+      </select>
+    </label>
+    <button type="button" class="tt-btn" (click)="store.refreshConflicts()"><app-icon name="refresh" /> {{ t('timetable.conflicts.recheck') }}</button>
+    <a class="tt-btn primary" routerLink="/timetable"><app-icon name="table" /> {{ t('timetable.conflicts.openEditor') }}</a>
+  </div>
+
+  @if (store.report(); as r) {
+    <div class="summary">
+      <div class="tt-card kpi" [class.bad]="r.hardCount > 0">
+        <span class="label">{{ t('timetable.conflicts.hard') }}</span>
+        <span class="value">{{ r.hardCount | num:0 }}</span>
+        <span class="hint">{{ t(r.hardCount > 0 ? 'timetable.conflicts.hardHint' : 'timetable.conflicts.hardNone') }}</span>
+      </div>
+      <div class="tt-card kpi" [class.warn]="r.softPenalty > 0">
+        <span class="label">{{ t('timetable.conflicts.soft') }}</span>
+        <span class="value">{{ r.softPenalty | num:1 }}</span>
+        <span class="hint">{{ t('timetable.conflicts.softHint', { count: softCount() }) }}</span>
+      </div>
+      <div class="tt-card kpi">
+        <span class="label">{{ t('timetable.conflicts.unplaced') }}</span>
+        <span class="value">{{ r.unplacedOccurrences | num:0 }}</span>
+        <span class="hint">{{ t('timetable.conflicts.unplacedHint') }}</span>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="tt-seg" role="group" [attr.aria-label]="t('timetable.conflicts.severity')">
+        @for (s of severities; track s) {
+          <button type="button" [attr.aria-pressed]="severity() === s" (click)="severity.set(s)">{{ t('timetable.conflicts.sev.' + s) }}</button>
+        }
+      </div>
+      <label class="search">
+        <app-icon name="search" />
+        <input type="search" [value]="search()" (input)="search.set($any($event.target).value)" [placeholder]="t('timetable.conflicts.search')" [attr.aria-label]="t('timetable.conflicts.search')" />
+      </label>
+    </div>
+
+    @for (g of groups(); track g.code) {
+      <section class="tt-card group" [class.hard]="g.severity === 'Hard'">
+        <header>
+          <app-icon [name]="g.severity === 'Hard' ? 'alertCircle' : 'info'" />
+          <h2>{{ g.name }}</h2>
+          <span class="tt-chip" [class.conflict]="g.severity === 'Hard'" [class.penalty]="g.severity !== 'Hard'">
+            {{ g.severity === 'Hard' ? t('timetable.conflicts.items', { count: g.items.length }) : t('timetable.conflicts.penalty', { value: (g.penalty | num:1) }) }}
+          </span>
+        </header>
+        <ul>
+          @for (v of g.items; track $index) {
+            <li>
+              <div class="msg">
+                <p>{{ v.message }}</p>
+                <div class="meta">
+                  @if (v.day !== null && v.day !== undefined) { <span class="when"><app-icon name="clock" [size]="13" /> {{ v.day | dayName }} {{ time(v) }}</span> }
+                  @for (c of chips(v); track c.kind + c.label) { <span class="tt-chip"><app-icon [name]="c.icon" [size]="12" /> {{ c.label }}</span> }
+                </div>
+              </div>
+              @if (entryId(v); as eid) {
+                <div class="actions">
+                  <a class="tt-btn sm" routerLink="/timetable" [queryParams]="{ entry: eid }">{{ t('timetable.conflicts.show') }}</a>
+                  @if (canEdit()) {
+                    <a class="tt-btn sm soft" routerLink="/timetable" [queryParams]="{ pick: eid }">{{ t('timetable.menu.alternative') }}</a>
+                  }
+                </div>
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    } @empty {
+      <div class="tt-card tt-empty">
+        <app-icon name="checkCircle" [size]="32" />
+        <p>{{ t('timetable.conflicts.none') }}</p>
+      </div>
+    }
+  } @else {
+    <div class="tt-card"><div class="tt-skeleton" style="block-size: 220px"></div></div>
+  }
+</div>

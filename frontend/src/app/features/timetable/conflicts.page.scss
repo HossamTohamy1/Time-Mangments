@@ -1,0 +1,27 @@
+.head-icon { color: var(--tt-conflict); }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.kpi { padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
+  .label { font-size: 13px; color: var(--tt-on-surface-muted); font-weight: 500; }
+  .value { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .hint { font-size: 12px; color: var(--tt-on-surface-faint); }
+  &.bad .value { color: var(--tt-conflict); }
+  &.warn .value { color: var(--tt-penalty); } }
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.search { display: flex; align-items: center; gap: 8px; block-size: 36px; padding-inline: 10px; border: 1px solid var(--tt-border); border-radius: 8px;
+  background: var(--tt-surface); color: var(--tt-on-surface-muted); flex: 1; min-inline-size: 200px; max-inline-size: 420px;
+  input { border: 0; outline: 0; background: transparent; flex: 1; min-inline-size: 0; color: var(--tt-on-surface); }
+  &:focus-within { outline: 2px solid var(--tt-primary); outline-offset: -1px; } }
+.group { overflow: hidden;
+  header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-block-end: 1px solid var(--tt-border); background: var(--tt-surface-variant);
+    .tt-icon { color: var(--tt-penalty); }
+    h2 { margin: 0; font-size: 15px; flex: 1; } }
+  &.hard header { background: var(--tt-conflict-bg); .tt-icon, h2 { color: var(--tt-conflict); } }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-block-end: 1px solid var(--tt-border); flex-wrap: wrap;
+    &:last-child { border-block-end: 0; } }
+  .msg { flex: 1; min-inline-size: 240px; p { margin: 0 0 6px; } }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--tt-on-surface-muted); }
+  .when { display: inline-flex; align-items: center; gap: 4px; margin-inline-end: 4px; }
+  .actions { display: flex; gap: 6px; }
+ }
+.tt-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--tt-valid); }

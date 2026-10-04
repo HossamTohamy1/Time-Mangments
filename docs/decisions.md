@@ -71,3 +71,13 @@ Format: **what** — why — which flow it affects.
 - **Impact before save**: risky configuration changes are evaluated against existing schedules first (dry run), and the user confirms with the list of affected entries.
 - **Fix (flow: conflicts)**: a group/parent-group clash was reported twice (once per direction); entity refs are now symmetric and de-duplicated.
 - **Week patterns are bitmasks** (`0` = every week), so Week A/B and custom rotations need no special code.
+
+## Phase 5 — Editor
+
+- **Entry edits bypass the generic transaction behaviour**: each edit runs under the schedule's in-memory lock and saves entries + change log in a single `SaveChanges`; the cached index is updated only after the commit succeeds, so cache and database cannot diverge.
+- **Undo/redo is per user and conflict-checked**: a change is reverted only if the entries it touched are still exactly as that change left them; otherwise `UNDO_CONFLICT` (someone else edited them). A new edit clears the user's redo stack.
+- **Hard violations always block manual edits** (422 with reasons); soft penalties are allowed and reported. Published schedules are read-only; the way to change one is "edit a copy" (clone → draft → publish, which archives the previous version).
+- **Auto-place is the greedy placer** (most-constrained first, cheapest valid cell, ties spread over days and balance group load). It doubles as the generation heuristic fallback.
+- **Group view = group + ancestors + descendants**, so a section sees its cohort's shared lectures and its lab groups' sessions.
+- **Fix (flow: swap)**: a unique room/time index made two-row swaps fail transiently; it was also wrong for shareable rooms. Replaced by a non-unique index (migration).
+- **Fix (flow: editor layout)**: grid columns sized to `max-content` grew to the card text width; columns are now `minmax(col-min × factor, factor fr)` with a per-day factor for parallel sessions, and narrow cards switch to a compact layout via container queries.
