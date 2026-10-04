@@ -39,6 +39,11 @@
             <td>{{ (s.modifiedAt ?? s.createdAt) | localDate:'datetime' }}</td>
             <td class="actions">
               <button type="button" class="tt-btn sm" (click)="open(s)"><app-icon name="table" /> {{ t('timetable.versions.open') }}</button>
+              @if (context.published(); as pub) {
+                @if (pub.id !== s.id) {
+                  <a class="tt-btn sm" routerLink="/schedules/compare" [queryParams]="{ a: pub.id, b: s.id }" [title]="t('timetable.versions.compare')" [attr.aria-label]="t('timetable.versions.compare')"><app-icon name="swap" /></a>
+                }
+              }
               @if (canEdit()) {
                 <button type="button" class="tt-btn sm" [disabled]="busy()" (click)="clone(s)" [title]="t('timetable.versions.copy')" [attr.aria-label]="t('timetable.versions.copy')"><app-icon name="copy" /></button>
                 <button type="button" class="tt-btn sm" [disabled]="busy()" (click)="renaming.set(s.id)" [title]="t('common.edit')" [attr.aria-label]="t('common.edit')"><app-icon name="edit" /></button>

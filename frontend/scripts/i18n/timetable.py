@@ -69,4 +69,14 @@ T = {
  "versions.updated": ("Last change", "آخر تعديل"), "versions.current": ("Current", "الحالي"), "versions.generating": ("Generating", "جارٍ التوليد"),
  "versions.open": ("Open", "فتح"), "versions.copy": ("Copy as new draft", "نسخ كمسودة جديدة"),
  "versions.publishMessage": ("“{name}” becomes the official timetable and everyone affected is notified.", "سيصبح «{name}» الجدول الرسمي وسيتم إشعار جميع المعنيين."),
+ # compare
+ "compare.title": ("Compare versions", "مقارنة الإصدارات"), "compare.a": ("Before", "قبل"), "compare.b": ("After", "بعد"), "compare.swap": ("Swap", "تبديل"),
+ "compare.metrics.placed": ("Placed", "الموضوعة"), "compare.metrics.unplaced": ("Unplaced", "بلا موعد"), "compare.metrics.hardCount": ("Hard conflicts", "تعارضات أساسية"),
+ "compare.metrics.softPenalty": ("Soft penalty", "المخالفات المرنة"), "compare.same": ("No change", "بدون تغيير"),
+ "compare.filter": ("Filter changes", "تصفية التغييرات"),
+ "compare.kinds.all": ("All changes", "كل التغييرات"), "compare.kinds.moved": ("Changed", "معدلة"), "compare.kinds.added": ("Added", "مضافة"), "compare.kinds.removed": ("Removed", "محذوفة"),
+ "compare.what.time": ("time", "الوقت"), "compare.what.room": ("room", "القاعة"), "compare.what.instructor": ("instructor", "المحاضر"),
+ "compare.unchanged": ("{count} unchanged", "{count} بدون تغيير"), "compare.change": ("Change", "التغيير"), "compare.before": ("Before", "قبل"), "compare.after": ("After", "بعد"),
+ "compare.none": ("No differences.", "لا توجد اختلافات."), "compare.pick": ("Choose two different versions of the same term.", "اختر إصدارين مختلفين من الفصل نفسه."),
+ "versions.compare": ("Compare with published", "مقارنة بالمنشور"),
 }

@@ -1,0 +1,206 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="spark" [size]="22" class="head-icon" />
+    <h1>{{ t('generation.title') }}</h1>
+  </div>
+  <p class="tt-muted">{{ t('generation.subtitle') }}</p>
+
+  <ol class="stepper" [attr.aria-label]="t('generation.steps')">
+    @for (s of steps; track s; let i = $index) {
+      <li [class.active]="step() === s" [class.done]="stepIndex(step()) > i">
+        <button type="button" (click)="go(s)" [disabled]="(running() && s !== 'run') || (s === 'run' && !job())" [attr.aria-current]="step() === s ? 'step' : null">
+          <span class="num">@if (stepIndex(step()) > i) {<app-icon name="check" [size]="14" />} @else {{{ i + 1 }}}</span>
+          <span class="lbl">{{ t('generation.step.' + s) }}</span>
+        </button>
+      </li>
+    }
+  </ol>
+
+  <section class="tt-card panel">
+    @switch (step()) {
+      @case ('scope') {
+        <h2>{{ t('generation.scope.title') }}</h2>
+        <div class="grid-2">
+          <label class="tt-field">
+            {{ 'term' | term }}
+            <select class="tt-input" [value]="termId() ?? ''" (change)="setTerm($any($event.target).value)">
+              @for (term of terms(); track term.id) { <option [value]="term.id" [selected]="term.id === termId()">{{ refs.itemLabel(term) }}</option> }
+            </select>
+          </label>
+          <label class="tt-field">
+            {{ t('generation.scope.name') }}
+            <input class="tt-input" [value]="name()" (input)="name.set($any($event.target).value)" [placeholder]="t('generation.scope.namePlaceholder')" />
+          </label>
+          <label class="tt-field">
+            {{ t('generation.scope.base') }}
+            <select class="tt-input" [value]="baseScheduleId() ?? ''" (change)="baseScheduleId.set($any($event.target).value || null)">
+              <option value="">{{ t('generation.scope.noBase') }}</option>
+              @for (s of baseOptions(); track s.id) { <option [value]="s.id">{{ scheduleLabel(s) }}</option> }
+            </select>
+            <span class="hint">{{ t('generation.scope.baseHint') }}</span>
+          </label>
+        </div>
+        <div class="choice-row" role="radiogroup" [attr.aria-label]="t('generation.scope.mode')">
+          @for (m of ['fresh', 'complete']; track m) {
+            <button type="button" role="radio" class="choice" [attr.aria-checked]="mode() === m" [disabled]="m === 'complete' && !baseScheduleId()" (click)="mode.set($any(m))">
+              <app-icon [name]="m === 'fresh' ? 'refresh' : 'layers'" [size]="20" />
+              <strong>{{ t('generation.mode.' + m) }}</strong>
+              <small>{{ t('generation.mode.' + m + 'Hint') }}</small>
+            </button>
+          }
+        </div>
+        <div class="actions"><button type="button" class="tt-btn primary" [disabled]="!termId()" (click)="go('engine')">{{ t('common.next') }} <app-icon name="arrowRight" /></button></div>
+      }
+
+      @case ('engine') {
+        <h2>{{ t('generation.engine.title') }}</h2>
+        <div class="choice-row three" role="radiogroup" [attr.aria-label]="t('generation.engine.title')">
+          @for (e of engines; track e.id) {
+            <button type="button" role="radio" class="choice" [attr.aria-checked]="engine() === e.id" (click)="engine.set(e.id)">
+              <app-icon [name]="e.icon" [size]="20" />
+              <strong>{{ t('generation.engines.' + e.id) }}</strong>
+              <small>{{ t('generation.engines.' + e.id + 'Hint') }}</small>
+            </button>
+          }
+        </div>
+        <label class="tt-field">
+          {{ t('generation.engine.timeLimit', { seconds: timeLimit() }) }}
+          <input type="range" min="10" max="600" step="10" [value]="timeLimit()" (input)="timeLimit.set(+$any($event.target).value)" />
+          <span class="hint">{{ t('generation.engine.timeHint') }}</span>
+        </label>
+        <label class="tt-row check"><input type="checkbox" [checked]="useHints()" (change)="useHints.set(!useHints())" [disabled]="!baseScheduleId()" /> {{ t('generation.engine.hints') }}</label>
+
+        <button type="button" class="tt-btn ghost advanced" (click)="showAdvanced.set(!showAdvanced())" [attr.aria-expanded]="showAdvanced()">
+          <app-icon [name]="showAdvanced() ? 'chevronDown' : 'chevronRight'" /> {{ t('generation.engine.advanced', { count: overrides().size }) }}
+        </button>
+        @if (showAdvanced()) {
+          <p class="tt-muted small">{{ t('generation.engine.advancedHint') }}</p>
+          <div class="table-wrap">
+            <table class="tt-table">
+              <thead><tr><th scope="col">{{ t('generation.engine.constraint') }}</th><th scope="col">{{ t('generation.engine.severity') }}</th><th scope="col">{{ t('generation.engine.weight') }}</th></tr></thead>
+              <tbody>
+                @for (c of tunable(); track c.code) {
+                  <tr [class.changed]="overrides().has(c.code)">
+                    <td>{{ constraintName(c.code) }}</td>
+                    <td>
+                      <select class="tt-input sm" [value]="overrideOf(c.code, 'severity')" (change)="setOverride(c.code, 'severity', $any($event.target).value)" [attr.aria-label]="t('generation.engine.severity')">
+                        @for (sv of ['Off', 'Soft', 'Hard']; track sv) { <option [value]="sv" [selected]="overrideOf(c.code, 'severity') === sv">{{ t('generation.severity.' + sv) }}</option> }
+                      </select>
+                    </td>
+                    <td><input class="tt-input sm num" type="number" min="1" max="100" [value]="overrideOf(c.code, 'weight')" (change)="setOverride(c.code, 'weight', $any($event.target).value)" [attr.aria-label]="t('generation.engine.weight')" /></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+        <div class="actions">
+          <button type="button" class="tt-btn" (click)="go('scope')"><app-icon name="arrowLeft" /> {{ t('common.back') }}</button>
+          <button type="button" class="tt-btn primary" (click)="go('check')">{{ t('common.next') }} <app-icon name="arrowRight" /></button>
+        </div>
+      }
+
+      @case ('check') {
+        <h2>{{ t('generation.check.title') }}</h2>
+        @if (checking()) {
+          <div class="tt-skeleton" style="block-size: 140px"></div>
+        } @else if (readiness(); as r) {
+          <div class="kpis">
+            <div class="kpi"><span>{{ 'sessions' | term }}</span><strong>{{ r.sessions | num:0 }}</strong></div>
+            <div class="kpi"><span>{{ t('generation.check.occurrences') }}</span><strong>{{ r.occurrences | num:0 }}</strong></div>
+            <div class="kpi"><span>{{ 'groups' | term }}</span><strong>{{ r.groups | num:0 }}</strong></div>
+            <div class="kpi"><span>{{ 'instructors' | term }}</span><strong>{{ r.instructors | num:0 }}</strong></div>
+            <div class="kpi"><span>{{ 'rooms' | term }}</span><strong>{{ r.rooms | num:0 }}</strong></div>
+            <div class="kpi"><span>{{ t('generation.check.constraints') }}</span><strong>{{ r.hardConstraints }} / {{ r.softConstraints }}</strong></div>
+          </div>
+          @if (!r.cpSatAvailable) { <div class="note warn"><app-icon name="info" /> {{ t('generation.check.noCpSat') }}</div> }
+          @if (r.issues.length === 0) {
+            <div class="note ok"><app-icon name="checkCircle" /> {{ t('generation.check.ready') }}</div>
+          } @else {
+            <ul class="issues">
+              @for (i of r.issues; track $index) {
+                <li [class.error]="i.severity === 'error'">
+                  <app-icon [name]="i.severity === 'error' ? 'alertCircle' : 'info'" />
+                  <span>{{ i.message }}</span>
+                </li>
+              }
+            </ul>
+            <p class="tt-muted small">{{ t('generation.check.summary', { errors: errors().length, warnings: warnings().length }) }}</p>
+          }
+        }
+        <div class="actions">
+          <button type="button" class="tt-btn" (click)="go('engine')"><app-icon name="arrowLeft" /> {{ t('common.back') }}</button>
+          <button type="button" class="tt-btn" (click)="check()" [disabled]="checking()"><app-icon name="refresh" /> {{ t('generation.check.recheck') }}</button>
+          <button type="button" class="tt-btn primary" [disabled]="!readiness() || starting()" (click)="start()"><app-icon name="rocket" /> {{ t('generation.check.start') }}</button>
+        </div>
+      }
+
+      @case ('run') {
+        @if (job(); as j) {
+          <h2>{{ t(running() ? 'generation.run.running' : 'generation.run.status.' + j.status) }}</h2>
+          <div class="progress" role="progressbar" [attr.aria-valuenow]="percent()" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="phaseText()">
+            <div class="bar" [style.inline-size.%]="percent()" [class.done]="!running()" [class.bad]="j.status === 'Failed' || j.status === 'Cancelled'"></div>
+          </div>
+          <div class="run-meta" aria-live="polite">
+            <span><app-icon name="layers" [size]="14" /> {{ phaseText() }}</span>
+            <span><app-icon name="clock" [size]="14" /> {{ durationLabel(running() ? elapsed() : (j.summary?.seconds ?? 0)) }}</span>
+            @if ((live()?.placed ?? j.placed) !== null && (live()?.placed ?? j.placed) !== undefined) {
+              <span><app-icon name="check" [size]="14" /> {{ t('generation.run.placed', { placed: live()?.placed ?? j.placed, total: live()?.total ?? j.total }) }}</span>
+            }
+            @if ((live()?.objective ?? j.bestScore) !== null && (live()?.objective ?? j.bestScore) !== undefined) {
+              <span><app-icon name="chart" [size]="14" /> {{ t('generation.run.score', { score: ((live()?.objective ?? j.bestScore) | num:1) }) }}</span>
+            }
+          </div>
+
+          @if (running()) {
+            <div class="actions"><button type="button" class="tt-btn danger" (click)="cancel()"><app-icon name="close" /> {{ t('generation.run.cancel') }}</button></div>
+          } @else if (j.summary; as s) {
+            <div class="kpis result">
+              <div class="kpi"><span>{{ t('generation.run.placedLabel') }}</span><strong>{{ s.placed | num:0 }} / {{ s.total | num:0 }}</strong></div>
+              <div class="kpi" [class.bad]="s.unplaced > 0"><span>{{ t('generation.run.unplaced') }}</span><strong>{{ s.unplaced | num:0 }}</strong></div>
+              <div class="kpi" [class.ok]="s.hardViolations === 0"><span>{{ t('generation.run.hard') }}</span><strong>{{ s.hardViolations | num:0 }}</strong></div>
+              <div class="kpi"><span>{{ t('generation.run.soft') }}</span><strong>{{ s.softPenalty | num:1 }}</strong></div>
+              <div class="kpi"><span>{{ t('generation.run.engine') }}</span><strong>{{ t('generation.engineUsed.' + s.engineUsed) }}</strong></div>
+              <div class="kpi"><span>{{ t('generation.run.repaired') }}</span><strong>{{ s.repaired | num:0 }}</strong></div>
+            </div>
+            @if (s.unplaced > 0) { <div class="note warn"><app-icon name="info" /> {{ t('generation.run.unplacedHint', { count: s.unplaced }) }}</div> }
+            <div class="actions">
+              <button type="button" class="tt-btn" (click)="newRun()"><app-icon name="refresh" /> {{ t('generation.run.again') }}</button>
+              <button type="button" class="tt-btn" (click)="compareResult()"><app-icon name="swap" /> {{ t('generation.run.compare') }}</button>
+              <button type="button" class="tt-btn primary" (click)="openResult()"><app-icon name="table" /> {{ t('generation.run.open') }}</button>
+            </div>
+          } @else {
+            <div class="note warn"><app-icon name="alertCircle" /> {{ j.errorCode ? t('generation.run.error') : t('generation.run.status.' + j.status) }}</div>
+            <div class="actions"><button type="button" class="tt-btn" (click)="newRun()"><app-icon name="refresh" /> {{ t('generation.run.again') }}</button></div>
+          }
+        }
+      }
+    }
+  </section>
+
+  @if (jobs().length > 0) {
+    <section class="tt-card history">
+      <h2>{{ t('generation.history') }}</h2>
+      <div class="table-wrap">
+        <table class="tt-table">
+          <thead><tr>
+            <th scope="col">{{ t('generation.historyCols.when') }}</th><th scope="col">{{ t('generation.historyCols.status') }}</th>
+            <th scope="col">{{ t('generation.run.engine') }}</th><th scope="col" class="num">{{ t('generation.run.placedLabel') }}</th>
+            <th scope="col" class="num">{{ t('generation.run.soft') }}</th>
+          </tr></thead>
+          <tbody>
+            @for (h of jobs(); track h.id) {
+              <tr>
+                <td>{{ h.createdAt | localDate:'datetime' }}</td>
+                <td><span class="tt-chip" [class.valid]="h.status === 'Succeeded'" [class.penalty]="h.status === 'Infeasible'" [class.conflict]="h.status === 'Failed'">{{ t('generation.run.status.' + h.status) }}</span></td>
+                <td>{{ h.summary ? t('generation.engineUsed.' + h.summary.engineUsed) : h.engine }}</td>
+                <td class="num">{{ h.summary ? (h.summary.placed | num:0) + ' / ' + (h.summary.total | num:0) : '—' }}</td>
+                <td class="num">{{ h.summary ? (h.summary.softPenalty | num:1) : '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+</div>

@@ -90,3 +90,12 @@ Format: **what** — why — which flow it affects.
 - **Imports reuse the CRUD commands** (same validation, permission and custom-field rules as the UI). Dry run = real execution in a transaction that is rolled back, so the preview is exact (including rows that depend on earlier rows, e.g. a section whose parent cohort is in the same file).
 - **Fix (flow: background re-validation)**: score updates on the schedule row collided with concurrent edits (row version). Derived fields now use `ExecuteUpdate`.
 - **Fix (flow: language)**: messages followed the saved profile language even when the user switched the UI language; the SPA now sends `X-Client-Language`, which takes precedence.
+
+## Phase 7 — Generation
+
+- **Model never infeasible**: each occurrence has a presence literal; not placing it costs 100 000 × duration in the objective. The solver always returns the best partial timetable and the UI explains what is left instead of failing.
+- **Constraint semantics stay in one place**: CP-SAT encodes only resource exclusivity and time/room/instructor domains; the domains are derived by evaluating every configured constraint (including rules) on an empty timetable. Aggregate constraints are enforced by the verifier + repair pass that runs after every engine, so engines can never publish an invalid placement.
+- **Group conflicts as leaf-to-root paths**: one NoOverlap per path lets sibling sub-groups (lab groups) run in parallel while sharing their parents' lectures.
+- **Auto engine** = CP-SAT when the native library loads, with the heuristic as fallback when CP-SAT finds nothing within the limit.
+- **One job at a time per institution**; the result is a new draft locked with `LockedByJobId` until the job finishes (manual edits are refused meanwhile). Jobs interrupted by a restart are marked failed and their partial result removed.
+- **Substitutions use the same evaluator**: a candidate is eligible when moving the entry to them breaks no hard rule (the session's instructor pool is ignored for one-off cover); ranking = qualified first, then soft penalty, then current load.

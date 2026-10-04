@@ -4,6 +4,37 @@
     "hard": "{count} hard",
     "pinned": "Pinned"
   },
+  "compare": {
+    "a": "Before",
+    "after": "After",
+    "b": "After",
+    "before": "Before",
+    "change": "Change",
+    "filter": "Filter changes",
+    "kinds": {
+      "added": "Added",
+      "all": "All changes",
+      "moved": "Changed",
+      "removed": "Removed"
+    },
+    "metrics": {
+      "hardCount": "Hard conflicts",
+      "placed": "Placed",
+      "softPenalty": "Soft penalty",
+      "unplaced": "Unplaced"
+    },
+    "none": "No differences.",
+    "pick": "Choose two different versions of the same term.",
+    "same": "No change",
+    "swap": "Swap",
+    "title": "Compare versions",
+    "unchanged": "{count} unchanged",
+    "what": {
+      "instructor": "instructor",
+      "room": "room",
+      "time": "time"
+    }
+  },
   "conflicts": {
     "hard": "Hard conflicts",
     "hardHint": "Must be resolved before publishing.",
@@ -101,6 +132,7 @@
     "title": "Unplaced sessions"
   },
   "versions": {
+    "compare": "Compare with published",
     "copy": "Copy as new draft",
     "current": "Current",
     "entries": "Placed",

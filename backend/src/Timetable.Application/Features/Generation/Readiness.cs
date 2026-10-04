@@ -38,7 +38,7 @@ internal sealed class ReadinessHandler(IAppDbContext db, ICurrentUser user, Sche
         foreach (var d in domains.Values)
         {
             var s = d.Session;
-            var label = Label(s.CourseName, s.Label);
+            var label = SessionLabels.Describe(problem, s, user.Language);
             if (s.RequiresInstructor && s.InstructorOptions.Count == 0) Add("error", "READY_NO_INSTRUCTOR", "Session", s.Id, ("session", label));
             else if (d.Starts.Count == 0) Add("error", "READY_NO_SLOT", "Session", s.Id, ("session", label));
             else if (d.Starts.Count < s.SessionsPerWeek) Add("warning", "READY_FEW_SLOTS", "Session", s.Id, ("session", label), ("count", d.Starts.Count));

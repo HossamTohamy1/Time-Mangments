@@ -1,0 +1,129 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="swap" [size]="22" class="head-icon" />
+    <h1>{{ t('substitutions.title') }}</h1>
+    <span class="tt-spacer"></span>
+    <button type="button" class="tt-btn primary" (click)="creating.set(true); selected.set(null)"><app-icon name="plus" /> {{ t('substitutions.report') }}</button>
+  </div>
+  <p class="tt-muted">{{ t('substitutions.subtitle') }}</p>
+
+  <div class="layout">
+    <aside class="tt-card side">
+      <div class="tt-seg" role="group" [attr.aria-label]="t('substitutions.filter')">
+        @for (f of filters; track f) { <button type="button" [attr.aria-pressed]="filter() === f" (click)="setFilter(f)">{{ t('substitutions.status.' + f) }}</button> }
+      </div>
+      <ul class="subs">
+        @for (s of list(); track s.id) {
+          <li>
+            <button type="button" [class.active]="selected()?.id === s.id" (click)="open(s)">
+              <strong>{{ s.absentInstructor }}</strong>
+              <span class="tt-muted">{{ s.fromDate | localDate }} – {{ s.toDate | localDate }}</span>
+              <span class="counts">
+                @if (s.open > 0) { <span class="tt-chip penalty">{{ t('substitutions.openCount', { count: s.open }) }}</span> }
+                @if (s.covered > 0) { <span class="tt-chip valid">{{ t('substitutions.coveredCount', { count: s.covered }) }}</span> }
+                @if (s.cancelled > 0) { <span class="tt-chip">{{ t('substitutions.cancelledCount', { count: s.cancelled }) }}</span> }
+              </span>
+            </button>
+          </li>
+        } @empty { <li class="tt-empty">{{ t('substitutions.none') }}</li> }
+      </ul>
+    </aside>
+
+    <section class="tt-card main">
+      @if (creating()) {
+        <h2>{{ t('substitutions.report') }}</h2>
+        <div class="form">
+          <label class="tt-field">
+            {{ 'instructor' | term }}
+            <select class="tt-input" [value]="form().instructorId" (change)="patchForm('instructorId', $any($event.target).value)">
+              <option value="">{{ t('substitutions.chooseInstructor') }}</option>
+              @for (i of instructors(); track i.id) { <option [value]="i.id">{{ refs.itemLabel(i) }}</option> }
+            </select>
+          </label>
+          <label class="tt-field">{{ t('substitutions.from') }}<input class="tt-input" type="date" [value]="form().from" (change)="patchForm('from', $any($event.target).value)" /></label>
+          <label class="tt-field">{{ t('substitutions.to') }}<input class="tt-input" type="date" [value]="form().to" (change)="patchForm('to', $any($event.target).value)" /></label>
+          <label class="tt-field wide">{{ t('substitutions.reason') }}<input class="tt-input" [value]="form().reason" (input)="patchForm('reason', $any($event.target).value)" /></label>
+        </div>
+        <div class="actions">
+          <button type="button" class="tt-btn" (click)="creating.set(false)">{{ t('common.cancel') }}</button>
+          <button type="button" class="tt-btn primary" [disabled]="!form().instructorId || busy()" (click)="create()"><app-icon name="search" /> {{ t('substitutions.findAffected') }}</button>
+        </div>
+      } @else if (selected(); as s) {
+        <div class="detail-head">
+          <div>
+            <h2>{{ s.absentInstructor }}</h2>
+            <p class="tt-muted">{{ s.fromDate | localDate }} – {{ s.toDate | localDate }}@if (s.reason) { · {{ s.reason }} }</p>
+          </div>
+          <span class="tt-chip" [class.penalty]="s.status === 'Open'" [class.valid]="s.status === 'Resolved'">{{ t('substitutions.status.' + s.status) }}</span>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><span>{{ t('substitutions.affected') }}</span><strong>{{ s.items.length | num:0 }}</strong></div>
+          <div class="kpi warn"><span>{{ t('substitutions.status.open') }}</span><strong>{{ s.open | num:0 }}</strong></div>
+          <div class="kpi ok"><span>{{ t('substitutions.status.covered') }}</span><strong>{{ s.covered | num:0 }}</strong></div>
+          <div class="kpi"><span>{{ t('substitutions.status.cancelled') }}</span><strong>{{ s.cancelled | num:0 }}</strong></div>
+        </div>
+
+        @for (g of byDate(); track g[0]) {
+          <h3 class="date">{{ dayOf(g[0]) | dayName }} · {{ g[0] | localDate }}</h3>
+          <ul class="items">
+            @for (i of g[1]; track key(i)) {
+              <li [class.covered]="i.status === 'covered'" [class.cancelled]="i.status === 'cancelled'">
+                <div class="row">
+                  <span class="time">{{ time(i) }}</span>
+                  <div class="what">
+                    <strong>{{ i.session }}</strong>
+                    <span class="tt-muted">{{ i.groups }}@if (i.room) { · {{ i.room }} }</span>
+                  </div>
+                  <span class="state">
+                    @switch (i.status) {
+                      @case ('covered') { <span class="tt-chip valid"><app-icon name="user" [size]="12" /> {{ i.substitute }}</span> }
+                      @case ('cancelled') { <span class="tt-chip">{{ t('substitutions.status.cancelled') }}</span> }
+                      @default { <span class="tt-chip penalty">{{ t('substitutions.status.open') }}</span> }
+                    }
+                  </span>
+                  @if (s.status === 'Open') {
+                    <span class="item-actions">
+                      @if (i.status === 'open') {
+                        <button type="button" class="tt-btn sm soft" (click)="findSubstitute(i)" [attr.aria-expanded]="openItem() === key(i)"><app-icon name="users" /> {{ t('substitutions.findSubstitute') }}</button>
+                        <button type="button" class="tt-btn sm" (click)="cancelSession(i)">{{ t('substitutions.cancelSession') }}</button>
+                      } @else {
+                        <button type="button" class="tt-btn sm" (click)="reopen(i)"><app-icon name="undo" /> {{ t('substitutions.reopen') }}</button>
+                      }
+                    </span>
+                  }
+                </div>
+                @if (openItem() === key(i)) {
+                  <div class="candidates">
+                    @if (candidates(); as list) {
+                      @for (c of list; track c.instructorId) {
+                        <div class="cand">
+                          <div class="who">
+                            <strong>{{ c.instructor }}</strong>
+                            <span class="tt-muted small">
+                              @if (c.qualified) { <span class="tt-chip valid">{{ t('substitutions.qualified') }}</span> }
+                              {{ t('substitutions.load', { count: c.weeklyLoad }) }}@if (c.notes.length) { · {{ c.notes.join(' · ') }} }
+                            </span>
+                          </div>
+                          <button type="button" class="tt-btn sm primary" [disabled]="busy()" (click)="assign(i, c)">{{ t('substitutions.assign') }}</button>
+                        </div>
+                      } @empty { <p class="tt-muted">{{ t('substitutions.noCandidates') }}</p> }
+                    } @else { <div class="tt-skeleton" style="block-size: 60px"></div> }
+                  </div>
+                }
+              </li>
+            }
+          </ul>
+        } @empty { <div class="tt-empty">{{ t('substitutions.noAffected') }}</div> }
+
+        @if (s.status === 'Open') {
+          <div class="actions">
+            <button type="button" class="tt-btn danger" [disabled]="busy()" (click)="close(true)"><app-icon name="trash" /> {{ t('substitutions.discard') }}</button>
+            <button type="button" class="tt-btn primary" [disabled]="busy() || s.open > 0" (click)="close(false)"><app-icon name="check" /> {{ t('substitutions.resolve') }}</button>
+          </div>
+        }
+      } @else {
+        <div class="tt-empty"><app-icon name="swap" [size]="32" /><p>{{ t('substitutions.pick') }}</p></div>
+      }
+    </section>
+  </div>
+</div>

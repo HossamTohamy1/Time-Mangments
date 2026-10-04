@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
 import { Api, ApiError } from '../../core/api/api';
@@ -14,7 +14,7 @@ import { Icon } from '../../shared/ui/icon';
 /** Schedule versions: open, copy, rename, publish and delete drafts. */
 @Component({
   selector: 'app-schedules-page',
-  imports: [TranslocoDirective, Icon, NumPipe, LocalDatePipe],
+  imports: [TranslocoDirective, RouterLink, Icon, NumPipe, LocalDatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './schedules.page.html',
   styleUrl: './schedules.page.scss',
