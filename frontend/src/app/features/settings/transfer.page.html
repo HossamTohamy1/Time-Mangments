@@ -1,0 +1,58 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head"><app-icon name="cap" [size]="22" class="head-icon" /><h1>{{ t('settings.institution.title') }}</h1></div>
+
+  <section class="tt-card pad">
+    <h2>{{ t('settings.institution.details') }} · <span dir="ltr">{{ institution()?.code }}</span></h2>
+    <div class="tt-grid-2">
+      <label class="tt-field">{{ t('fields.nameEn') }}<input class="tt-input" dir="ltr" [ngModel]="details().nameEn" (ngModelChange)="patchDetails('nameEn', $event)" /></label>
+      <label class="tt-field">{{ t('fields.nameAr') }}<input class="tt-input" dir="rtl" [ngModel]="details().nameAr" (ngModelChange)="patchDetails('nameAr', $event)" /></label>
+      <label class="tt-field">{{ t('settings.setup.defaultLanguage') }}
+        <select class="tt-input" [ngModel]="details().defaultLanguage" (ngModelChange)="patchDetails('defaultLanguage', $event)"><option value="ar">العربية</option><option value="en">English</option></select></label>
+      <label class="tt-field">{{ t('settings.institution.timeZone') }}<input class="tt-input" dir="ltr" [ngModel]="details().timeZone" (ngModelChange)="patchDetails('timeZone', $event)" /></label>
+    </div>
+    <div class="tt-dialog-actions"><button type="button" class="tt-btn primary" (click)="saveDetails()">{{ t('common.save') }}</button></div>
+  </section>
+
+  <section class="tt-card pad">
+    <h2>{{ t('settings.transfer.title') }}</h2>
+    <p class="tt-muted">{{ t('settings.transfer.subtitle') }}</p>
+    <div class="tt-row" style="flex-wrap: wrap">
+      <button type="button" class="tt-btn" (click)="exportConfig()"><app-icon name="download" /> {{ t('settings.transfer.export') }}</button>
+      <label class="tt-btn"><app-icon name="upload" /> {{ t('settings.transfer.import') }}<input type="file" accept="application/json,.json" hidden (change)="onFile($event)" /></label>
+      <span class="tt-spacer"></span>
+      <select class="tt-input" [ngModel]="templateCode()" (ngModelChange)="templateCode.set($event)" [attr.aria-label]="t('settings.transfer.template')">
+        <option value="">{{ t('settings.transfer.template') }}…</option>
+        @for (tpl of templates(); track tpl.code) { <option [value]="tpl.code">{{ tpl | localName }}</option> }
+      </select>
+      <button type="button" class="tt-btn" [disabled]="!templateCode()" (click)="previewTemplate()">{{ t('settings.transfer.previewTemplate') }}</button>
+    </div>
+    @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+    @if (preview()) {
+      <div class="preview">
+        <table class="tt-table">
+          <thead><tr><th>{{ t('settings.transfer.area') }}</th><th>{{ t('fields.code') }}</th><th>{{ t('settings.curriculum.action') }}</th></tr></thead>
+          <tbody>
+            @for (c of changes(); track $index) {
+              <tr><td>{{ c.area }}</td><td dir="ltr">{{ c.code }}</td>
+                <td><span class="tt-chip" [class.valid]="c.action === 'create'" [class.primary]="c.action === 'update'">{{ t('settings.curriculum.actions.' + c.action) }}</span></td></tr>
+            } @empty { <tr><td colspan="3" class="tt-empty">{{ t('settings.curriculum.nothing') }}</td></tr> }
+          </tbody>
+        </table>
+      </div>
+      <div class="tt-dialog-actions">
+        <button type="button" class="tt-btn" (click)="preview.set(null)">{{ t('common.cancel') }}</button>
+        <button type="button" class="tt-btn primary" [disabled]="changes().length === 0" (click)="apply()">{{ t('settings.curriculum.apply') }}</button>
+      </div>
+    }
+  </section>
+
+  <section class="tt-card pad">
+    <h2>{{ t('settings.transfer.saveAs') }}</h2>
+    <div class="tt-grid-2">
+      <label class="tt-field">{{ t('fields.code') }}<input class="tt-input" dir="ltr" [ngModel]="saveAs().code" (ngModelChange)="patchSaveAs('code', $event)" /></label>
+      <label class="tt-field">{{ t('fields.nameEn') }}<input class="tt-input" dir="ltr" [ngModel]="saveAs().nameEn" (ngModelChange)="patchSaveAs('nameEn', $event)" /></label>
+      <label class="tt-field">{{ t('fields.nameAr') }}<input class="tt-input" dir="rtl" [ngModel]="saveAs().nameAr" (ngModelChange)="patchSaveAs('nameAr', $event)" /></label>
+    </div>
+    <div class="tt-dialog-actions"><button type="button" class="tt-btn" [disabled]="!saveAs().code" (click)="saveAsTemplate()">{{ t('settings.transfer.saveAsButton') }}</button></div>
+  </section>
+</div>

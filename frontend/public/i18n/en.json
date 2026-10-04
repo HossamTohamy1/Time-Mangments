@@ -1,5 +1,553 @@
 {
-  "app": { "name": "TimeTable", "suite": "Academic Suite", "tagline": "Configuration-driven timetabling for any institution." },
-  "shell": { "language": "Language" },
-  "theme": { "light": "Light", "dark": "Dark", "system": "System" }
+  "app": {
+    "name": "TimeTable",
+    "suite": "Academic Suite",
+    "tagline": "Configuration-driven timetabling for any institution."
+  },
+  "availability": {
+    "brush": "Paint with",
+    "clear": "Clear all",
+    "hint": "Click or drag across cells to paint. Keyboard: arrow keys to move, Space to paint.",
+    "mine": "My availability",
+    "select": "Select",
+    "title": "Availability matrix"
+  },
+  "common": {
+    "actions": "Actions",
+    "active": "Active",
+    "add": "Add",
+    "addFirst": "Add the first one",
+    "all": "All",
+    "back": "Back",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "created": "Created.",
+    "delete": "Delete",
+    "deleteMessage": "This cannot be undone.",
+    "deleteTitle": "Delete {name}?",
+    "deleted": "Deleted.",
+    "edit": "Edit",
+    "editX": "Edit {x}",
+    "empty": "Nothing here yet.",
+    "goHome": "Go to home",
+    "inactive": "Inactive",
+    "loading": "Loading…",
+    "newX": "New {x}",
+    "next": "Next",
+    "noOptions": "No options available",
+    "none": "— None —",
+    "pageOf": "Page {page} of {pages}",
+    "pagination": "Pagination",
+    "prev": "Previous",
+    "remove": "Remove",
+    "reset": "Reset",
+    "retry": "Retry",
+    "save": "Save",
+    "saved": "Changes saved.",
+    "saving": "Saving…",
+    "search": "Search",
+    "searchPlaceholder": "Search by code or name (Arabic or English)…",
+    "tagsHint": "Separate tags with commas.",
+    "toggle": "Expand or collapse",
+    "unsavedChanges": "You have unsaved changes. Leave anyway?"
+  },
+  "conflicts": {
+    "count": "{count, plural, =0 {No conflicts} one {# conflict} other {# conflicts}}"
+  },
+  "constraints": {
+    "AVOID_EDGE_SLOTS": {
+      "description": "Avoid the first and/or last slot of the day.",
+      "name": "Avoid first/last slots"
+    },
+    "BUILDING_CHANGES": {
+      "description": "Avoid consecutive sessions in different buildings.",
+      "name": "Minimize building changes"
+    },
+    "COURSE_ONCE_PER_DAY": {
+      "description": "Avoid the same course twice a day for a group.",
+      "name": "Same course once a day"
+    },
+    "GROUP_CONFLICT": {
+      "description": "A group (and its parent/child groups) attends one session at a time.",
+      "name": "No group double-booking"
+    },
+    "GROUP_DAILY_BALANCE": {
+      "description": "Spread a group's weekly load evenly.",
+      "name": "Balance load across days"
+    },
+    "GROUP_GAPS": {
+      "description": "Keep a group's sessions together without idle slots.",
+      "name": "Minimize student gaps"
+    },
+    "GROUP_SHIFT": {
+      "description": "A group's sessions stay inside its shift.",
+      "name": "Keep groups in their shift"
+    },
+    "HEAVY_SUBJECTS_EARLY": {
+      "description": "Place subjects tagged as heavy in early slots.",
+      "name": "Heavy subjects early"
+    },
+    "INSTRUCTOR_AVAILABILITY": {
+      "description": "Never schedule an instructor when unavailable.",
+      "name": "Instructor availability"
+    },
+    "INSTRUCTOR_CONFLICT": {
+      "description": "An instructor teaches one session at a time, also across institutions.",
+      "name": "No instructor double-booking"
+    },
+    "INSTRUCTOR_GAPS": {
+      "description": "Keep an instructor's day compact.",
+      "name": "Minimize instructor gaps"
+    },
+    "INSTRUCTOR_MAX_CONSECUTIVE": {
+      "description": "Limit consecutive teaching slots for an instructor.",
+      "name": "Max consecutive slots"
+    },
+    "INSTRUCTOR_MAX_HOURS_DAY": {
+      "description": "Respect each instructor's daily hour limit.",
+      "name": "Daily teaching load"
+    },
+    "INSTRUCTOR_MAX_HOURS_WEEK": {
+      "description": "Respect each instructor's weekly hour limit.",
+      "name": "Weekly teaching load"
+    },
+    "INSTRUCTOR_PREFERENCES": {
+      "description": "Prefer slots marked as preferred.",
+      "name": "Instructor preferences"
+    },
+    "INSTRUCTOR_QUALIFICATION": {
+      "description": "Instructors teach only courses and session types they are qualified for.",
+      "name": "Instructor qualification"
+    },
+    "MAX_COURSE_SESSIONS_PER_DAY": {
+      "description": "At most N sessions of the same course per day for a group.",
+      "name": "Max sessions of a course per day"
+    },
+    "PREFER_HOME_ROOM": {
+      "description": "The class stays in its room and the instructor moves.",
+      "name": "Prefer the group's home room"
+    },
+    "ROOM_AVAILABILITY": {
+      "description": "Never use a room when it is blocked.",
+      "name": "Room availability"
+    },
+    "ROOM_CAPACITY": {
+      "description": "Room capacity covers all enrolled students.",
+      "name": "Room capacity"
+    },
+    "ROOM_CONFLICT": {
+      "description": "A room hosts one session at a time.",
+      "name": "No room double-booking"
+    },
+    "ROOM_SUITABILITY": {
+      "description": "The room matches the required type and equipment.",
+      "name": "Room type & equipment"
+    },
+    "SAME_ROOM_PER_GROUP": {
+      "description": "Prefer that a group keeps one room.",
+      "name": "Same room per group"
+    },
+    "SESSION_ORDERING": {
+      "description": "One session type comes before another (e.g. lecture before section).",
+      "name": "Session ordering"
+    },
+    "SESSION_TYPE_TIME_WINDOW": {
+      "description": "Respect allowed days and slots of each session type.",
+      "name": "Session type time window"
+    },
+    "SLOT_STRUCTURE": {
+      "description": "Sessions use consecutive slots of one working day and never cross a break.",
+      "name": "Valid time slots"
+    },
+    "SPREAD_COURSE_DAYS": {
+      "description": "Place occurrences of a course on different days.",
+      "name": "Spread course over days"
+    },
+    "SUBJECT_SLOT_RESTRICTION": {
+      "description": "Keep tagged subjects away from certain slots or neighbours.",
+      "name": "Subject slot restrictions"
+    },
+    "TRAVEL_TIME": {
+      "description": "Back-to-back sessions leave enough time to walk between buildings.",
+      "name": "Travel time between buildings"
+    },
+    "params": {
+      "applyToGroups": "Apply to groups too",
+      "avoidFirst": "Avoid first slot",
+      "avoidLast": "Avoid last slot",
+      "defaultMaxHours": "Default max hours",
+      "firstSessionType": "First session type",
+      "forbiddenSlots": "Forbidden slot numbers",
+      "latestSlot": "Latest slot number",
+      "max": "Maximum",
+      "maxConsecutive": "Max consecutive slots",
+      "notAdjacentToTags": "Not next to tags",
+      "sessionTypeCodes": "Session types",
+      "strict": "Require explicit qualification",
+      "tag": "Tag",
+      "thenSessionType": "Then session type",
+      "tolerance": "Tolerance (slots)",
+      "tolerancePercent": "Tolerance (%)"
+    }
+  },
+  "days": {
+    "long": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    },
+    "short": {
+      "0": "Sun",
+      "1": "Mon",
+      "2": "Tue",
+      "3": "Wed",
+      "4": "Thu",
+      "5": "Fri",
+      "6": "Sat"
+    }
+  },
+  "design": {
+    "autoPlace": "Auto-place",
+    "buttons": "Buttons",
+    "chips": "Status chips",
+    "conflicts": "3 conflicts",
+    "dialog": "Confirm dialog",
+    "disabled": "Disabled",
+    "feedback": "Feedback",
+    "gridCells": "Grid cells",
+    "icons": "Icons",
+    "inputs": "Inputs",
+    "table": "Table",
+    "title": "Design review",
+    "toastError": "Error toast",
+    "toastSuccess": "Success toast",
+    "validate": "Validate grid"
+  },
+  "entities": {
+    "buildings": "Buildings",
+    "offerings": "Course offerings",
+    "rooms": "Rooms",
+    "sessions": "Sessions",
+    "terms": "Academic terms",
+    "travelTimes": "Travel times"
+  },
+  "enums": {
+    "availabilityState": {
+      "Available": "Available",
+      "Preferred": "Preferred",
+      "Unavailable": "Unavailable"
+    },
+    "calendarDayKind": {
+      "Exception": "Exception",
+      "Holiday": "Holiday"
+    },
+    "changeAction": {
+      "Created": "Created",
+      "Deleted": "Deleted",
+      "Updated": "Updated"
+    },
+    "customFieldDataType": {
+      "Boolean": "Yes / no",
+      "Date": "Date",
+      "MultiSelect": "Multiple choice",
+      "Number": "Number",
+      "SingleSelect": "Single choice",
+      "Text": "Text"
+    },
+    "customFieldEntity": {
+      "Course": "Course",
+      "Group": "Group",
+      "Instructor": "Instructor",
+      "Room": "Room",
+      "Session": "Session"
+    },
+    "severity": {
+      "Hard": "Hard",
+      "Off": "Off",
+      "Soft": "Soft"
+    }
+  },
+  "errors": {
+    "forbiddenText": "You do not have permission to open this page.",
+    "forbiddenTitle": "Access denied",
+    "network": "Cannot reach the server. Check your connection.",
+    "unexpected": "Something went wrong. Please try again."
+  },
+  "features": {
+    "auto-generation": {
+      "description": "Generate timetables with the solver.",
+      "name": "Automatic generation"
+    },
+    "buildings-travel": {
+      "description": "Travel time between buildings is respected.",
+      "name": "Buildings & travel time"
+    },
+    "curriculum": {
+      "description": "Generate sessions from weekly quotas.",
+      "name": "Curriculum"
+    },
+    "custom-fields": {
+      "description": "Extra fields on instructors, rooms, courses, groups and sessions.",
+      "name": "Custom fields"
+    },
+    "home-rooms": {
+      "description": "Groups have a home room; instructors move.",
+      "name": "Home rooms"
+    },
+    "import-export": {
+      "description": "PDF/Excel exports and Excel/CSV imports.",
+      "name": "Imports & exports"
+    },
+    "instructor-pools": {
+      "description": "The solver chooses among qualified instructors.",
+      "name": "Instructor pools"
+    },
+    "rule-builder": {
+      "description": "No-code custom scheduling rules.",
+      "name": "Rule Builder"
+    },
+    "shared-sessions": {
+      "description": "One session attended by several groups (e.g. shared lectures).",
+      "name": "Shared sessions"
+    },
+    "shifts": {
+      "description": "Morning/evening shifts per group.",
+      "name": "Shifts"
+    },
+    "substitutions": {
+      "description": "Record absences and assign substitutes.",
+      "name": "Substitutions"
+    },
+    "week-cycles": {
+      "description": "N-week rotations such as A/B weeks.",
+      "name": "Week cycles"
+    }
+  },
+  "fields": {
+    "allowedDays": "Allowed days",
+    "allowedInstructorTypes": "Allowed instructor types",
+    "allowedSlotFrom": "Earliest slot",
+    "allowedSlotTo": "Latest slot",
+    "building": "Building",
+    "calendarDays": "Holidays & exceptions",
+    "canBeShared": "Can be shared by several groups",
+    "capacity": "Capacity",
+    "code": "Code",
+    "color": "Color",
+    "countsTowardLoad": "Counts toward teaching load",
+    "credits": "Credits",
+    "customFields": "Additional fields",
+    "dataType": "Data type",
+    "date": "Date",
+    "defaultDurationSlots": "Default duration (slots)",
+    "defaultInstructor": "Default instructor",
+    "defaultRoomType": "Default room type",
+    "durationSlots": "Duration (slots)",
+    "email": "Email",
+    "endDate": "End date",
+    "entityType": "Applies to",
+    "equipment": "Equipment",
+    "fixedInstructor": "Fixed instructor",
+    "fromBuilding": "From building",
+    "groupKind": "Group kind",
+    "homeRoom": "Home room",
+    "icon": "Icon",
+    "importable": "Importable",
+    "instructorPool": "Qualified pool (solver chooses)",
+    "instructorType": "Instructor type",
+    "isActive": "Active",
+    "isCurrent": "Current term",
+    "key": "Key",
+    "kind": "Kind",
+    "level": "Level",
+    "loadMultiplier": "Load multiplier",
+    "maxHoursPerDay": "Max hours / day",
+    "maxHoursPerWeek": "Max hours / week",
+    "minutes": "Minutes",
+    "name": "Name",
+    "nameAr": "Name (Arabic)",
+    "nameEn": "Name (English)",
+    "notes": "Notes",
+    "options": "Options (JSON)",
+    "parent": "Parent",
+    "parentGroup": "Parent group",
+    "password": "Password",
+    "personId": "Person link (cross-institution)",
+    "qualifiedCourses": "Qualified to teach",
+    "required": "Required",
+    "requiredEquipment": "Required equipment",
+    "requiredInstructorType": "Required instructor type",
+    "requiredRoomType": "Required room type",
+    "requiresInstructor": "Requires an instructor",
+    "requiresRoom": "Requires a room",
+    "roomType": "Room type",
+    "searchable": "Searchable",
+    "sessionType": "Session type",
+    "sessionsPerWeek": "Per week",
+    "sharedAcrossGroups": "One shared session for all groups",
+    "shift": "Shift",
+    "showInTable": "Show in tables",
+    "sortOrder": "Sort order",
+    "startDate": "Start date",
+    "status": "Status",
+    "studentCount": "Students",
+    "tags": "Tags",
+    "term": "Term",
+    "toBuilding": "To building",
+    "weeks": "Weeks",
+    "zone": "Zone"
+  },
+  "hints": {
+    "color": "Light and dark tints are derived automatically; a warning appears if AA contrast cannot be reached.",
+    "customFieldOptions": "For select types: [{\"value\":\"x\",\"labelEn\":\"…\",\"labelAr\":\"…\"}]",
+    "password": "Leave empty to keep the current password.",
+    "personId": "Same value on records in other institutions links one person (prevents double-booking across institutions)."
+  },
+  "languages": {
+    "ar": "Arabic",
+    "en": "English"
+  },
+  "login": {
+    "demoHint": "Demo: admin@demo.local / Demo#12345",
+    "email": "Email",
+    "expired": "Your session expired. Please sign in again.",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "subtitle": "Sign in to your institution"
+  },
+  "nav": {
+    "availability": "Availability matrix",
+    "conflicts": "Conflicts",
+    "dashboard": "Dashboard",
+    "exports": "Exports & imports",
+    "generation": "Generation wizard",
+    "myAvailability": "My availability",
+    "myTimetable": "My timetable",
+    "rooms": "Rooms & buildings",
+    "sections": {
+      "admin": "Administration",
+      "operations": "Academic operations",
+      "resources": "Faculty & resources"
+    },
+    "sessions": "Sessions",
+    "settings": "Settings",
+    "substitutions": "Substitutions",
+    "timetable": "Timetable editor",
+    "versions": "Schedule versions"
+  },
+  "permissions": {
+    "audit_view": "View audit log",
+    "availability_manage": "Manage availability",
+    "availability_manage_own": "Manage own availability",
+    "config_manage": "Manage configuration",
+    "dashboard_view": "View dashboard",
+    "exports_run": "Run exports",
+    "groups": {
+      "administration": "Administration",
+      "configuration": "Configuration",
+      "resources": "Resources",
+      "timetable": "Timetable"
+    },
+    "imports_run": "Run imports",
+    "institutions_manage": "Manage institutions",
+    "resources_manage": "Manage resources",
+    "resources_view": "View resources",
+    "roles_manage": "Manage roles",
+    "rules_manage": "Manage constraints & rules",
+    "schedule_generate": "Generate schedules",
+    "schedule_publish": "Publish schedules",
+    "substitutions_manage": "Manage substitutions",
+    "timetable_edit": "Edit timetables",
+    "timetable_view": "View timetables",
+    "timetable_view_own": "View own timetable",
+    "users_manage": "Manage users"
+  },
+  "profile": {
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "digits": "Digits",
+    "digitsArabic": "Arabic-Indic (٠–٩)",
+    "digitsWestern": "Western (0–9)",
+    "newPassword": "New password",
+    "passwordChanged": "Password changed.",
+    "preferences": "Preferences",
+    "title": "Profile & preferences"
+  },
+  "shell": {
+    "collapseNav": "Collapse sidebar",
+    "engine": "Planner engine",
+    "institution": "Institution",
+    "language": "Language",
+    "logout": "Sign out",
+    "mainNav": "Main navigation",
+    "newInstitution": "New institution…",
+    "notifications": "Notifications",
+    "profile": "Profile & preferences",
+    "skipToContent": "Skip to content",
+    "switchInstitution": "Switch institution",
+    "toggleNav": "Toggle navigation",
+    "userMenu": "User menu"
+  },
+  "terms": {
+    "course": "Course",
+    "courses": "Courses",
+    "group": "Group",
+    "groups": "Groups",
+    "instructor": "Instructor",
+    "instructors": "Instructors",
+    "orgUnit": "Organization",
+    "room": "Room",
+    "rooms": "Rooms",
+    "session": "Session",
+    "sessions": "Sessions",
+    "term": "Term"
+  },
+  "theme": {
+    "dark": "Dark",
+    "label": "Theme",
+    "light": "Light",
+    "system": "System",
+    "toggle": "Theme: {mode}. Change theme"
+  },
+  "timetable": {
+    "pinned": "Pinned",
+    "status": {
+      "conflict": "Hard conflict",
+      "penalty": "Soft penalty",
+      "valid": "Feasible"
+    },
+    "time": "Time",
+    "week": "Week {label}"
+  },
+  "usage": {
+    "deactivate": "Deactivate (keep for history)",
+    "entity": {
+      "course": "Course",
+      "curriculumRule": "Curriculum rule",
+      "group": "Group",
+      "instructor": "Instructor",
+      "offering": "Offering",
+      "orgUnit": "Org unit",
+      "room": "Room",
+      "schedule": "Schedule",
+      "scheduleEntry": "Schedule",
+      "session": "Session",
+      "sessionType": "Session type",
+      "user": "User"
+    },
+    "merge": "Merge into another value",
+    "title": "This item is in use"
+  },
+  "validation": {
+    "invalid": "Invalid value.",
+    "pattern": "The format is not valid.",
+    "range": "The value is out of range.",
+    "required": "This field is required."
+  }
 }

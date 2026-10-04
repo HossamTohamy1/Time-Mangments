@@ -1,0 +1,104 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="clock" [size]="22" class="head-icon" /><h1>{{ t('settings.time.title') }}</h1>
+    <div class="tt-spacer"></div>
+    <button type="button" class="tt-btn" [disabled]="!dirty()" (click)="reset()">{{ t('common.reset') }}</button>
+    <button type="button" class="tt-btn primary" [disabled]="!dirty() || busy()" (click)="save()">{{ t('common.save') }}</button>
+  </div>
+  @if (model(); as m) {
+    <section class="tt-card pad">
+      <h2>{{ t('settings.time.week') }}</h2>
+      <div class="row">
+        <fieldset class="days"><legend>{{ t('settings.time.workingDays') }}</legend>
+          @for (d of days; track d) {
+            <label class="chip-check"><input type="checkbox" [checked]="m.workingDays.includes(d)" (change)="toggleDay(d)" /> {{ d | dayName }}</label>
+          }
+        </fieldset>
+        <label class="tt-field">{{ t('settings.time.weekStart') }}
+          <select class="tt-input" [ngModel]="m.weekStartDay" (ngModelChange)="setWeekStart($event)">
+            @for (d of days; track d) { <option [ngValue]="d">{{ d | dayName }}</option> }
+          </select>
+        </label>
+        <label class="tt-field">{{ t('settings.time.cycleLength') }}
+          <input class="tt-input" type="number" min="1" max="8" [ngModel]="m.weekCycleLength" (ngModelChange)="setCycle($event)" dir="ltr" />
+          <span class="hint">{{ t('settings.time.cycleHint') }}</span>
+        </label>
+        @if (m.weekCycleLength > 1) {
+          <fieldset class="days"><legend>{{ t('settings.time.cycleLabels') }}</legend>
+            @for (l of m.weekCycleLabels; track $index) {
+              <input class="tt-input label-input" [ngModel]="l" (ngModelChange)="setLabel($index, $event)" [attr.aria-label]="t('settings.time.cycleLabel', { n: $index + 1 })" />
+            }
+          </fieldset>
+        }
+      </div>
+      @if (errors()['workingDays']) { <p class="error">{{ errors()['workingDays'] }}</p> }
+    </section>
+
+    <section class="tt-card pad">
+      <div class="tt-row"><h2>{{ t('settings.time.periods') }}</h2><span class="tt-spacer"></span>
+        <button type="button" class="tt-btn sm" (click)="addPeriod()"><app-icon name="plus" /> {{ t('settings.time.addPeriod') }}</button></div>
+      <table class="tt-table">
+        <thead><tr><th>#</th><th>{{ t('fields.nameEn') }}</th><th>{{ t('fields.nameAr') }}</th><th>{{ t('settings.time.start') }}</th><th>{{ t('settings.time.end') }}</th><th>{{ t('settings.time.break') }}</th><th></th></tr></thead>
+        <tbody>
+          @for (p of m.periods; track $index) {
+            <tr [class.break]="p.isBreak">
+              <td>{{ p.index + 1 }}</td>
+              <td><input class="tt-input" [ngModel]="p.nameEn" (ngModelChange)="setPeriod($index, 'nameEn', $event)" dir="ltr" [attr.aria-label]="t('fields.nameEn')" /></td>
+              <td><input class="tt-input" [ngModel]="p.nameAr" (ngModelChange)="setPeriod($index, 'nameAr', $event)" dir="rtl" [attr.aria-label]="t('fields.nameAr')" /></td>
+              <td><input class="tt-input" type="time" [ngModel]="p.start" (ngModelChange)="setPeriod($index, 'start', $event)" dir="ltr" [attr.aria-label]="t('settings.time.start')" /></td>
+              <td><input class="tt-input" type="time" [ngModel]="p.end" (ngModelChange)="setPeriod($index, 'end', $event)" dir="ltr" [attr.aria-label]="t('settings.time.end')" /></td>
+              <td><input type="checkbox" [ngModel]="p.isBreak" (ngModelChange)="setPeriod($index, 'isBreak', $event)" [attr.aria-label]="t('settings.time.break')" /></td>
+              <td><button type="button" class="tt-btn sm ghost icon" (click)="removePeriod($index)" [attr.aria-label]="t('common.remove')"><app-icon name="trash" /></button></td>
+            </tr>
+            @if (errors()['periods[' + $index + '].end'] || errors()['periods[' + $index + '].start']) {
+              <tr><td colspan="7" class="error">{{ errors()['periods[' + $index + '].end'] || errors()['periods[' + $index + '].start'] }}</td></tr>
+            }
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="tt-card pad">
+      <div class="tt-row"><h2>{{ t('settings.time.shifts') }}</h2><span class="tt-spacer"></span>
+        <button type="button" class="tt-btn sm" (click)="addShift()"><app-icon name="plus" /> {{ t('settings.time.addShift') }}</button></div>
+      <table class="tt-table">
+        <thead><tr><th>{{ t('fields.code') }}</th><th>{{ t('fields.nameEn') }}</th><th>{{ t('fields.nameAr') }}</th><th>{{ t('settings.time.firstSlot') }}</th><th>{{ t('settings.time.lastSlot') }}</th><th></th></tr></thead>
+        <tbody>
+          @for (s of m.shifts; track s.id) {
+            <tr>
+              <td><input class="tt-input" [ngModel]="s.code" (ngModelChange)="setShift($index, 'code', $event)" dir="ltr" [attr.aria-label]="t('fields.code')" /></td>
+              <td><input class="tt-input" [ngModel]="s.nameEn" (ngModelChange)="setShift($index, 'nameEn', $event)" dir="ltr" [attr.aria-label]="t('fields.nameEn')" /></td>
+              <td><input class="tt-input" [ngModel]="s.nameAr" (ngModelChange)="setShift($index, 'nameAr', $event)" dir="rtl" [attr.aria-label]="t('fields.nameAr')" /></td>
+              <td><select class="tt-input" [ngModel]="s.firstSlot" (ngModelChange)="setShift($index, 'firstSlot', +$event)" [attr.aria-label]="t('settings.time.firstSlot')">
+                @for (p of m.periods; track p.index) { <option [ngValue]="p.index">{{ p | localName }}</option> }</select></td>
+              <td><select class="tt-input" [ngModel]="s.lastSlot" (ngModelChange)="setShift($index, 'lastSlot', +$event)" [attr.aria-label]="t('settings.time.lastSlot')">
+                @for (p of m.periods; track p.index) { <option [ngValue]="p.index">{{ p | localName }}</option> }</select></td>
+              <td><button type="button" class="tt-btn sm ghost icon" (click)="removeShift($index)" [attr.aria-label]="t('common.remove')"><app-icon name="trash" /></button></td>
+            </tr>
+          } @empty { <tr><td colspan="6" class="tt-empty">{{ t('settings.time.noShifts') }}</td></tr> }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="tt-card pad">
+      <h2>{{ t('settings.time.overrides') }}</h2>
+      <p class="tt-muted">{{ t('settings.time.overridesHint') }}</p>
+      <div class="overrides" [style.--days]="m.workingDays.length">
+        <div></div>
+        @for (d of m.workingDays; track d) { <div class="h">{{ d | dayName: true }}</div> }
+        @for (p of m.periods; track p.index) {
+          <div class="h">{{ p | localName }}</div>
+          @for (d of m.workingDays; track d) {
+            @if (p.isBreak) { <div class="cell break"></div> }
+            @else {
+              <button type="button" class="cell" [class.off]="isDisabled(d, p.index)" (click)="toggleOverride(d, p.index)"
+                [attr.aria-pressed]="isDisabled(d, p.index)" [attr.aria-label]="(d | dayName) + ' ' + (p | localName)">
+                {{ isDisabled(d, p.index) ? t('settings.time.off') : '' }}
+              </button>
+            }
+          }
+        }
+      </div>
+    </section>
+  }
+</div>

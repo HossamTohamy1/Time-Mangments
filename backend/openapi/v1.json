@@ -14,24 +14,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.LoginRequest"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.LoginRequest"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.LoginRequest"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -43,7 +50,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -67,7 +81,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -81,24 +102,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.ProfileUpdate"
+                "$ref": "#/components/schemas/ProfileUpdate"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.ProfileUpdate"
+                "$ref": "#/components/schemas/ProfileUpdate"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.ProfileUpdate"
+                "$ref": "#/components/schemas/ProfileUpdate"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileDto"
+                }
+              }
+            }
           }
         }
       }
@@ -112,17 +140,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ChangePasswordRequest"
+                "$ref": "#/components/schemas/ChangePasswordRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ChangePasswordRequest"
+                "$ref": "#/components/schemas/ChangePasswordRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ChangePasswordRequest"
+                "$ref": "#/components/schemas/ChangePasswordRequest"
               }
             }
           }
@@ -183,7 +211,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfBuildingDto"
+                }
+              }
+            }
           }
         }
       },
@@ -195,17 +230,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.BuildingInput"
+                "$ref": "#/components/schemas/BuildingInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.BuildingInput"
+                "$ref": "#/components/schemas/BuildingInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.BuildingInput"
+                "$ref": "#/components/schemas/BuildingInput"
               }
             }
           }
@@ -213,6 +248,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildingDto"
+                }
+              }
+            }
           }
         }
       }
@@ -235,7 +280,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildingDto"
+                }
+              }
+            }
           }
         }
       },
@@ -258,24 +310,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.BuildingInput"
+                "$ref": "#/components/schemas/BuildingInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.BuildingInput"
+                "$ref": "#/components/schemas/BuildingInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.BuildingInput"
+                "$ref": "#/components/schemas/BuildingInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildingDto"
+                }
+              }
+            }
           }
         }
       },
@@ -308,7 +367,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EffectiveConfigDto"
+                }
+              }
+            }
           }
         }
       }
@@ -320,7 +386,17 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TerminologyEntry"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -334,7 +410,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Settings.TerminologyEntry"
+                  "$ref": "#/components/schemas/TerminologyEntry"
                 }
               }
             },
@@ -342,7 +418,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Settings.TerminologyEntry"
+                  "$ref": "#/components/schemas/TerminologyEntry"
                 }
               }
             },
@@ -350,7 +426,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Settings.TerminologyEntry"
+                  "$ref": "#/components/schemas/TerminologyEntry"
                 }
               }
             }
@@ -412,24 +488,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Configuration.TimeStructureDto"
+                "$ref": "#/components/schemas/TimeStructureDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Configuration.TimeStructureDto"
+                "$ref": "#/components/schemas/TimeStructureDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Configuration.TimeStructureDto"
+                "$ref": "#/components/schemas/TimeStructureDto"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeStructureDto"
+                }
+              }
+            }
           }
         }
       }
@@ -453,17 +536,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ConstraintSettingRequest"
+                "$ref": "#/components/schemas/ConstraintSettingRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ConstraintSettingRequest"
+                "$ref": "#/components/schemas/ConstraintSettingRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ConstraintSettingRequest"
+                "$ref": "#/components/schemas/ConstraintSettingRequest"
               }
             }
           }
@@ -509,7 +592,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfAuditEntryDto"
+                }
+              }
+            }
           }
         }
       }
@@ -547,24 +637,34 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ImportConfigRequest"
+                "$ref": "#/components/schemas/ImportConfigRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ImportConfigRequest"
+                "$ref": "#/components/schemas/ImportConfigRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ImportConfigRequest"
+                "$ref": "#/components/schemas/ImportConfigRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConfigChangePreview"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -578,24 +678,34 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ApplyTemplateRequest"
+                "$ref": "#/components/schemas/ApplyTemplateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ApplyTemplateRequest"
+                "$ref": "#/components/schemas/ApplyTemplateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.ApplyTemplateRequest"
+                "$ref": "#/components/schemas/ApplyTemplateRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConfigChangePreview"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -609,17 +719,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.SaveAsTemplateRequest"
+                "$ref": "#/components/schemas/SaveAsTemplateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.SaveAsTemplateRequest"
+                "$ref": "#/components/schemas/SaveAsTemplateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.SaveAsTemplateRequest"
+                "$ref": "#/components/schemas/SaveAsTemplateRequest"
               }
             }
           }
@@ -680,7 +790,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfCourseDto"
+                }
+              }
+            }
           }
         }
       },
@@ -692,17 +809,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CourseInput"
+                "$ref": "#/components/schemas/CourseInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CourseInput"
+                "$ref": "#/components/schemas/CourseInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CourseInput"
+                "$ref": "#/components/schemas/CourseInput"
               }
             }
           }
@@ -710,6 +827,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseDto"
+                }
+              }
+            }
           }
         }
       }
@@ -732,7 +859,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseDto"
+                }
+              }
+            }
           }
         }
       },
@@ -755,24 +889,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CourseInput"
+                "$ref": "#/components/schemas/CourseInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CourseInput"
+                "$ref": "#/components/schemas/CourseInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CourseInput"
+                "$ref": "#/components/schemas/CourseInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseDto"
+                }
+              }
+            }
           }
         }
       },
@@ -817,24 +958,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.GenerateSessionsRequest"
+                "$ref": "#/components/schemas/GenerateSessionsRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.GenerateSessionsRequest"
+                "$ref": "#/components/schemas/GenerateSessionsRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.GenerateSessionsRequest"
+                "$ref": "#/components/schemas/GenerateSessionsRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionGenerationResult"
+                }
+              }
+            }
           }
         }
       }
@@ -888,7 +1036,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfCurriculumRuleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -900,17 +1055,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CurriculumRuleInput"
+                "$ref": "#/components/schemas/CurriculumRuleInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CurriculumRuleInput"
+                "$ref": "#/components/schemas/CurriculumRuleInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CurriculumRuleInput"
+                "$ref": "#/components/schemas/CurriculumRuleInput"
               }
             }
           }
@@ -918,6 +1073,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurriculumRuleDto"
+                }
+              }
+            }
           }
         }
       }
@@ -940,7 +1105,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurriculumRuleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -963,24 +1135,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CurriculumRuleInput"
+                "$ref": "#/components/schemas/CurriculumRuleInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CurriculumRuleInput"
+                "$ref": "#/components/schemas/CurriculumRuleInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CurriculumRuleInput"
+                "$ref": "#/components/schemas/CurriculumRuleInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurriculumRuleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1055,7 +1234,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfCustomFieldDefinitionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1067,17 +1253,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.CustomFieldInput"
+                "$ref": "#/components/schemas/CustomFieldInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.CustomFieldInput"
+                "$ref": "#/components/schemas/CustomFieldInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.CustomFieldInput"
+                "$ref": "#/components/schemas/CustomFieldInput"
               }
             }
           }
@@ -1085,6 +1271,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldDefinitionDto"
+                }
+              }
+            }
           }
         }
       }
@@ -1107,7 +1303,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldDefinitionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1130,24 +1333,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.CustomFieldInput"
+                "$ref": "#/components/schemas/CustomFieldInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.CustomFieldInput"
+                "$ref": "#/components/schemas/CustomFieldInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.CustomFieldInput"
+                "$ref": "#/components/schemas/CustomFieldInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldDefinitionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1222,7 +1432,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfGroupDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1234,17 +1451,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.GroupInput"
+                "$ref": "#/components/schemas/GroupInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.GroupInput"
+                "$ref": "#/components/schemas/GroupInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.GroupInput"
+                "$ref": "#/components/schemas/GroupInput"
               }
             }
           }
@@ -1252,6 +1469,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDto"
+                }
+              }
+            }
           }
         }
       }
@@ -1274,7 +1501,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1297,24 +1531,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.GroupInput"
+                "$ref": "#/components/schemas/GroupInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.GroupInput"
+                "$ref": "#/components/schemas/GroupInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.GroupInput"
+                "$ref": "#/components/schemas/GroupInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1347,7 +1588,17 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InstitutionMembership"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -1359,17 +1610,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.CreateInstitutionRequest"
+                "$ref": "#/components/schemas/CreateInstitutionRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.CreateInstitutionRequest"
+                "$ref": "#/components/schemas/CreateInstitutionRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.CreateInstitutionRequest"
+                "$ref": "#/components/schemas/CreateInstitutionRequest"
               }
             }
           }
@@ -1390,17 +1641,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.UpdateInstitutionRequest"
+                "$ref": "#/components/schemas/UpdateInstitutionRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.UpdateInstitutionRequest"
+                "$ref": "#/components/schemas/UpdateInstitutionRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.UpdateInstitutionRequest"
+                "$ref": "#/components/schemas/UpdateInstitutionRequest"
               }
             }
           }
@@ -1430,7 +1681,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailabilityDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1455,7 +1713,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             },
@@ -1463,7 +1721,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             },
@@ -1471,7 +1729,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             }
@@ -1533,7 +1791,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfInstructorDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1545,17 +1810,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.InstructorInput"
+                "$ref": "#/components/schemas/InstructorInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.InstructorInput"
+                "$ref": "#/components/schemas/InstructorInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.InstructorInput"
+                "$ref": "#/components/schemas/InstructorInput"
               }
             }
           }
@@ -1563,6 +1828,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstructorDto"
+                }
+              }
+            }
           }
         }
       }
@@ -1585,7 +1860,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstructorDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1608,24 +1890,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.InstructorInput"
+                "$ref": "#/components/schemas/InstructorInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.InstructorInput"
+                "$ref": "#/components/schemas/InstructorInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.InstructorInput"
+                "$ref": "#/components/schemas/InstructorInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstructorDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1701,7 +1990,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfLookupDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1723,17 +2019,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Lookups.LookupInput"
+                "$ref": "#/components/schemas/LookupInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Lookups.LookupInput"
+                "$ref": "#/components/schemas/LookupInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Lookups.LookupInput"
+                "$ref": "#/components/schemas/LookupInput"
               }
             }
           }
@@ -1802,17 +2098,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Lookups.LookupInput"
+                "$ref": "#/components/schemas/LookupInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Lookups.LookupInput"
+                "$ref": "#/components/schemas/LookupInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Lookups.LookupInput"
+                "$ref": "#/components/schemas/LookupInput"
               }
             }
           }
@@ -1881,17 +2177,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.MergeRequest"
+                "$ref": "#/components/schemas/MergeRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.MergeRequest"
+                "$ref": "#/components/schemas/MergeRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Api.Controllers.MergeRequest"
+                "$ref": "#/components/schemas/MergeRequest"
               }
             }
           }
@@ -1910,7 +2206,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailabilityDto"
+                }
+              }
+            }
           }
         }
       },
@@ -1924,7 +2227,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             },
@@ -1932,7 +2235,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             },
@@ -1940,7 +2243,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             }
@@ -2002,7 +2305,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfOfferingDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2014,17 +2324,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.OfferingInput"
+                "$ref": "#/components/schemas/OfferingInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.OfferingInput"
+                "$ref": "#/components/schemas/OfferingInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.OfferingInput"
+                "$ref": "#/components/schemas/OfferingInput"
               }
             }
           }
@@ -2032,6 +2342,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfferingDto"
+                }
+              }
+            }
           }
         }
       }
@@ -2054,7 +2374,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfferingDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2077,24 +2404,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.OfferingInput"
+                "$ref": "#/components/schemas/OfferingInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.OfferingInput"
+                "$ref": "#/components/schemas/OfferingInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.OfferingInput"
+                "$ref": "#/components/schemas/OfferingInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfferingDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2169,7 +2503,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfOrgUnitDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2181,17 +2522,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.OrgUnitInput"
+                "$ref": "#/components/schemas/OrgUnitInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.OrgUnitInput"
+                "$ref": "#/components/schemas/OrgUnitInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.OrgUnitInput"
+                "$ref": "#/components/schemas/OrgUnitInput"
               }
             }
           }
@@ -2199,6 +2540,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgUnitDto"
+                }
+              }
+            }
           }
         }
       }
@@ -2221,7 +2572,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgUnitDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2244,24 +2602,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.OrgUnitInput"
+                "$ref": "#/components/schemas/OrgUnitInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.OrgUnitInput"
+                "$ref": "#/components/schemas/OrgUnitInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Organization.OrgUnitInput"
+                "$ref": "#/components/schemas/OrgUnitInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgUnitDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2336,7 +2701,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfRoleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2348,17 +2720,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RoleInput"
+                "$ref": "#/components/schemas/RoleInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RoleInput"
+                "$ref": "#/components/schemas/RoleInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RoleInput"
+                "$ref": "#/components/schemas/RoleInput"
               }
             }
           }
@@ -2366,6 +2738,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDto"
+                }
+              }
+            }
           }
         }
       }
@@ -2388,7 +2770,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2411,24 +2800,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RoleInput"
+                "$ref": "#/components/schemas/RoleInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RoleInput"
+                "$ref": "#/components/schemas/RoleInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RoleInput"
+                "$ref": "#/components/schemas/RoleInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2472,7 +2868,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailabilityDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2497,7 +2900,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             },
@@ -2505,7 +2908,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             },
@@ -2513,7 +2916,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Timetable.Application.Features.Availability.AvailabilityCell"
+                  "$ref": "#/components/schemas/AvailabilityCell"
                 }
               }
             }
@@ -2575,7 +2978,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfRoomDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2587,17 +2997,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.RoomInput"
+                "$ref": "#/components/schemas/RoomInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.RoomInput"
+                "$ref": "#/components/schemas/RoomInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.RoomInput"
+                "$ref": "#/components/schemas/RoomInput"
               }
             }
           }
@@ -2605,6 +3015,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomDto"
+                }
+              }
+            }
           }
         }
       }
@@ -2627,7 +3047,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2650,24 +3077,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.RoomInput"
+                "$ref": "#/components/schemas/RoomInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.RoomInput"
+                "$ref": "#/components/schemas/RoomInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.RoomInput"
+                "$ref": "#/components/schemas/RoomInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2742,7 +3176,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfRuleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2754,17 +3195,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RuleInput"
+                "$ref": "#/components/schemas/RuleInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RuleInput"
+                "$ref": "#/components/schemas/RuleInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RuleInput"
+                "$ref": "#/components/schemas/RuleInput"
               }
             }
           }
@@ -2772,6 +3213,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleDto"
+                }
+              }
+            }
           }
         }
       }
@@ -2794,7 +3245,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2817,24 +3275,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RuleInput"
+                "$ref": "#/components/schemas/RuleInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RuleInput"
+                "$ref": "#/components/schemas/RuleInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Settings.RuleInput"
+                "$ref": "#/components/schemas/RuleInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2909,7 +3374,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfSessionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2921,17 +3393,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.SessionInput"
+                "$ref": "#/components/schemas/SessionInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.SessionInput"
+                "$ref": "#/components/schemas/SessionInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.SessionInput"
+                "$ref": "#/components/schemas/SessionInput"
               }
             }
           }
@@ -2939,6 +3411,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionDto"
+                }
+              }
+            }
           }
         }
       }
@@ -2961,7 +3443,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -2984,24 +3473,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.SessionInput"
+                "$ref": "#/components/schemas/SessionInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.SessionInput"
+                "$ref": "#/components/schemas/SessionInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.SessionInput"
+                "$ref": "#/components/schemas/SessionInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3034,7 +3530,17 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TemplateSummaryDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3088,7 +3594,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfTermDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3100,17 +3613,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.TermInput"
+                "$ref": "#/components/schemas/TermInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.TermInput"
+                "$ref": "#/components/schemas/TermInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.TermInput"
+                "$ref": "#/components/schemas/TermInput"
               }
             }
           }
@@ -3118,6 +3631,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermDto"
+                }
+              }
+            }
           }
         }
       }
@@ -3140,7 +3663,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3163,24 +3693,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.TermInput"
+                "$ref": "#/components/schemas/TermInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.TermInput"
+                "$ref": "#/components/schemas/TermInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Academic.TermInput"
+                "$ref": "#/components/schemas/TermInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3255,7 +3792,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfTravelTimeDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3267,17 +3811,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.TravelTimeInput"
+                "$ref": "#/components/schemas/TravelTimeInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.TravelTimeInput"
+                "$ref": "#/components/schemas/TravelTimeInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.TravelTimeInput"
+                "$ref": "#/components/schemas/TravelTimeInput"
               }
             }
           }
@@ -3285,6 +3829,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TravelTimeDto"
+                }
+              }
+            }
           }
         }
       }
@@ -3307,7 +3861,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TravelTimeDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3330,24 +3891,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.TravelTimeInput"
+                "$ref": "#/components/schemas/TravelTimeInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.TravelTimeInput"
+                "$ref": "#/components/schemas/TravelTimeInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Features.Resources.TravelTimeInput"
+                "$ref": "#/components/schemas/TravelTimeInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TravelTimeDto"
+                }
+              }
+            }
           }
         }
       },
@@ -3389,7 +3957,17 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserListItemDto"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -3401,17 +3979,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.UpsertUserInput"
+                "$ref": "#/components/schemas/UpsertUserInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.UpsertUserInput"
+                "$ref": "#/components/schemas/UpsertUserInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.UpsertUserInput"
+                "$ref": "#/components/schemas/UpsertUserInput"
               }
             }
           }
@@ -3443,17 +4021,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.UpsertUserInput"
+                "$ref": "#/components/schemas/UpsertUserInput"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.UpsertUserInput"
+                "$ref": "#/components/schemas/UpsertUserInput"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Timetable.Application.Abstractions.UpsertUserInput"
+                "$ref": "#/components/schemas/UpsertUserInput"
               }
             }
           }
@@ -3468,12 +4046,15 @@
   },
   "components": {
     "schemas": {
-      "Timetable.Api.Controllers.ApplyTemplateRequest": {
+      "ApplyTemplateRequest": {
+        "required": [
+          "dryRun",
+          "templateCode"
+        ],
         "type": "object",
         "properties": {
           "templateCode": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "dryRun": {
             "type": "boolean"
@@ -3481,25 +4062,264 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Api.Controllers.ChangePasswordRequest": {
+      "AuditEntryDto": {
+        "required": [
+          "action",
+          "at",
+          "entityId",
+          "entityType",
+          "id"
+        ],
         "type": "object",
         "properties": {
-          "currentPassword": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "entityId": {
+            "type": "string"
+          },
+          "action": {
+            "$ref": "#/components/schemas/ChangeAction"
+          },
+          "beforeJson": {
             "type": "string",
             "nullable": true
           },
-          "newPassword": {
+          "afterJson": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuthResponse": {
+        "required": [
+          "accessToken",
+          "expiresAt"
+        ],
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AvailabilityCell": {
+        "required": [
+          "dayOfWeek",
+          "slotIndex",
+          "state"
+        ],
+        "type": "object",
+        "properties": {
+          "dayOfWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "slotIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "$ref": "#/components/schemas/AvailabilityState"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AvailabilityDto": {
+        "required": [
+          "cells",
+          "id",
+          "target"
+        ],
+        "type": "object",
+        "properties": {
+          "target": {
+            "$ref": "#/components/schemas/AvailabilityTarget"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cells": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityCell"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "AvailabilityState": {
+        "enum": [
+          "Available",
+          "Unavailable",
+          "Preferred"
+        ],
+        "type": "string"
+      },
+      "AvailabilityTarget": {
+        "enum": [
+          "Instructor",
+          "Room"
+        ],
+        "type": "string"
+      },
+      "BuildingDto": {
+        "required": [
+          "code",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "zone": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Api.Controllers.ConstraintSettingRequest": {
+      "BuildingInput": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "zone": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CalendarDayInput": {
+        "required": [
+          "date",
+          "kind"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/CalendarDayKind"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CalendarDayKind": {
+        "enum": [
+          "Holiday",
+          "Exception"
+        ],
+        "type": "string"
+      },
+      "ChangeAction": {
+        "enum": [
+          "Created",
+          "Updated",
+          "Deleted"
+        ],
+        "type": "string"
+      },
+      "ChangePasswordRequest": {
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfigChangePreview": {
+        "required": [
+          "action",
+          "area",
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "area": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConstraintSettingRequest": {
+        "required": [
+          "severity",
+          "weight"
+        ],
         "type": "object",
         "properties": {
           "severity": {
-            "$ref": "#/components/schemas/Timetable.Domain.Common.ConstraintSeverity"
+            "$ref": "#/components/schemas/ConstraintSeverity"
           },
           "weight": {
             "type": "integer",
@@ -3511,12 +4331,91 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Api.Controllers.CreateInstitutionRequest": {
+      "ConstraintSeverity": {
+        "enum": [
+          "Off",
+          "Soft",
+          "Hard"
+        ],
+        "type": "string"
+      },
+      "ConstraintSummaryDto": {
+        "required": [
+          "arity",
+          "category",
+          "code",
+          "defaultSeverity",
+          "defaultWeight",
+          "isCore",
+          "parameters",
+          "parametersJson",
+          "revision",
+          "severity",
+          "weight"
+        ],
         "type": "object",
         "properties": {
           "code": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "arity": {
+            "type": "string"
+          },
+          "isCore": {
+            "type": "boolean"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/ConstraintSeverity"
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defaultSeverity": {
+            "$ref": "#/components/schemas/ConstraintSeverity"
+          },
+          "defaultWeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parametersJson": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParameterSchemaDto"
+            }
+          },
+          "requiresFeature": {
             "type": "string",
             "nullable": true
+          },
+          "revision": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CourseDto": {
+        "required": [
+          "code",
+          "customFields",
+          "id",
+          "tags"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -3525,207 +4424,42 @@
           "nameEn": {
             "type": "string",
             "nullable": true
-          },
-          "templateCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "defaultLanguage": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Api.Controllers.GenerateSessionsRequest": {
-        "type": "object",
-        "properties": {
-          "termId": {
-            "type": "string",
-            "format": "uuid"
           },
           "orgUnitId": {
             "type": "string",
             "format": "uuid",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Api.Controllers.ImportConfigRequest": {
-        "type": "object",
-        "properties": {
-          "bundle": { },
-          "dryRun": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Api.Controllers.LoginRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
+          },
+          "credits": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "color": {
             "type": "string",
             "nullable": true
           },
-          "password": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Api.Controllers.MergeRequest": {
-        "type": "object",
-        "properties": {
-          "targetId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Api.Controllers.SaveAsTemplateRequest": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "nameAr": {
-            "type": "string",
-            "nullable": true
-          },
-          "nameEn": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Api.Controllers.UpdateInstitutionRequest": {
-        "type": "object",
-        "properties": {
-          "nameAr": {
-            "type": "string",
-            "nullable": true
-          },
-          "nameEn": {
-            "type": "string",
-            "nullable": true
-          },
-          "defaultLanguage": {
-            "type": "string",
-            "nullable": true
-          },
-          "timeZone": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Application.Abstractions.ProfileUpdate": {
-        "type": "object",
-        "properties": {
-          "preferredLanguage": {
-            "type": "string",
-            "nullable": true
-          },
-          "preferredTheme": {
-            "type": "string",
-            "nullable": true
-          },
-          "digitStyle": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayNameAr": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayNameEn": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Application.Abstractions.UpsertUserInput": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayNameAr": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayNameEn": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "instructorId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "studentGroupId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "roleIds": {
+          "tags": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "nullable": true
+              "type": "string"
+            }
           },
-          "preferredLanguage": {
-            "type": "string",
-            "nullable": true
+          "customFields": {
+            "type": "object",
+            "additionalProperties": { }
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Academic.CalendarDayInput": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "kind": {
-            "$ref": "#/components/schemas/Timetable.Domain.Common.CalendarDayKind"
-          },
-          "nameAr": {
-            "type": "string",
-            "nullable": true
-          },
-          "nameEn": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Application.Features.Academic.CourseInput": {
+      "CourseInput": {
+        "required": [
+          "code"
+        ],
         "type": "object",
         "properties": {
           "code": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -3764,7 +4498,109 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Academic.CurriculumRuleInput": {
+      "CreateInstitutionRequest": {
+        "required": [
+          "code",
+          "templateCode"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "templateCode": {
+            "type": "string"
+          },
+          "defaultLanguage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurriculumRuleDto": {
+        "required": [
+          "courseId",
+          "id",
+          "isActive",
+          "orgUnitId",
+          "sessionsPerWeek",
+          "sessionTypeId",
+          "sharedAcrossGroups"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sessionTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupKindId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sessionsPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationSlots": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "requiredInstructorTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "requiredRoomTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "defaultInstructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sharedAcrossGroups": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurriculumRuleInput": {
+        "required": [
+          "courseId",
+          "isActive",
+          "orgUnitId",
+          "sessionsPerWeek",
+          "sessionTypeId",
+          "sharedAcrossGroups"
+        ],
         "type": "object",
         "properties": {
           "orgUnitId": {
@@ -3817,117 +4653,41 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Academic.OfferingInput": {
-        "type": "object",
-        "properties": {
-          "courseId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "termId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "groupIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "nullable": true
-          },
-          "notes": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
+      "CustomFieldDataType": {
+        "enum": [
+          "Text",
+          "Number",
+          "Boolean",
+          "Date",
+          "SingleSelect",
+          "MultiSelect"
+        ],
+        "type": "string"
       },
-      "Timetable.Application.Features.Academic.SessionInput": {
+      "CustomFieldDefinitionDto": {
+        "required": [
+          "dataType",
+          "entityType",
+          "id",
+          "importable",
+          "isActive",
+          "key",
+          "required",
+          "searchable",
+          "showInTable",
+          "sortOrder"
+        ],
         "type": "object",
         "properties": {
-          "termId": {
+          "id": {
             "type": "string",
             "format": "uuid"
           },
-          "courseId": {
-            "type": "string",
-            "format": "uuid"
+          "entityType": {
+            "$ref": "#/components/schemas/CustomFieldEntity"
           },
-          "sessionTypeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "durationSlots": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sessionsPerWeek": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "requiredRoomTypeId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "requiredEquipment": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "instructorId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "candidateInstructorIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "nullable": true
-          },
-          "groupIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "nullable": true
-          },
-          "weekMask": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "notes": {
-            "type": "string",
-            "nullable": true
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "customFields": {
-            "type": "object",
-            "additionalProperties": { },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Application.Features.Academic.TermInput": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
+          "key": {
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -3937,45 +4697,106 @@
             "type": "string",
             "nullable": true
           },
-          "startDate": {
-            "type": "string",
-            "format": "date"
+          "dataType": {
+            "$ref": "#/components/schemas/CustomFieldDataType"
           },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "isCurrent": {
+          "required": {
             "type": "boolean"
           },
-          "calendarDays": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Timetable.Application.Features.Academic.CalendarDayInput"
-            },
+          "searchable": {
+            "type": "boolean"
+          },
+          "showInTable": {
+            "type": "boolean"
+          },
+          "importable": {
+            "type": "boolean"
+          },
+          "options": {
             "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Availability.AvailabilityCell": {
+      "CustomFieldEntity": {
+        "enum": [
+          "Instructor",
+          "Room",
+          "Course",
+          "Group",
+          "Session"
+        ],
+        "type": "string"
+      },
+      "CustomFieldInput": {
+        "required": [
+          "dataType",
+          "entityType",
+          "importable",
+          "isActive",
+          "key",
+          "required",
+          "searchable",
+          "showInTable",
+          "sortOrder"
+        ],
         "type": "object",
         "properties": {
-          "dayOfWeek": {
+          "entityType": {
+            "$ref": "#/components/schemas/CustomFieldEntity"
+          },
+          "key": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/CustomFieldDataType"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "searchable": {
+            "type": "boolean"
+          },
+          "showInTable": {
+            "type": "boolean"
+          },
+          "importable": {
+            "type": "boolean"
+          },
+          "options": {
+            "nullable": true
+          },
+          "sortOrder": {
             "type": "integer",
             "format": "int32"
           },
-          "slotIndex": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "state": {
-            "$ref": "#/components/schemas/Timetable.Domain.Common.AvailabilityState"
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Configuration.DayOverrideDto": {
+      "DayOverrideDto": {
+        "required": [
+          "dayOfWeek",
+          "disabled",
+          "slotIndex"
+        ],
         "type": "object",
         "properties": {
           "dayOfWeek": {
@@ -4000,36 +4821,101 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Configuration.PeriodDto": {
+      "EffectiveConfigDto": {
+        "required": [
+          "constraints",
+          "customFields",
+          "features",
+          "institution",
+          "lookups",
+          "permissions",
+          "terminology",
+          "time",
+          "version"
+        ],
         "type": "object",
         "properties": {
-          "index": {
-            "type": "integer",
-            "format": "int32"
+          "institution": {
+            "$ref": "#/components/schemas/InstitutionDto"
           },
-          "nameAr": {
-            "type": "string",
-            "nullable": true
+          "version": {
+            "type": "string"
           },
-          "nameEn": {
-            "type": "string",
-            "nullable": true
+          "lookups": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/LookupItemDto"
+              }
+            }
           },
-          "start": {
-            "type": "string",
-            "nullable": true
+          "terminology": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
           },
-          "end": {
-            "type": "string",
-            "nullable": true
+          "features": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "boolean"
+            }
           },
-          "isBreak": {
-            "type": "boolean"
+          "time": {
+            "$ref": "#/components/schemas/TimeStructureDto"
+          },
+          "customFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomFieldDefinitionDto"
+            }
+          },
+          "constraints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConstraintSummaryDto"
+            }
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Configuration.ShiftDto": {
+      "GenerateSessionsRequest": {
+        "required": [
+          "termId"
+        ],
+        "type": "object",
+        "properties": {
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GroupDto": {
+        "required": [
+          "code",
+          "customFields",
+          "groupKindId",
+          "id",
+          "studentCount",
+          "tags"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -4037,8 +4923,7 @@
             "format": "uuid"
           },
           "code": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -4048,21 +4933,444 @@
             "type": "string",
             "nullable": true
           },
-          "firstSlot": {
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "groupKindId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentGroupId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "studentCount": {
             "type": "integer",
             "format": "int32"
           },
-          "lastSlot": {
-            "type": "integer",
-            "format": "int32"
+          "homeRoomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "shiftId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": { }
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Configuration.TimeStructureDto": {
+      "GroupInput": {
+        "required": [
+          "code",
+          "groupKindId",
+          "studentCount"
+        ],
         "type": "object",
         "properties": {
-          "workingDays": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "groupKindId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentGroupId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "studentCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "homeRoomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "shiftId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": { },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImportConfigRequest": {
+        "required": [
+          "bundle",
+          "dryRun"
+        ],
+        "type": "object",
+        "properties": {
+          "bundle": { },
+          "dryRun": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InstitutionDto": {
+        "required": [
+          "code",
+          "defaultLanguage",
+          "id",
+          "timeZone"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "templateCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultLanguage": {
+            "type": "string"
+          },
+          "timeZone": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InstitutionMembership": {
+        "required": [
+          "code",
+          "institutionId",
+          "roleCodes"
+        ],
+        "type": "object",
+        "properties": {
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "InstructorDto": {
+        "required": [
+          "code",
+          "customFields",
+          "id",
+          "instructorTypeId",
+          "qualifiedCourseIds",
+          "tags"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "instructorTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "maxHoursPerDay": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "maxHoursPerWeek": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "qualifiedCourseIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": { }
+          }
+        },
+        "additionalProperties": false
+      },
+      "InstructorInput": {
+        "required": [
+          "code",
+          "instructorTypeId"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "instructorTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "personId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "orgUnitId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "maxHoursPerDay": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "maxHoursPerWeek": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "qualifiedCourseIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": { },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LookupDto": {
+        "required": [
+          "code",
+          "id",
+          "isActive",
+          "isSystem",
+          "sortOrder",
+          "usages"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "icon": {
+            "type": "string",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isSystem": {
+            "type": "boolean"
+          },
+          "level": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultMaxHoursPerWeek": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "defaultDurationSlots": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultRoomTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "canBeShared": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "countsTowardLoad": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "loadMultiplier": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "requiresInstructor": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "requiresRoom": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowedInstructorTypeCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowedDays": {
             "type": "array",
             "items": {
               "type": "integer",
@@ -4070,51 +5378,33 @@
             },
             "nullable": true
           },
-          "weekStartDay": {
+          "allowedSlotFrom": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "allowedSlotTo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "usages": {
             "type": "integer",
             "format": "int32"
-          },
-          "weekCycleLength": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "weekCycleLabels": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "periods": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Timetable.Application.Features.Configuration.PeriodDto"
-            },
-            "nullable": true
-          },
-          "shifts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Timetable.Application.Features.Configuration.ShiftDto"
-            },
-            "nullable": true
-          },
-          "dayOverrides": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Timetable.Application.Features.Configuration.DayOverrideDto"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Lookups.LookupInput": {
+      "LookupInput": {
+        "required": [
+          "code",
+          "isActive",
+          "sortOrder"
+        ],
         "type": "object",
         "properties": {
           "code": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -4208,12 +5498,22 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Organization.GroupInput": {
+      "LookupItemDto": {
+        "required": [
+          "code",
+          "id",
+          "isActive",
+          "isSystem",
+          "sortOrder"
+        ],
         "type": "object",
         "properties": {
-          "code": {
+          "id": {
             "type": "string",
-            "nullable": true
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -4223,55 +5523,158 @@
             "type": "string",
             "nullable": true
           },
-          "orgUnitId": {
+          "color": {
             "type": "string",
-            "format": "uuid",
             "nullable": true
           },
-          "groupKindId": {
+          "icon": {
             "type": "string",
-            "format": "uuid"
-          },
-          "parentGroupId": {
-            "type": "string",
-            "format": "uuid",
             "nullable": true
           },
-          "studentCount": {
+          "sortOrder": {
             "type": "integer",
             "format": "int32"
           },
-          "homeRoomId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
+          "isActive": {
+            "type": "boolean"
           },
-          "shiftId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
+          "isSystem": {
+            "type": "boolean"
           },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "customFields": {
+          "extra": {
             "type": "object",
-            "additionalProperties": { },
+            "additionalProperties": {
+              "nullable": true
+            },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Organization.OrgUnitInput": {
+      "MeResponse": {
+        "required": [
+          "institutions",
+          "permissions",
+          "profile"
+        ],
         "type": "object",
         "properties": {
-          "code": {
+          "profile": {
+            "$ref": "#/components/schemas/UserProfileDto"
+          },
+          "institutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionMembership"
+            }
+          },
+          "institutionId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "MergeRequest": {
+        "required": [
+          "targetId"
+        ],
+        "type": "object",
+        "properties": {
+          "targetId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OfferingDto": {
+        "required": [
+          "courseId",
+          "groupIds",
+          "id",
+          "termId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "notes": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OfferingInput": {
+        "required": [
+          "courseId",
+          "groupIds",
+          "termId"
+        ],
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrgUnitDto": {
+        "required": [
+          "code",
+          "id",
+          "orgUnitTypeId",
+          "sortOrder"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -4297,12 +5700,16 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Resources.BuildingInput": {
+      "OrgUnitInput": {
+        "required": [
+          "code",
+          "orgUnitTypeId",
+          "sortOrder"
+        ],
         "type": "object",
         "properties": {
           "code": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -4312,19 +5719,614 @@
             "type": "string",
             "nullable": true
           },
-          "zone": {
+          "orgUnitTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "sortOrder": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfAuditEntryDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditEntryDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfBuildingDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BuildingDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfCourseDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CourseDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfCurriculumRuleDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CurriculumRuleDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfCustomFieldDefinitionDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomFieldDefinitionDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfGroupDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfInstructorDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstructorDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfLookupDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LookupDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfOfferingDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfferingDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfOrgUnitDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrgUnitDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfRoleDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfRoomDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoomDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfRuleDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfSessionDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SessionDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfTermDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TermDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedResultOfTravelTimeDto": {
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TravelTimeDto"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ParameterSchemaDto": {
+        "required": [
+          "name",
+          "required",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "default": {
+            "nullable": true
+          },
+          "min": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "required": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PeriodDto": {
+        "required": [
+          "end",
+          "index",
+          "isBreak",
+          "start"
+        ],
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          },
+          "isBreak": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileUpdate": {
+        "type": "object",
+        "properties": {
+          "preferredLanguage": {
+            "type": "string",
+            "nullable": true
+          },
+          "preferredTheme": {
+            "type": "string",
+            "nullable": true
+          },
+          "digitStyle": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayNameEn": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Resources.InstructorInput": {
+      "RoleDto": {
+        "required": [
+          "code",
+          "id",
+          "isSystem",
+          "members",
+          "permissions"
+        ],
         "type": "object",
         "properties": {
-          "code": {
+          "id": {
             "type": "string",
-            "nullable": true
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -4334,63 +6336,118 @@
             "type": "string",
             "nullable": true
           },
-          "instructorTypeId": {
+          "isSystem": {
+            "type": "boolean"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "members": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleInput": {
+        "required": [
+          "code",
+          "permissions"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoomDto": {
+        "required": [
+          "capacity",
+          "code",
+          "customFields",
+          "equipment",
+          "id",
+          "roomTypeId",
+          "tags"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
             "type": "string",
             "format": "uuid"
           },
-          "email": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
             "type": "string",
             "nullable": true
           },
-          "personId": {
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "buildingId": {
             "type": "string",
             "format": "uuid",
             "nullable": true
           },
-          "orgUnitId": {
+          "roomTypeId": {
             "type": "string",
-            "format": "uuid",
-            "nullable": true
+            "format": "uuid"
           },
-          "maxHoursPerDay": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
+          "capacity": {
+            "type": "integer",
+            "format": "int32"
           },
-          "maxHoursPerWeek": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "qualifiedCourseIds": {
+          "equipment": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "nullable": true
+              "type": "string"
+            }
           },
           "tags": {
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "nullable": true
+            }
           },
           "customFields": {
             "type": "object",
-            "additionalProperties": { },
-            "nullable": true
+            "additionalProperties": { }
           }
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Resources.RoomInput": {
+      "RoomInput": {
+        "required": [
+          "capacity",
+          "code",
+          "roomTypeId"
+        ],
         "type": "object",
         "properties": {
           "code": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "nameAr": {
             "type": "string",
@@ -4435,7 +6492,658 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Resources.TravelTimeInput": {
+      "RuleDto": {
+        "required": [
+          "code",
+          "definition",
+          "id",
+          "revision",
+          "severity",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "severity": {
+            "$ref": "#/components/schemas/ConstraintSeverity"
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "definition": { },
+          "revision": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RuleInput": {
+        "required": [
+          "code",
+          "definition",
+          "severity",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "severity": {
+            "$ref": "#/components/schemas/ConstraintSeverity"
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "definition": { }
+        },
+        "additionalProperties": false
+      },
+      "SaveAsTemplateRequest": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SessionDiffItem": {
+        "required": [
+          "action",
+          "courseId",
+          "durationSlots",
+          "groupIds",
+          "ruleId",
+          "sessionsPerWeek",
+          "sessionTypeId"
+        ],
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "ruleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sessionTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "sessionsPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationSlots": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SessionDto": {
+        "required": [
+          "candidateInstructorIds",
+          "courseId",
+          "customFields",
+          "durationSlots",
+          "groupIds",
+          "id",
+          "requiredEquipment",
+          "sessionsPerWeek",
+          "sessionTypeId",
+          "tags",
+          "termId",
+          "weekMask"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sessionTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "durationSlots": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sessionsPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requiredRoomTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "requiredEquipment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "candidateInstructorIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "weekMask": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "curriculumRuleId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": { }
+          },
+          "courseCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "courseNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "courseNameEn": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SessionGenerationResult": {
+        "required": [
+          "applied",
+          "created",
+          "items",
+          "removed",
+          "unchanged",
+          "updated"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SessionDiffItem"
+            }
+          },
+          "applied": {
+            "type": "boolean"
+          },
+          "created": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "updated": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "removed": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "unchanged": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SessionInput": {
+        "required": [
+          "courseId",
+          "durationSlots",
+          "groupIds",
+          "sessionsPerWeek",
+          "sessionTypeId",
+          "termId",
+          "weekMask"
+        ],
+        "type": "object",
+        "properties": {
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sessionTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "durationSlots": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sessionsPerWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requiredRoomTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "requiredEquipment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "candidateInstructorIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "weekMask": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "customFields": {
+            "type": "object",
+            "additionalProperties": { },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShiftDto": {
+        "required": [
+          "code",
+          "firstSlot",
+          "id",
+          "lastSlot"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastSlot": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TemplateSummaryDto": {
+        "required": [
+          "code",
+          "isBuiltIn",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "descriptionAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "descriptionEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isBuiltIn": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TermDto": {
+        "required": [
+          "calendarDays",
+          "code",
+          "endDate",
+          "id",
+          "isCurrent",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "calendarDays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarDayInput"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "TermInput": {
+        "required": [
+          "code",
+          "endDate",
+          "isCurrent",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "isCurrent": {
+            "type": "boolean"
+          },
+          "calendarDays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarDayInput"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TerminologyEntry": {
+        "required": [
+          "key"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "ar": {
+            "type": "string",
+            "nullable": true
+          },
+          "en": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeStructureDto": {
+        "required": [
+          "dayOverrides",
+          "periods",
+          "shifts",
+          "weekCycleLabels",
+          "weekCycleLength",
+          "weekStartDay",
+          "workingDays"
+        ],
+        "type": "object",
+        "properties": {
+          "workingDays": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "weekStartDay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "weekCycleLength": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "weekCycleLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "periods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PeriodDto"
+            }
+          },
+          "shifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShiftDto"
+            }
+          },
+          "dayOverrides": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOverrideDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "TravelTimeDto": {
+        "required": [
+          "fromBuildingId",
+          "id",
+          "minutes",
+          "toBuildingId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fromBuildingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "toBuildingId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minutes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TravelTimeInput": {
+        "required": [
+          "fromBuildingId",
+          "minutes",
+          "toBuildingId"
+        ],
         "type": "object",
         "properties": {
           "fromBuildingId": {
@@ -4453,16 +7161,13 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Settings.CustomFieldInput": {
+      "UpdateInstitutionRequest": {
+        "required": [
+          "defaultLanguage",
+          "timeZone"
+        ],
         "type": "object",
         "properties": {
-          "entityType": {
-            "$ref": "#/components/schemas/Timetable.Domain.Common.CustomFieldEntity"
-          },
-          "key": {
-            "type": "string",
-            "nullable": true
-          },
           "nameAr": {
             "type": "string",
             "nullable": true
@@ -4471,27 +7176,160 @@
             "type": "string",
             "nullable": true
           },
-          "dataType": {
-            "$ref": "#/components/schemas/Timetable.Domain.Common.CustomFieldDataType"
+          "defaultLanguage": {
+            "type": "string"
           },
-          "required": {
-            "type": "boolean"
+          "timeZone": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpsertUserInput": {
+        "required": [
+          "email",
+          "isActive",
+          "preferredLanguage",
+          "roleIds"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
           },
-          "searchable": {
-            "type": "boolean"
-          },
-          "showInTable": {
-            "type": "boolean"
-          },
-          "importable": {
-            "type": "boolean"
-          },
-          "options": {
+          "displayNameAr": {
+            "type": "string",
             "nullable": true
           },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
+          "displayNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "studentGroupId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "preferredLanguage": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserListItemDto": {
+        "required": [
+          "email",
+          "id",
+          "isActive",
+          "roles"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string"
+          },
+          "displayNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "studentGroupId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserRoleDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserProfileDto": {
+        "required": [
+          "digitStyle",
+          "email",
+          "id",
+          "isActive",
+          "preferredLanguage",
+          "preferredTheme"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string"
+          },
+          "displayNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "preferredLanguage": {
+            "type": "string"
+          },
+          "preferredTheme": {
+            "type": "string"
+          },
+          "digitStyle": {
+            "type": "string"
+          },
+          "defaultInstitutionId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "studentGroupId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           },
           "isActive": {
             "type": "boolean"
@@ -4499,118 +7337,32 @@
         },
         "additionalProperties": false
       },
-      "Timetable.Application.Features.Settings.RoleInput": {
+      "UserRoleDto": {
+        "required": [
+          "assignmentId",
+          "roleCode",
+          "roleId"
+        ],
         "type": "object",
         "properties": {
-          "code": {
+          "assignmentId": {
             "type": "string",
-            "nullable": true
+            "format": "uuid"
           },
-          "nameAr": {
+          "roleId": {
             "type": "string",
-            "nullable": true
+            "format": "uuid"
           },
-          "nameEn": {
+          "roleCode": {
+            "type": "string"
+          },
+          "orgUnitId": {
             "type": "string",
-            "nullable": true
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "format": "uuid",
             "nullable": true
           }
         },
         "additionalProperties": false
-      },
-      "Timetable.Application.Features.Settings.RuleInput": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "nameAr": {
-            "type": "string",
-            "nullable": true
-          },
-          "nameEn": {
-            "type": "string",
-            "nullable": true
-          },
-          "severity": {
-            "$ref": "#/components/schemas/Timetable.Domain.Common.ConstraintSeverity"
-          },
-          "weight": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "definition": { }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Application.Features.Settings.TerminologyEntry": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string",
-            "nullable": true
-          },
-          "ar": {
-            "type": "string",
-            "nullable": true
-          },
-          "en": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Timetable.Domain.Common.AvailabilityState": {
-        "enum": [
-          "Available",
-          "Unavailable",
-          "Preferred"
-        ],
-        "type": "string"
-      },
-      "Timetable.Domain.Common.CalendarDayKind": {
-        "enum": [
-          "Holiday",
-          "Exception"
-        ],
-        "type": "string"
-      },
-      "Timetable.Domain.Common.ConstraintSeverity": {
-        "enum": [
-          "Off",
-          "Soft",
-          "Hard"
-        ],
-        "type": "string"
-      },
-      "Timetable.Domain.Common.CustomFieldDataType": {
-        "enum": [
-          "Text",
-          "Number",
-          "Boolean",
-          "Date",
-          "SingleSelect",
-          "MultiSelect"
-        ],
-        "type": "string"
-      },
-      "Timetable.Domain.Common.CustomFieldEntity": {
-        "enum": [
-          "Instructor",
-          "Room",
-          "Course",
-          "Group",
-          "Session"
-        ],
-        "type": "string"
       }
     },
     "securitySchemes": {

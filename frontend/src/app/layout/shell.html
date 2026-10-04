@@ -1,0 +1,103 @@
+<div class="app" [class.nav-open]="navOpen()" [class.collapsed]="collapsed()" *transloco="let t">
+  <a class="skip-link" href="#main">{{ t('shell.skipToContent') }}</a>
+  <header class="header">
+    <div class="brand">
+      <button type="button" class="icon-btn menu-toggle" [attr.aria-label]="t('shell.toggleNav')" [attr.aria-expanded]="navOpen()" (click)="navOpen.set(!navOpen())">
+        <app-icon name="menu" />
+      </button>
+      <div class="brand-logo"><app-icon name="calendar" [size]="20" /></div>
+      <div class="brand-text">
+        <div class="brand-name">{{ t('app.name') }}</div>
+        <div class="brand-sub">{{ t('app.suite') }}</div>
+      </div>
+      <button type="button" class="icon-btn collapse-btn" [attr.aria-label]="t('shell.collapseNav')" (click)="collapsed.set(!collapsed())">
+        <app-icon name="layers" />
+      </button>
+    </div>
+
+    @if (auth.currentInstitution(); as inst) {
+      <button type="button" class="select-btn inst-btn" [cdkMenuTriggerFor]="instMenu" [attr.aria-label]="t('shell.institution')">
+        <app-icon name="cap" />
+        <span class="inst-label">{{ inst | localName }}</span>
+        <app-icon name="chevronDown" class="chev" />
+      </button>
+    }
+    @if (status.scheduleLabel(); as label) {
+      <span class="pill-draft" dir="auto">{{ label }}</span>
+    }
+
+    <div class="spacer"></div>
+
+    <div class="tt-seg" role="group" [attr.aria-label]="t('shell.language')">
+      <button type="button" [attr.aria-pressed]="lang.lang() === 'en'" (click)="lang.set('en')" lang="en">EN</button>
+      <button type="button" [attr.aria-pressed]="lang.lang() === 'ar'" (click)="lang.set('ar')" lang="ar">AR</button>
+    </div>
+
+    <button type="button" class="icon-btn" [attr.aria-label]="t('theme.toggle', { mode: t('theme.' + theme.mode()) })" [title]="t('theme.' + theme.mode())" (click)="theme.cycle()" data-testid="theme-toggle">
+      <app-icon [name]="themeIcon()" />
+    </button>
+
+    <a class="icon-btn" routerLink="/notifications" [attr.aria-label]="t('shell.notifications')">
+      <app-icon name="bell" />
+      @if (status.unreadNotifications() > 0) { <span class="dot"></span> }
+    </a>
+
+    <button type="button" class="user" [cdkMenuTriggerFor]="userMenu" [attr.aria-label]="t('shell.userMenu')">
+      <div class="user-meta">
+        <div class="user-name" dir="auto">{{ auth.displayName() }}</div>
+        <div class="user-role" dir="auto">{{ auth.currentInstitution()?.roleCodes?.join(', ') }}</div>
+      </div>
+      <div class="avatar">{{ initials() }}</div>
+    </button>
+  </header>
+
+  <nav class="sidebar" [attr.aria-label]="t('shell.mainNav')">
+    @for (section of sections(); track section.label) {
+      <div class="nav-label">{{ t(section.label) }}</div>
+      @for (item of section.items; track item.path) {
+        <a class="nav-item" [routerLink]="item.path" routerLinkActive="active" [attr.title]="collapsed() ? (isTerm(item.label) ? (termKey(item.label) | term) : t(item.label)) : null">
+          <app-icon [name]="item.icon" [size]="18" />
+          <span class="nav-text">{{ isTerm(item.label) ? (termKey(item.label) | term) : t(item.label) }}</span>
+          @if (item.badge === 'conflicts' && (status.conflictCount() ?? 0) > 0) {
+            <span class="nav-count" [attr.aria-label]="t('conflicts.count', { count: status.conflictCount() })">{{ status.conflictCount() }}</span>
+          }
+        </a>
+      }
+    }
+    <div class="engine">
+      <span class="status" [class.off]="!config.loaded()"></span>
+      <span class="nav-text">{{ t('shell.engine') }}</span>
+    </div>
+  </nav>
+
+  <main class="main" id="main" tabindex="-1">
+    <router-outlet />
+  </main>
+
+  <div class="scrim" (click)="navOpen.set(false)" aria-hidden="true"></div>
+
+  <ng-template #instMenu>
+    <div class="menu" cdkMenu>
+      <div class="menu-label">{{ t('shell.switchInstitution') }}</div>
+      @for (m of auth.institutions(); track m.institutionId) {
+        <button type="button" cdkMenuItem class="menu-item" [class.active]="m.institutionId === auth.me()?.institutionId" (cdkMenuItemTriggered)="switchInstitution(m.institutionId)">
+          <app-icon name="cap" /> <span dir="auto">{{ m | localName }}</span>
+        </button>
+      }
+      <hr />
+      <a cdkMenuItem class="menu-item" routerLink="/setup"><app-icon name="plus" /> {{ t('shell.newInstitution') }}</a>
+    </div>
+  </ng-template>
+
+  <ng-template #userMenu>
+    <div class="menu" cdkMenu>
+      <div class="menu-label" dir="auto">{{ auth.me()?.profile?.email }}</div>
+      <a cdkMenuItem class="menu-item" routerLink="/profile"><app-icon name="user" /> {{ t('shell.profile') }}</a>
+      <button type="button" cdkMenuItem class="menu-item" (cdkMenuItemTriggered)="theme.set('light')"><app-icon name="sun" /> {{ t('theme.light') }}</button>
+      <button type="button" cdkMenuItem class="menu-item" (cdkMenuItemTriggered)="theme.set('dark')"><app-icon name="moon" /> {{ t('theme.dark') }}</button>
+      <button type="button" cdkMenuItem class="menu-item" (cdkMenuItemTriggered)="theme.set('system')"><app-icon name="auto" /> {{ t('theme.system') }}</button>
+      <hr />
+      <button type="button" cdkMenuItem class="menu-item danger" (cdkMenuItemTriggered)="logout()"><app-icon name="logout" /> {{ t('shell.logout') }}</button>
+    </div>
+  </ng-template>
+</div>

@@ -1,5 +1,553 @@
 {
-  "app": { "name": "الجدول الزمني", "suite": "المنظومة الأكاديمية", "tagline": "جداول دراسية قائمة على الإعدادات لأي مؤسسة." },
-  "shell": { "language": "اللغة" },
-  "theme": { "light": "فاتح", "dark": "داكن", "system": "حسب النظام" }
+  "app": {
+    "name": "الجدول الزمني",
+    "suite": "المنظومة الأكاديمية",
+    "tagline": "جداول دراسية قائمة على الإعدادات لأي مؤسسة."
+  },
+  "availability": {
+    "brush": "التلوين بـ",
+    "clear": "مسح الكل",
+    "hint": "انقر أو اسحب عبر الخلايا للتلوين. لوحة المفاتيح: الأسهم للتنقل والمسافة للتلوين.",
+    "mine": "أوقات إتاحتي",
+    "select": "اختر",
+    "title": "مصفوفة الإتاحة"
+  },
+  "common": {
+    "actions": "الإجراءات",
+    "active": "نشط",
+    "add": "إضافة",
+    "addFirst": "أضف أول عنصر",
+    "all": "الكل",
+    "back": "رجوع",
+    "cancel": "إلغاء",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "created": "تمت الإضافة.",
+    "delete": "حذف",
+    "deleteMessage": "لا يمكن التراجع عن هذا الإجراء.",
+    "deleteTitle": "حذف {name}؟",
+    "deleted": "تم الحذف.",
+    "edit": "تعديل",
+    "editX": "تعديل {x}",
+    "empty": "لا توجد بيانات بعد.",
+    "goHome": "الذهاب للرئيسية",
+    "inactive": "غير نشط",
+    "loading": "جارٍ التحميل…",
+    "newX": "إضافة {x}",
+    "next": "التالي",
+    "noOptions": "لا توجد خيارات",
+    "none": "— بدون —",
+    "pageOf": "صفحة {page} من {pages}",
+    "pagination": "ترقيم الصفحات",
+    "prev": "السابق",
+    "remove": "إزالة",
+    "reset": "إعادة تعيين",
+    "retry": "إعادة المحاولة",
+    "save": "حفظ",
+    "saved": "تم حفظ التغييرات.",
+    "saving": "جارٍ الحفظ…",
+    "search": "بحث",
+    "searchPlaceholder": "ابحث بالرمز أو الاسم (عربي أو إنجليزي)…",
+    "tagsHint": "افصل الوسوم بفواصل.",
+    "toggle": "توسيع أو طي",
+    "unsavedChanges": "لديك تغييرات غير محفوظة. هل تريد المغادرة؟"
+  },
+  "conflicts": {
+    "count": "{count, plural, zero {لا توجد تعارضات} one {تعارض واحد} two {تعارضان} few {# تعارضات} many {# تعارضًا} other {# تعارض}}"
+  },
+  "constraints": {
+    "AVOID_EDGE_SLOTS": {
+      "description": "تجنب أول و/أو آخر فترة في اليوم.",
+      "name": "تجنب الفترة الأولى/الأخيرة"
+    },
+    "BUILDING_CHANGES": {
+      "description": "تجنب الجلسات المتتالية في مبانٍ مختلفة.",
+      "name": "تقليل التنقل بين المباني"
+    },
+    "COURSE_ONCE_PER_DAY": {
+      "description": "تجنب تكرار نفس المقرر مرتين في اليوم للمجموعة.",
+      "name": "المقرر مرة واحدة يومياً"
+    },
+    "GROUP_CONFLICT": {
+      "description": "تحضر المجموعة (ومجموعاتها الأم والفرعية) جلسة واحدة في الوقت نفسه.",
+      "name": "عدم تعارض المجموعات"
+    },
+    "GROUP_DAILY_BALANCE": {
+      "description": "توزيع العبء الأسبوعي للمجموعة بالتساوي.",
+      "name": "توزيع العبء على الأيام"
+    },
+    "GROUP_GAPS": {
+      "description": "تجميع جلسات المجموعة دون فترات فراغ.",
+      "name": "تقليل فترات الفراغ للطلاب"
+    },
+    "GROUP_SHIFT": {
+      "description": "تبقى جلسات المجموعة داخل فترة دوامها.",
+      "name": "الالتزام بفترة دوام المجموعة"
+    },
+    "HEAVY_SUBJECTS_EARLY": {
+      "description": "وضع المواد الموسومة بالثقيلة في الفترات المبكرة.",
+      "name": "المواد الثقيلة مبكراً"
+    },
+    "INSTRUCTOR_AVAILABILITY": {
+      "description": "لا تتم الجدولة في أوقات عدم إتاحة عضو التدريس.",
+      "name": "إتاحة عضو التدريس"
+    },
+    "INSTRUCTOR_CONFLICT": {
+      "description": "يدرّس عضو التدريس جلسة واحدة في الوقت نفسه، حتى بين المؤسسات.",
+      "name": "عدم تعارض عضو التدريس"
+    },
+    "INSTRUCTOR_GAPS": {
+      "description": "جعل يوم عضو التدريس متصلاً.",
+      "name": "تقليل فترات الفراغ لأعضاء التدريس"
+    },
+    "INSTRUCTOR_MAX_CONSECUTIVE": {
+      "description": "تحديد عدد الفترات المتتالية لعضو التدريس.",
+      "name": "أقصى فترات متتالية"
+    },
+    "INSTRUCTOR_MAX_HOURS_DAY": {
+      "description": "احترام الحد اليومي لساعات كل عضو تدريس.",
+      "name": "العبء التدريسي اليومي"
+    },
+    "INSTRUCTOR_MAX_HOURS_WEEK": {
+      "description": "احترام الحد الأسبوعي لساعات كل عضو تدريس.",
+      "name": "العبء التدريسي الأسبوعي"
+    },
+    "INSTRUCTOR_PREFERENCES": {
+      "description": "تفضيل الفترات المحددة كمفضلة.",
+      "name": "تفضيلات أعضاء التدريس"
+    },
+    "INSTRUCTOR_QUALIFICATION": {
+      "description": "يدرّس عضو التدريس المقررات وأنواع الجلسات المؤهل لها فقط.",
+      "name": "تأهيل عضو التدريس"
+    },
+    "MAX_COURSE_SESSIONS_PER_DAY": {
+      "description": "بحد أقصى N جلسات من نفس المقرر يومياً للمجموعة.",
+      "name": "أقصى عدد لجلسات المقرر يومياً"
+    },
+    "PREFER_HOME_ROOM": {
+      "description": "يبقى الفصل في قاعته ويتنقل المدرس.",
+      "name": "تفضيل الفصل الأساسي"
+    },
+    "ROOM_AVAILABILITY": {
+      "description": "لا تُستخدم القاعة في أوقات حجبها.",
+      "name": "إتاحة القاعة"
+    },
+    "ROOM_CAPACITY": {
+      "description": "سعة القاعة تكفي جميع الطلاب.",
+      "name": "سعة القاعة"
+    },
+    "ROOM_CONFLICT": {
+      "description": "تستضيف القاعة جلسة واحدة في الوقت نفسه.",
+      "name": "عدم تعارض القاعات"
+    },
+    "ROOM_SUITABILITY": {
+      "description": "القاعة تطابق النوع والتجهيزات المطلوبة.",
+      "name": "نوع القاعة والتجهيزات"
+    },
+    "SAME_ROOM_PER_GROUP": {
+      "description": "تفضيل بقاء المجموعة في قاعة واحدة.",
+      "name": "قاعة ثابتة للمجموعة"
+    },
+    "SESSION_ORDERING": {
+      "description": "يأتي نوع جلسة قبل آخر (مثل المحاضرة قبل السكشن).",
+      "name": "ترتيب الجلسات"
+    },
+    "SESSION_TYPE_TIME_WINDOW": {
+      "description": "احترام الأيام والفترات المسموحة لكل نوع جلسة.",
+      "name": "نافذة وقت نوع الجلسة"
+    },
+    "SLOT_STRUCTURE": {
+      "description": "تشغل الجلسات فترات متتالية في يوم عمل واحد ولا تتجاوز الاستراحات.",
+      "name": "فترات زمنية صحيحة"
+    },
+    "SPREAD_COURSE_DAYS": {
+      "description": "وضع جلسات المقرر في أيام مختلفة.",
+      "name": "توزيع المقرر على الأيام"
+    },
+    "SUBJECT_SLOT_RESTRICTION": {
+      "description": "إبعاد المواد الموسومة عن فترات أو مواد معينة.",
+      "name": "قيود فترات المواد"
+    },
+    "TRAVEL_TIME": {
+      "description": "تترك الجلسات المتتالية وقتاً كافياً للتنقل بين المباني.",
+      "name": "زمن التنقل بين المباني"
+    },
+    "params": {
+      "applyToGroups": "تطبيق على المجموعات أيضاً",
+      "avoidFirst": "تجنب الفترة الأولى",
+      "avoidLast": "تجنب الفترة الأخيرة",
+      "defaultMaxHours": "الحد الافتراضي للساعات",
+      "firstSessionType": "نوع الجلسة الأولى",
+      "forbiddenSlots": "أرقام الفترات الممنوعة",
+      "latestSlot": "رقم آخر فترة",
+      "max": "الحد الأقصى",
+      "maxConsecutive": "أقصى فترات متتالية",
+      "notAdjacentToTags": "ليست بجوار الوسوم",
+      "sessionTypeCodes": "أنواع الجلسات",
+      "strict": "يتطلب تأهيلاً صريحاً",
+      "tag": "الوسم",
+      "thenSessionType": "ثم نوع الجلسة",
+      "tolerance": "التجاوز المسموح (فترات)",
+      "tolerancePercent": "نسبة التجاوز المسموحة (%)"
+    }
+  },
+  "days": {
+    "long": {
+      "0": "الأحد",
+      "1": "الاثنين",
+      "2": "الثلاثاء",
+      "3": "الأربعاء",
+      "4": "الخميس",
+      "5": "الجمعة",
+      "6": "السبت"
+    },
+    "short": {
+      "0": "أحد",
+      "1": "اثنين",
+      "2": "ثلاثاء",
+      "3": "أربعاء",
+      "4": "خميس",
+      "5": "جمعة",
+      "6": "سبت"
+    }
+  },
+  "design": {
+    "autoPlace": "وضع تلقائي",
+    "buttons": "الأزرار",
+    "chips": "شارات الحالة",
+    "conflicts": "3 تعارضات",
+    "dialog": "نافذة تأكيد",
+    "disabled": "معطل",
+    "feedback": "التنبيهات",
+    "gridCells": "خلايا الجدول",
+    "icons": "الأيقونات",
+    "inputs": "حقول الإدخال",
+    "table": "الجدول",
+    "title": "مراجعة التصميم",
+    "toastError": "تنبيه خطأ",
+    "toastSuccess": "تنبيه نجاح",
+    "validate": "التحقق من الجدول"
+  },
+  "entities": {
+    "buildings": "المباني",
+    "offerings": "طرح المقررات",
+    "rooms": "القاعات",
+    "sessions": "الجلسات",
+    "terms": "الفصول الدراسية",
+    "travelTimes": "أزمنة التنقل"
+  },
+  "enums": {
+    "availabilityState": {
+      "Available": "متاح",
+      "Preferred": "مفضل",
+      "Unavailable": "غير متاح"
+    },
+    "calendarDayKind": {
+      "Exception": "استثناء",
+      "Holiday": "عطلة"
+    },
+    "changeAction": {
+      "Created": "إضافة",
+      "Deleted": "حذف",
+      "Updated": "تعديل"
+    },
+    "customFieldDataType": {
+      "Boolean": "نعم / لا",
+      "Date": "تاريخ",
+      "MultiSelect": "اختيار متعدد",
+      "Number": "رقم",
+      "SingleSelect": "اختيار واحد",
+      "Text": "نص"
+    },
+    "customFieldEntity": {
+      "Course": "المقرر",
+      "Group": "المجموعة",
+      "Instructor": "عضو التدريس",
+      "Room": "القاعة",
+      "Session": "الجلسة"
+    },
+    "severity": {
+      "Hard": "إلزامي",
+      "Off": "معطل",
+      "Soft": "مرن"
+    }
+  },
+  "errors": {
+    "forbiddenText": "ليست لديك صلاحية لفتح هذه الصفحة.",
+    "forbiddenTitle": "تم رفض الوصول",
+    "network": "تعذر الاتصال بالخادم. تحقق من الاتصال.",
+    "unexpected": "حدث خطأ ما. حاول مرة أخرى."
+  },
+  "features": {
+    "auto-generation": {
+      "description": "توليد الجداول باستخدام المحرك.",
+      "name": "التوليد التلقائي"
+    },
+    "buildings-travel": {
+      "description": "مراعاة زمن التنقل بين المباني.",
+      "name": "المباني وزمن التنقل"
+    },
+    "curriculum": {
+      "description": "توليد الجلسات من النصاب الأسبوعي.",
+      "name": "الخطة الدراسية"
+    },
+    "custom-fields": {
+      "description": "حقول إضافية لأعضاء التدريس والقاعات والمقررات والمجموعات والجلسات.",
+      "name": "الحقول المخصصة"
+    },
+    "home-rooms": {
+      "description": "لكل مجموعة قاعة أساسية ويتنقل المدرس.",
+      "name": "الفصول الأساسية"
+    },
+    "import-export": {
+      "description": "التصدير إلى PDF/Excel والاستيراد من Excel/CSV.",
+      "name": "الاستيراد والتصدير"
+    },
+    "instructor-pools": {
+      "description": "يختار المحرك من بين أعضاء التدريس المؤهلين.",
+      "name": "مجموعات المؤهلين"
+    },
+    "rule-builder": {
+      "description": "قواعد جدولة مخصصة دون برمجة.",
+      "name": "منشئ القواعد"
+    },
+    "shared-sessions": {
+      "description": "جلسة واحدة تحضرها عدة مجموعات (مثل المحاضرات المشتركة).",
+      "name": "الجلسات المشتركة"
+    },
+    "shifts": {
+      "description": "فترات صباحية/مسائية لكل مجموعة.",
+      "name": "فترات الدوام"
+    },
+    "substitutions": {
+      "description": "تسجيل الغياب وتكليف البدلاء.",
+      "name": "الحصص البديلة"
+    },
+    "week-cycles": {
+      "description": "تناوب على عدة أسابيع مثل أسبوع أ/ب.",
+      "name": "دورات الأسابيع"
+    }
+  },
+  "fields": {
+    "allowedDays": "الأيام المسموحة",
+    "allowedInstructorTypes": "أنواع أعضاء التدريس المسموحة",
+    "allowedSlotFrom": "أول فترة مسموحة",
+    "allowedSlotTo": "آخر فترة مسموحة",
+    "building": "المبنى",
+    "calendarDays": "العطلات والاستثناءات",
+    "canBeShared": "يمكن مشاركتها بين عدة مجموعات",
+    "capacity": "السعة",
+    "code": "الرمز",
+    "color": "اللون",
+    "countsTowardLoad": "تُحتسب ضمن العبء التدريسي",
+    "credits": "الساعات المعتمدة",
+    "customFields": "حقول إضافية",
+    "dataType": "نوع البيانات",
+    "date": "التاريخ",
+    "defaultDurationSlots": "المدة الافتراضية (فترات)",
+    "defaultInstructor": "عضو التدريس الافتراضي",
+    "defaultRoomType": "نوع القاعة الافتراضي",
+    "durationSlots": "المدة (فترات)",
+    "email": "البريد الإلكتروني",
+    "endDate": "تاريخ النهاية",
+    "entityType": "ينطبق على",
+    "equipment": "التجهيزات",
+    "fixedInstructor": "عضو تدريس ثابت",
+    "fromBuilding": "من المبنى",
+    "groupKind": "نوع المجموعة",
+    "homeRoom": "القاعة الأساسية",
+    "icon": "الأيقونة",
+    "importable": "قابل للاستيراد",
+    "instructorPool": "مجموعة المؤهلين (يختار المحرك)",
+    "instructorType": "نوع عضو التدريس",
+    "isActive": "نشط",
+    "isCurrent": "الفصل الحالي",
+    "key": "المفتاح",
+    "kind": "النوع",
+    "level": "المستوى",
+    "loadMultiplier": "معامل العبء",
+    "maxHoursPerDay": "أقصى ساعات يومياً",
+    "maxHoursPerWeek": "أقصى ساعات أسبوعياً",
+    "minutes": "الدقائق",
+    "name": "الاسم",
+    "nameAr": "الاسم (عربي)",
+    "nameEn": "الاسم (إنجليزي)",
+    "notes": "ملاحظات",
+    "options": "الخيارات (JSON)",
+    "parent": "الأصل",
+    "parentGroup": "المجموعة الأم",
+    "password": "كلمة المرور",
+    "personId": "رابط الشخص (بين المؤسسات)",
+    "qualifiedCourses": "مؤهل لتدريس",
+    "required": "مطلوب",
+    "requiredEquipment": "التجهيزات المطلوبة",
+    "requiredInstructorType": "نوع عضو التدريس المطلوب",
+    "requiredRoomType": "نوع القاعة المطلوب",
+    "requiresInstructor": "تتطلب عضو تدريس",
+    "requiresRoom": "تتطلب قاعة",
+    "roomType": "نوع القاعة",
+    "searchable": "قابل للبحث",
+    "sessionType": "نوع الجلسة",
+    "sessionsPerWeek": "أسبوعياً",
+    "sharedAcrossGroups": "جلسة مشتركة لكل المجموعات",
+    "shift": "الفترة",
+    "showInTable": "يظهر في الجداول",
+    "sortOrder": "الترتيب",
+    "startDate": "تاريخ البداية",
+    "status": "الحالة",
+    "studentCount": "عدد الطلاب",
+    "tags": "الوسوم",
+    "term": "الفصل الدراسي",
+    "toBuilding": "إلى المبنى",
+    "weeks": "الأسابيع",
+    "zone": "المنطقة"
+  },
+  "hints": {
+    "color": "تُشتق درجات الوضع الفاتح والداكن تلقائياً، ويظهر تنبيه إذا تعذر تحقيق تباين AA.",
+    "customFieldOptions": "لأنواع الاختيار: [{\"value\":\"x\",\"labelEn\":\"…\",\"labelAr\":\"…\"}]",
+    "password": "اتركه فارغاً للإبقاء على كلمة المرور الحالية.",
+    "personId": "نفس القيمة في سجلات المؤسسات الأخرى تربط نفس الشخص (يمنع التعارض بين المؤسسات)."
+  },
+  "languages": {
+    "ar": "العربية",
+    "en": "الإنجليزية"
+  },
+  "login": {
+    "demoHint": "تجريبي: admin@demo.local / Demo#12345",
+    "email": "البريد الإلكتروني",
+    "expired": "انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.",
+    "password": "كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signingIn": "جارٍ تسجيل الدخول…",
+    "subtitle": "سجّل الدخول إلى مؤسستك"
+  },
+  "nav": {
+    "availability": "مصفوفة الإتاحة",
+    "conflicts": "التعارضات",
+    "dashboard": "لوحة المعلومات",
+    "exports": "التصدير والاستيراد",
+    "generation": "معالج التوليد",
+    "myAvailability": "أوقات إتاحتي",
+    "myTimetable": "جدولي",
+    "rooms": "القاعات والمباني",
+    "sections": {
+      "admin": "الإدارة",
+      "operations": "العمليات الأكاديمية",
+      "resources": "الموارد والهيئة التدريسية"
+    },
+    "sessions": "الجلسات",
+    "settings": "الإعدادات",
+    "substitutions": "الحصص البديلة",
+    "timetable": "محرر الجدول",
+    "versions": "إصدارات الجدول"
+  },
+  "permissions": {
+    "audit_view": "عرض سجل التدقيق",
+    "availability_manage": "إدارة الإتاحة",
+    "availability_manage_own": "إدارة الإتاحة الخاصة",
+    "config_manage": "إدارة الإعدادات",
+    "dashboard_view": "عرض لوحة المعلومات",
+    "exports_run": "تنفيذ التصدير",
+    "groups": {
+      "administration": "الإدارة",
+      "configuration": "الإعدادات",
+      "resources": "الموارد",
+      "timetable": "الجدول"
+    },
+    "imports_run": "تنفيذ الاستيراد",
+    "institutions_manage": "إدارة المؤسسات",
+    "resources_manage": "إدارة الموارد",
+    "resources_view": "عرض الموارد",
+    "roles_manage": "إدارة الأدوار",
+    "rules_manage": "إدارة القيود والقواعد",
+    "schedule_generate": "توليد الجداول",
+    "schedule_publish": "نشر الجداول",
+    "substitutions_manage": "إدارة الحصص البديلة",
+    "timetable_edit": "تعديل الجداول",
+    "timetable_view": "عرض الجداول",
+    "timetable_view_own": "عرض الجدول الخاص",
+    "users_manage": "إدارة المستخدمين"
+  },
+  "profile": {
+    "changePassword": "تغيير كلمة المرور",
+    "currentPassword": "كلمة المرور الحالية",
+    "digits": "الأرقام",
+    "digitsArabic": "عربية هندية (٠–٩)",
+    "digitsWestern": "غربية (0–9)",
+    "newPassword": "كلمة المرور الجديدة",
+    "passwordChanged": "تم تغيير كلمة المرور.",
+    "preferences": "التفضيلات",
+    "title": "الملف الشخصي والتفضيلات"
+  },
+  "shell": {
+    "collapseNav": "طي الشريط الجانبي",
+    "engine": "محرك الجدولة",
+    "institution": "المؤسسة",
+    "language": "اللغة",
+    "logout": "تسجيل الخروج",
+    "mainNav": "التنقل الرئيسي",
+    "newInstitution": "مؤسسة جديدة…",
+    "notifications": "الإشعارات",
+    "profile": "الملف الشخصي والتفضيلات",
+    "skipToContent": "انتقل إلى المحتوى",
+    "switchInstitution": "تبديل المؤسسة",
+    "toggleNav": "إظهار/إخفاء القائمة",
+    "userMenu": "قائمة المستخدم"
+  },
+  "terms": {
+    "course": "مقرر",
+    "courses": "المقررات",
+    "group": "مجموعة",
+    "groups": "المجموعات",
+    "instructor": "عضو هيئة التدريس",
+    "instructors": "أعضاء هيئة التدريس",
+    "orgUnit": "الهيكل التنظيمي",
+    "room": "قاعة",
+    "rooms": "القاعات",
+    "session": "جلسة",
+    "sessions": "الجلسات",
+    "term": "الفصل الدراسي"
+  },
+  "theme": {
+    "dark": "داكن",
+    "label": "المظهر",
+    "light": "فاتح",
+    "system": "حسب النظام",
+    "toggle": "المظهر: {mode}. تغيير المظهر"
+  },
+  "timetable": {
+    "pinned": "مثبت",
+    "status": {
+      "conflict": "تعارض إلزامي",
+      "penalty": "مخالفة مرنة",
+      "valid": "متاح"
+    },
+    "time": "الوقت",
+    "week": "أسبوع {label}"
+  },
+  "usage": {
+    "deactivate": "تعطيل (الإبقاء للسجل)",
+    "entity": {
+      "course": "مقرر",
+      "curriculumRule": "قاعدة خطة دراسية",
+      "group": "مجموعة",
+      "instructor": "عضو تدريس",
+      "offering": "طرح مقرر",
+      "orgUnit": "وحدة تنظيمية",
+      "room": "قاعة",
+      "schedule": "جدول",
+      "scheduleEntry": "جدول",
+      "session": "جلسة",
+      "sessionType": "نوع جلسة",
+      "user": "مستخدم"
+    },
+    "merge": "دمج في قيمة أخرى",
+    "title": "هذا العنصر مستخدم"
+  },
+  "validation": {
+    "invalid": "قيمة غير صالحة.",
+    "pattern": "الصيغة غير صحيحة.",
+    "range": "القيمة خارج النطاق.",
+    "required": "هذا الحقل مطلوب."
+  }
 }

@@ -28,7 +28,8 @@ function compare(dir) {
 
 // Heuristic hard-coded string detection in inline/external templates:
 // a text node with 2+ consecutive latin letters that is not inside {{ }} and not an allowed token.
-const allowed = new Set(['EN', 'AR', 'PDF', 'CSV', 'XLSX', 'JSON', 'ID', 'AA', 'TT']);
+// Language endonyms are shown in their own language on purpose (standard language-switcher practice).
+const allowed = new Set(['EN', 'AR', 'PDF', 'CSV', 'XLSX', 'JSON', 'ID', 'AA', 'TT', 'English', 'العربية']);
 function scanTemplates(dir) {
   for (const f of readdirSync(dir)) {
     const p = join(dir, f);
@@ -40,12 +41,14 @@ function scanTemplates(dir) {
       if (!m) continue;
       src = m[1];
     }
-    src = src.replace(/<!--[\s\S]*?-->/g, '').replace(/\{\{[\s\S]*?\}\}/g, ' ').replace(/@(if|for|else|switch|case|default|empty|defer)[^{]*\{/g, ' ');
+    src = src.replace(/<!--[\s\S]*?-->/g, '').replace(/\{\{[\s\S]*?\}\}/g, ' ').replace(/@let\s[^;]*;/g, ' ')
+      .replace(/@(if|for|else|switch|case|default|empty|defer)[^{]*\{/g, ' ');
     src = src.replace(/<(style|script)[\s\S]*?<\/\1>/g, '');
-    const texts = src.replace(/<[^>]+>/g, '\u0000').split('\u0000');
+    // Tags may contain '>' inside quoted attribute expressions (e.g. [disabled]="a >= b").
+    const texts = src.replace(/<[a-zA-Z\/!](?:"[^"]*"|'[^']*'|[^'">])*>/g, '\u0000').split('\u0000');
     for (const raw of texts) {
       const t = raw.replace(/[{}()]/g, ' ').trim();
-      if (!t || !/[A-Za-z]{2,}/.test(t)) continue;
+      if (!t || !/[A-Za-z\u0600-\u06FF]{2,}/.test(t)) continue;
       if (allowed.has(t)) continue;
       if (/^[\s\-–·•|:/%#.,+0-9A-Za-z]{0,3}$/.test(t)) continue;
       if (/^[a-z_$][\w$.]*\s*[;)]?$/.test(t)) continue; // stray bindings

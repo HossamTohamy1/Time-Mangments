@@ -11,7 +11,7 @@
     "test": "ng test --watch=false",
     "lint": "ng lint && node scripts/check-i18n.mjs",
     "check:i18n": "node scripts/check-i18n.mjs",
-    "generate:api": "ng-openapi-gen --input ../backend/openapi/v1.json --output src/app/core/api/generated",
+    "generate:api": "ng-openapi-gen -c ng-openapi-gen.json",
     "e2e": "playwright test",
     "verify:build": "node scripts/verify-build.mjs"
   },

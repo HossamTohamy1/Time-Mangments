@@ -1,0 +1,148 @@
+<div class="grid" [formGroup]="form()" *transloco="let t">
+  @for (f of visibleFields(); track f.key) {
+    <div class="field" [class.span2]="f.span === 2 || f.type === 'textarea' || f.type === 'refMulti' || f.type === 'calendar' || f.type === 'lookupMulti'">
+      @let label = isTerm(f.label) ? (f.label.slice(5) | term) : t(f.label);
+      @switch (f.type) {
+        @case ('bool') {
+          <label class="check"><input type="checkbox" [formControlName]="f.key" /> <span>{{ label }}</span></label>
+        }
+        @case ('textarea') {
+          <label class="tt-field">{{ label }}<textarea class="tt-input" rows="3" [formControlName]="f.key" dir="auto"></textarea></label>
+        }
+        @case ('number') {
+          <label class="tt-field">{{ label }}{{ f.required ? ' *' : '' }}
+            <input class="tt-input" type="number" [formControlName]="f.key" [attr.min]="f.min ?? null" [attr.max]="f.max ?? null" [attr.step]="f.step ?? 1" dir="ltr" />
+          </label>
+        }
+        @case ('color') {
+          <label class="tt-field">{{ label }}<span class="color-row"><input type="color" [formControlName]="f.key" /><input class="tt-input" [formControlName]="f.key" dir="ltr" /></span></label>
+        }
+        @case ('date') {
+          <label class="tt-field">{{ label }}{{ f.required ? ' *' : '' }}<input class="tt-input" type="date" [formControlName]="f.key" /></label>
+        }
+        @case ('time') {
+          <label class="tt-field">{{ label }}<input class="tt-input" type="time" [formControlName]="f.key" dir="ltr" /></label>
+        }
+        @case ('lookup') {
+          <label class="tt-field">{{ label }}{{ f.required ? ' *' : '' }}
+            <select class="tt-input" [formControlName]="f.key">
+              @if (!f.required) { <option [ngValue]="null">{{ t('common.none') }}</option> }
+              @for (o of options(f); track o.value) { <option [ngValue]="o.value">{{ o.label }}</option> }
+            </select>
+          </label>
+        }
+        @case ('enum') {
+          <label class="tt-field">{{ label }}
+            <select class="tt-input" [formControlName]="f.key">
+              @if (!f.required) { <option [ngValue]="null">{{ t('common.none') }}</option> }
+              @for (o of options(f); track o.value) { <option [ngValue]="o.value">{{ f.optionsSource ? o.label : t(o.label) }}</option> }
+            </select>
+          </label>
+        }
+        @case ('ref') {
+          <label class="tt-field">{{ label }}{{ f.required ? ' *' : '' }}
+            <select class="tt-input" [formControlName]="f.key">
+              @if (!f.required) { <option [ngValue]="null">{{ t('common.none') }}</option> }
+              @for (o of options(f); track o.value) { <option [ngValue]="o.value" dir="auto">{{ o.label }}</option> }
+            </select>
+          </label>
+        }
+        @case ('lookupMulti') {
+          <fieldset class="multi"><legend>{{ label }}</legend>
+            @for (o of options(f); track o.value) {
+              <label class="chip-check"><input type="checkbox" [checked]="has(f.key, o.value)" (change)="toggleMulti(f.key, o.value)" /> {{ o.label }}</label>
+            } @empty { <span class="tt-muted">{{ t('common.noOptions') }}</span> }
+          </fieldset>
+        }
+        @case ('refMulti') {
+          <fieldset class="multi scroll"><legend>{{ label }}{{ f.required ? ' *' : '' }}</legend>
+            @for (o of options(f); track o.value) {
+              <label class="chip-check"><input type="checkbox" [checked]="has(f.key, o.value)" (change)="toggleMulti(f.key, o.value)" /> <span dir="auto">{{ o.label }}</span></label>
+            } @empty { <span class="tt-muted">{{ t('common.noOptions') }}</span> }
+          </fieldset>
+        }
+        @case ('tags') {
+          <label class="tt-field">{{ label }}
+            <input class="tt-input" [value]="tagsText(f.key)" (change)="setTags(f.key, $any($event.target).value)" dir="auto" />
+            <span class="hint">{{ t('common.tagsHint') }}</span>
+          </label>
+        }
+        @case ('days') {
+          <fieldset class="multi"><legend>{{ label }}</legend>
+            @for (d of allDays; track d) {
+              <label class="chip-check"><input type="checkbox" [checked]="has(f.key, d)" (change)="toggleMulti(f.key, d)" /> {{ d | dayName }}</label>
+            }
+          </fieldset>
+        }
+        @case ('weekMask') {
+          @if (config.weekLabels().length > 1) {
+            <fieldset class="multi"><legend>{{ label }}</legend>
+              @for (w of config.weekLabels(); track $index) {
+                <label class="chip-check"><input type="checkbox" [checked]="weekBit(f.key, $index)" (change)="toggleWeek(f.key, $index)" /> {{ t('timetable.week', { label: w }) }}</label>
+              }
+            </fieldset>
+          }
+        }
+        @case ('calendar') {
+          <fieldset class="multi cal"><legend>{{ label }}</legend>
+            @for (row of calendar(f.key).controls; track $index) {
+              <div class="cal-row" [formGroup]="$any(row)">
+                <input class="tt-input" type="date" formControlName="date" [attr.aria-label]="t('fields.date')" />
+                <select class="tt-input" formControlName="kind" [attr.aria-label]="t('fields.kind')">
+                  <option value="Holiday">{{ t('enums.calendarDayKind.Holiday') }}</option>
+                  <option value="Exception">{{ t('enums.calendarDayKind.Exception') }}</option>
+                </select>
+                <input class="tt-input" formControlName="nameEn" dir="ltr" [placeholder]="t('fields.nameEn')" />
+                <input class="tt-input" formControlName="nameAr" dir="rtl" [placeholder]="t('fields.nameAr')" />
+                <button type="button" class="tt-btn sm ghost" (click)="calendar(f.key).removeAt($index)" [attr.aria-label]="t('common.remove')">✕</button>
+              </div>
+            }
+            <button type="button" class="tt-btn sm" (click)="addCalendarDay(f.key)">{{ t('common.add') }}</button>
+          </fieldset>
+        }
+        @case ('json') {
+          <label class="tt-field">{{ label }}<textarea class="tt-input mono" rows="6" [formControlName]="f.key" dir="ltr"></textarea></label>
+        }
+        @default {
+          <label class="tt-field">{{ label }}{{ f.required ? ' *' : '' }}
+            <input class="tt-input" [formControlName]="f.key" [attr.dir]="f.dir ?? 'auto'" [attr.data-testid]="'field-' + f.key" />
+          </label>
+        }
+      }
+      @if (f.hint) { <span class="hint">{{ t(f.hint) }}</span> }
+      @if (errorFor(f.key); as err) { <span class="error" role="alert">{{ err.startsWith('validation.') ? t(err) : err }}</span> }
+    </div>
+  }
+
+  @if (customFields().length > 0) {
+    <div class="span2 cf-title">{{ t('fields.customFields') }}</div>
+    <ng-container formGroupName="customFields">
+      @for (cf of customFields(); track cf.key) {
+        <div class="field">
+          @switch (cf.dataType) {
+            @case ('Boolean') { <label class="check"><input type="checkbox" [formControlName]="cf.key" /> {{ cf | localName }}</label> }
+            @case ('Number') { <label class="tt-field">{{ cf | localName }}{{ cf.required ? ' *' : '' }}<input class="tt-input" type="number" [formControlName]="cf.key" dir="ltr" /></label> }
+            @case ('Date') { <label class="tt-field">{{ cf | localName }}{{ cf.required ? ' *' : '' }}<input class="tt-input" type="date" [formControlName]="cf.key" /></label> }
+            @case ('SingleSelect') {
+              <label class="tt-field">{{ cf | localName }}{{ cf.required ? ' *' : '' }}
+                <select class="tt-input" [formControlName]="cf.key">
+                  <option [ngValue]="null">{{ t('common.none') }}</option>
+                  @for (o of cfOptions(cf); track o.value) { <option [ngValue]="o.value">{{ lang.pick(o.labelAr, o.labelEn) || o.value }}</option> }
+                </select>
+              </label>
+            }
+            @case ('MultiSelect') {
+              <fieldset class="multi"><legend>{{ cf | localName }}</legend>
+                @for (o of cfOptions(cf); track o.value) {
+                  <label class="chip-check"><input type="checkbox" [checked]="cfHas(cf.key, o.value)" (change)="cfToggle(cf.key, o.value)" /> {{ lang.pick(o.labelAr, o.labelEn) || o.value }}</label>
+                }
+              </fieldset>
+            }
+            @default { <label class="tt-field">{{ cf | localName }}{{ cf.required ? ' *' : '' }}<input class="tt-input" [formControlName]="cf.key" dir="auto" /></label> }
+          }
+          @if (errorFor('customFields.' + cf.key); as err) { <span class="error" role="alert">{{ err.startsWith('validation.') ? t(err) : err }}</span> }
+        </div>
+      }
+    </ng-container>
+  }
+</div>

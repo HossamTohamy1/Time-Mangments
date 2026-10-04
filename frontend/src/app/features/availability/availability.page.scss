@@ -1,0 +1,23 @@
+.head-icon { color: var(--tt-primary); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px; }
+.picker { min-inline-size: 260px; }
+.brushes { display: flex; gap: 6px; flex-wrap: wrap; }
+.brush { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--tt-border); background: var(--tt-surface); border-radius: 8px; padding: 6px 10px; cursor: pointer; color: var(--tt-on-surface);
+  &[aria-checked='true'] { outline: 2px solid var(--tt-primary); outline-offset: -1px; }
+  .swatch { inline-size: 12px; block-size: 12px; border-radius: 3px; border: 1px solid var(--tt-border-strong); }
+  &.Unavailable .swatch { background: var(--tt-conflict); } &.Preferred .swatch { background: var(--tt-valid); } &.Available .swatch { background: var(--tt-surface); } }
+.matrix-wrap { overflow: auto; padding: 0; }
+.matrix { display: grid; grid-template-columns: 140px repeat(var(--days), minmax(90px, 1fr)); min-inline-size: max-content; user-select: none; touch-action: none; }
+.matrix > div { border-block-end: 1px solid var(--tt-border); border-inline-end: 1px solid var(--tt-border); }
+.corner, .day { position: sticky; inset-block-start: 0; background: var(--tt-surface-variant); padding: 10px; font-weight: 600; text-align: center; z-index: 1; }
+.corner { inset-inline-start: 0; z-index: 2; font-size: 11px; color: var(--tt-on-surface-faint); text-transform: uppercase; letter-spacing: .08em; }
+.slot-label { position: sticky; inset-inline-start: 0; background: var(--tt-surface); padding: 8px 10px; display: flex; flex-direction: column; z-index: 1;
+  .name { font-weight: 600; font-size: 13px; } .time { color: var(--tt-on-surface-muted); font-size: 12px; text-align: start; }
+  &.break { background: var(--tt-surface-variant); } }
+.cell { min-block-size: 44px; display: grid; place-items: center; cursor: crosshair; background: var(--tt-surface); color: var(--tt-on-surface);
+  &:focus-visible { outline: 2px solid var(--tt-primary); outline-offset: -2px; }
+  &.Unavailable { background: var(--tt-conflict-bg); color: var(--tt-conflict); }
+  &.Preferred { background: var(--tt-valid-bg); color: var(--tt-valid); }
+  &.disabled { background: repeating-linear-gradient(135deg, var(--tt-hatch-a) 0 8px, var(--tt-hatch-b) 8px 16px); cursor: not-allowed; }
+  &.break { background: repeating-linear-gradient(135deg, var(--tt-hatch-a) 0 8px, var(--tt-hatch-b) 8px 16px); cursor: default; } }
+.legend { font-size: 12px; }
