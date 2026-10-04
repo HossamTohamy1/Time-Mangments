@@ -22,6 +22,9 @@ export class ToastService {
   warning(text: string | null, key: string | null = null): void { this.push('warning', text, key); }
   error(text: string | null, key: string | null = 'errors.unexpected'): void { this.push('error', text, key); }
 
+  /** Shows server-localized text as-is. */
+  show(text: string, kind: ToastKind = 'info'): void { this.push(kind, text, null); }
+
   dismiss(id: number): void { this.toasts.update((t) => t.filter((x) => x.id !== id)); }
 
   private push(kind: ToastKind, text: string | null, key: string | null, params?: Record<string, unknown>): void {

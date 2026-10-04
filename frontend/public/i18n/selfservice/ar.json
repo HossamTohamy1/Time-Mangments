@@ -1,0 +1,17 @@
+{
+  "cancelled": "ملغاة",
+  "covering": "تغطي بدلاً من {name}",
+  "cycleWeek": "أسبوع {label}",
+  "days": "أيام الأسبوع",
+  "free": "لا توجد جلسات.",
+  "nextWeek": "الأسبوع التالي",
+  "now": "الآن",
+  "pdf": "تنزيل PDF",
+  "prevWeek": "الأسبوع السابق",
+  "sessions": "{count, plural, zero {لا جلسات} one {جلسة واحدة} two {جلستان} few {# جلسات} many {# جلسة} other {# جلسة}}",
+  "substitute": "يغطيها {name}",
+  "title": "جدولي",
+  "today": "اليوم",
+  "week": "التنقل بين الأسابيع",
+  "weekOf": "أسبوع {date}"
+}

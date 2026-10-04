@@ -83,6 +83,8 @@ export type { ApiV1CustomFieldsIdPut$Params as ApiV1CustomFieldsIdPut$Params } f
 export { apiV1CustomFieldsIdPut as apiV1CustomFieldsIdPut } from './fn/custom-fields/api-v-1-custom-fields-id-put';
 export type { ApiV1CustomFieldsIdDelete$Params as ApiV1CustomFieldsIdDelete$Params } from './fn/custom-fields/api-v-1-custom-fields-id-delete';
 export { apiV1CustomFieldsIdDelete as apiV1CustomFieldsIdDelete } from './fn/custom-fields/api-v-1-custom-fields-id-delete';
+export type { ApiV1DashboardGet$Params as ApiV1DashboardGet$Params } from './fn/dashboard/api-v-1-dashboard-get';
+export { apiV1DashboardGet as apiV1DashboardGet } from './fn/dashboard/api-v-1-dashboard-get';
 export type { ApiV1GenerationReadinessGet$Params as ApiV1GenerationReadinessGet$Params } from './fn/generation/api-v-1-generation-readiness-get';
 export { apiV1GenerationReadinessGet as apiV1GenerationReadinessGet } from './fn/generation/api-v-1-generation-readiness-get';
 export type { ApiV1GenerationJobsGet$Params as ApiV1GenerationJobsGet$Params } from './fn/generation/api-v-1-generation-jobs-get';
@@ -147,6 +149,14 @@ export type { ApiV1MeAvailabilityGet$Params as ApiV1MeAvailabilityGet$Params } f
 export { apiV1MeAvailabilityGet as apiV1MeAvailabilityGet } from './fn/me/api-v-1-me-availability-get';
 export type { ApiV1MeAvailabilityPut$Params as ApiV1MeAvailabilityPut$Params } from './fn/me/api-v-1-me-availability-put';
 export { apiV1MeAvailabilityPut as apiV1MeAvailabilityPut } from './fn/me/api-v-1-me-availability-put';
+export type { ApiV1MeTimetableGet$Params as ApiV1MeTimetableGet$Params } from './fn/me/api-v-1-me-timetable-get';
+export { apiV1MeTimetableGet as apiV1MeTimetableGet } from './fn/me/api-v-1-me-timetable-get';
+export type { ApiV1MeTimetableExportGet$Params as ApiV1MeTimetableExportGet$Params } from './fn/me/api-v-1-me-timetable-export-get';
+export { apiV1MeTimetableExportGet as apiV1MeTimetableExportGet } from './fn/me/api-v-1-me-timetable-export-get';
+export type { ApiV1MeNotificationsGet$Params as ApiV1MeNotificationsGet$Params } from './fn/me/api-v-1-me-notifications-get';
+export { apiV1MeNotificationsGet as apiV1MeNotificationsGet } from './fn/me/api-v-1-me-notifications-get';
+export type { ApiV1MeNotificationsReadPost$Params as ApiV1MeNotificationsReadPost$Params } from './fn/me/api-v-1-me-notifications-read-post';
+export { apiV1MeNotificationsReadPost as apiV1MeNotificationsReadPost } from './fn/me/api-v-1-me-notifications-read-post';
 export type { ApiV1OfferingsGet$Params as ApiV1OfferingsGet$Params } from './fn/offerings/api-v-1-offerings-get';
 export { apiV1OfferingsGet as apiV1OfferingsGet } from './fn/offerings/api-v-1-offerings-get';
 export type { ApiV1OfferingsPost$Params as ApiV1OfferingsPost$Params } from './fn/offerings/api-v-1-offerings-post';

@@ -198,3 +198,7 @@ PERM = {"dashboard.view": ("View dashboard", "عرض لوحة المعلومات
 for k, v in PERM.items(): T["permissions." + k.replace(".", "_")] = v
 for k, v in {"timetable": ("Timetable", "الجدول"), "resources": ("Resources", "الموارد"), "configuration": ("Configuration", "الإعدادات"), "administration": ("Administration", "الإدارة")}.items():
     T[f"permissions.groups.{k}"] = v
+T.update({
+ "notifications.title": ("Notifications", "الإشعارات"), "notifications.markAll": ("Mark all as read", "تحديد الكل كمقروء"),
+ "notifications.none": ("You are all caught up.", "لا توجد إشعارات جديدة."),
+})

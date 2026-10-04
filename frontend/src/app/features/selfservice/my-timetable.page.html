@@ -1,0 +1,77 @@
+<div class="me" *transloco="let t">
+  <header class="head">
+    <div class="who">
+      <h1>{{ t('selfservice.title') }}</h1>
+      @if (data(); as d) {
+        <p class="tt-muted" dir="auto">{{ d.subject }}</p>
+      }
+    </div>
+    <button type="button" class="tt-btn" (click)="export()" [disabled]="!data()"><app-icon name="download" /> <span class="lbl">{{ t('selfservice.pdf') }}</span></button>
+  </header>
+
+  <nav class="week" [attr.aria-label]="t('selfservice.week')">
+    <button type="button" class="tt-btn icon" (click)="shiftWeek(-1)" [attr.aria-label]="t('selfservice.prevWeek')"><app-icon name="chevronLeft" /></button>
+    <div class="week-label">
+      @if (data(); as d) {
+        <strong>{{ t('selfservice.weekOf', { date: (d.weekStart | localDate) }) }}</strong>
+        @if (d.weekLabel) { <span class="tt-chip primary">{{ t('selfservice.cycleWeek', { label: d.weekLabel }) }}</span> }
+      }
+    </div>
+    <button type="button" class="tt-btn icon" (click)="shiftWeek(1)" [attr.aria-label]="t('selfservice.nextWeek')"><app-icon name="chevronRight" /></button>
+    <button type="button" class="tt-btn sm today-btn" (click)="thisWeek()">{{ t('selfservice.today') }}</button>
+  </nav>
+
+  @if (loading()) {
+    <div class="tt-skeleton" style="block-size: 320px"></div>
+  } @else if (error()) {
+    <div class="tt-card tt-empty"><app-icon name="calendar" [size]="32" /><p>{{ error() }}</p></div>
+  } @else if (data(); as d) {
+    <div class="tabs" role="tablist" [attr.aria-label]="t('selfservice.days')">
+      @for (x of d.days; track x.date) {
+        <button type="button" role="tab" class="tab" [attr.aria-selected]="day()?.date === x.date" [class.today]="x.date === today" (click)="selected.set(x.date)">
+          <span class="dn">{{ x.day | dayName:true }}</span>
+          <span class="dd">{{ x.date.slice(8) }}</span>
+          <span class="dc" [attr.aria-label]="t('selfservice.sessions', { count: count(x) })">{{ count(x) }}</span>
+        </button>
+      }
+    </div>
+
+    <div class="days">
+      @for (x of d.days; track x.date) {
+        <section class="day" [class.active]="day()?.date === x.date" [attr.aria-label]="(x.day | dayName) + ' ' + (x.date | localDate)" role="tabpanel">
+          <h2><span>{{ x.day | dayName }}</span> <span class="tt-muted">{{ x.date | localDate }}</span></h2>
+          @if (x.holiday) {
+            <div class="holiday"><app-icon name="flag" /> {{ x.holiday }}</div>
+          } @else {
+            @for (i of x.items; track i.entryId + i.status) {
+              @let c = colors(i);
+              <article class="item" [class.cancelled]="i.status === 'cancelled'" [class.now]="isNow(x, i)"
+                       [style.--c]="c.accent" [style.--cbg]="c.background">
+                <div class="time"><strong>{{ i.start }}</strong><span>{{ i.end }}</span></div>
+                <div class="body">
+                  <div class="title">
+                    <h3 dir="auto">{{ i.courseCode }} @if (i.courseName) { · {{ i.courseName }} }</h3>
+                    @if (i.type) { <span class="badge">{{ i.type }}</span> }
+                  </div>
+                  <div class="meta">
+                    @if (i.room) { <span><app-icon name="door" [size]="13" /> {{ i.room }}</span> }
+                    @if (d.subjectKind === 'group' && i.instructor) { <span><app-icon name="user" [size]="13" /> {{ i.instructor }}</span> }
+                    @if (d.subjectKind === 'instructor' && i.groups) { <span><app-icon name="cap" [size]="13" /> {{ i.groups }}</span> }
+                  </div>
+                  @switch (i.status) {
+                    @case ('cancelled') { <span class="status bad"><app-icon name="close" [size]="12" /> {{ t('selfservice.cancelled') }}@if (i.note) { — {{ i.note }} }</span> }
+                    @case ('substituted') { <span class="status warn"><app-icon name="swap" [size]="12" /> {{ t('selfservice.substitute', { name: i.note }) }}</span> }
+                    @case ('covering') { <span class="status info"><app-icon name="swap" [size]="12" /> {{ t('selfservice.covering', { name: i.note }) }}</span> }
+                  }
+                  @if (isNow(x, i)) { <span class="status now"><span class="pulse"></span> {{ t('selfservice.now') }}</span> }
+                </div>
+              </article>
+            } @empty {
+              <div class="free"><app-icon name="checkCircle" /> {{ t('selfservice.free') }}</div>
+            }
+          }
+        </section>
+      }
+    </div>
+  }
+</div>

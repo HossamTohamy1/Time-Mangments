@@ -1,0 +1,133 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <div>
+      <h1>{{ t('dashboard.welcome', { name: auth.displayName() }) }}</h1>
+      <p class="tt-muted sub" dir="auto">{{ config.config()?.institution | localName }}@if (data()?.schedule; as s) { · {{ s.name }} ({{ t('schedules.status.' + s.status) }}) }</p>
+    </div>
+    <span class="tt-spacer"></span>
+    @if (auth.has('timetable.edit')) { <a class="tt-btn" routerLink="/timetable"><app-icon name="table" /> {{ t('nav.timetable') }}</a> }
+    @if (auth.has('schedule.generate') && config.feature('auto-generation')) { <a class="tt-btn primary" routerLink="/generation"><app-icon name="spark" /> {{ t('nav.generation') }}</a> }
+  </div>
+
+  @if (loading()) {
+    <div class="kpis">@for (i of [1, 2, 3, 4]; track i) { <div class="tt-card kpi"><div class="tt-skeleton" style="block-size: 60px"></div></div> }</div>
+  } @else if (data(); as d) {
+    @if (d.kpis; as k) {
+      <div class="kpis">
+        <div class="tt-card kpi">
+          <span class="lbl"><app-icon name="checkCircle" [size]="16" /> {{ t('dashboard.coverage') }}</span>
+          <strong>{{ k.coveragePercent | num:1 }}%</strong>
+          <div class="meter" role="meter" [attr.aria-valuenow]="k.coveragePercent" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="t('dashboard.coverage')"><span [style.inline-size.%]="k.coveragePercent"></span></div>
+          <span class="hint">{{ t('dashboard.placedOf', { placed: k.placed, total: k.occurrences }) }}</span>
+        </div>
+        <a class="tt-card kpi link" routerLink="/conflicts" [class.bad]="k.hardConflicts > 0" [class.ok]="k.hardConflicts === 0">
+          <span class="lbl"><app-icon name="alert" [size]="16" /> {{ t('dashboard.hard') }}</span>
+          <strong>{{ k.hardConflicts | num:0 }}</strong>
+          <span class="hint">{{ k.hardConflicts > 0 ? t('dashboard.hardHint') : t('dashboard.hardNone') }}</span>
+        </a>
+        <div class="tt-card kpi">
+          <span class="lbl"><app-icon name="chart" [size]="16" /> {{ t('dashboard.soft') }}</span>
+          <strong>{{ k.softPenalty | num:1 }}</strong>
+          <span class="hint">{{ t('dashboard.softHint') }}</span>
+        </div>
+        <div class="tt-card kpi">
+          <span class="lbl"><app-icon name="door" [size]="16" /> {{ t('dashboard.roomUse') }}</span>
+          <strong>{{ k.roomUtilizationPercent | num:1 }}%</strong>
+          <div class="meter" role="meter" [attr.aria-valuenow]="k.roomUtilizationPercent" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="t('dashboard.roomUse')"><span [style.inline-size.%]="k.roomUtilizationPercent"></span></div>
+          <span class="hint">{{ t('dashboard.resources', { instructors: k.instructors, rooms: k.rooms, groups: k.groups }) }}</span>
+        </div>
+        @if (config.feature('substitutions')) {
+          <a class="tt-card kpi link" routerLink="/substitutions" [class.warn]="k.openSubstitutions > 0">
+            <span class="lbl"><app-icon name="swap" [size]="16" /> {{ t('dashboard.substitutions') }}</span>
+            <strong>{{ k.openSubstitutions | num:0 }}</strong>
+            <span class="hint">{{ t('dashboard.substitutionsHint') }}</span>
+          </a>
+        }
+      </div>
+
+      <div class="grid">
+        <section class="tt-card panel">
+          <h2>{{ t('dashboard.load', { who: ('instructors' | term) }) }}</h2>
+          <ul class="bars">
+            @for (l of d.instructorLoad; track l.id) {
+              <li>
+                <span class="name" dir="auto">{{ l.label }}</span>
+                <span class="track">
+                  <span class="bar" [class.over]="l.maxPeriods !== null && l.maxPeriods !== undefined && l.periods > l.maxPeriods" [style.inline-size.%]="(100 * l.periods) / maxLoad()"></span>
+                  @if (l.maxPeriods) { <span class="max" [style.inset-inline-start.%]="(100 * l.maxPeriods) / maxLoad()" [title]="t('dashboard.max', { max: l.maxPeriods })"></span> }
+                </span>
+                <span class="val">{{ l.periods | num:0 }}@if (l.maxPeriods) {<small>/{{ l.maxPeriods }}</small>}</span>
+              </li>
+            } @empty { <li class="tt-muted">{{ t('dashboard.noData') }}</li> }
+          </ul>
+        </section>
+
+        <section class="tt-card panel">
+          <h2>{{ t('dashboard.roomTypes') }}</h2>
+          <ul class="bars">
+            @for (r of d.roomTypes; track r.id) {
+              <li>
+                <span class="name" dir="auto">{{ r.label }}</span>
+                <span class="track"><span class="bar alt" [style.inline-size.%]="pct(r.used, r.capacity)"></span></span>
+                <span class="val">{{ pct(r.used, r.capacity) }}%</span>
+              </li>
+            } @empty { <li class="tt-muted">{{ t('dashboard.noData') }}</li> }
+          </ul>
+        </section>
+
+        <section class="tt-card panel">
+          <h2>{{ t('dashboard.perDay') }}</h2>
+          <div class="columns" role="img" [attr.aria-label]="t('dashboard.perDay')">
+            @for (x of d.perDay; track x.day) {
+              <div class="col">
+                <span class="v">{{ x.count }}</span>
+                <span class="c" [style.block-size.%]="(100 * x.count) / maxDay()"></span>
+                <span class="l">{{ x.day | dayName:true }}</span>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="tt-card panel">
+          <h2>{{ t('dashboard.findings') }}</h2>
+          <ul class="findings">
+            @for (f of d.topConstraints; track f.code + f.severity) {
+              <li>
+                <span class="tt-chip" [class.conflict]="f.severity === 'Hard'" [class.penalty]="f.severity !== 'Hard'">{{ f.count | num:0 }}</span>
+                <span class="name">{{ constraintName(f.code) }}</span>
+                @if (f.severity !== 'Hard') { <span class="tt-muted small">{{ t('dashboard.penalty', { value: (f.penalty | num:1) }) }}</span> }
+              </li>
+            } @empty { <li class="ok"><app-icon name="checkCircle" /> {{ t('dashboard.clean') }}</li> }
+          </ul>
+        </section>
+
+        <section class="tt-card panel">
+          <h2>{{ t('dashboard.activity') }}</h2>
+          <ul class="activity">
+            @for (a of d.activity; track $index) {
+              <li><span class="tt-chip primary">{{ t('dashboard.kinds.' + a.kind) }}</span> <span dir="auto">{{ a.userName }}</span> <span class="tt-muted small">{{ a.at | localDate:'datetime' }}</span></li>
+            } @empty { <li class="tt-muted">{{ t('dashboard.noActivity') }}</li> }
+          </ul>
+          @if (d.lastJob; as j) {
+            <a class="job" routerLink="/generation">
+              <app-icon name="spark" />
+              <span>{{ t('dashboard.lastJob', { status: t('dashboard.jobStatus.' + j.status) }) }}</span>
+              @if (j.summary; as s) { <span class="tt-muted small">{{ s.placed }}/{{ s.total }} · {{ j.createdAt | localDate:'datetime' }}</span> }
+            </a>
+          }
+        </section>
+      </div>
+    } @else {
+      <div class="tt-card tt-empty">
+        <app-icon name="table" [size]="32" />
+        <p>{{ t('dashboard.noSchedule') }}</p>
+        @if (auth.has('timetable.edit')) { <a class="tt-btn primary" routerLink="/timetable">{{ t('nav.timetable') }}</a> }
+      </div>
+    }
+  } @else {
+    <div class="tt-grid-2">
+      <a class="tt-card tile" routerLink="/my-timetable"><app-icon name="calendar" [size]="22" /> {{ t('nav.myTimetable') }}</a>
+      <a class="tt-card tile" routerLink="/profile"><app-icon name="user" [size]="22" /> {{ t('shell.profile') }}</a>
+    </div>
+  }
+</div>

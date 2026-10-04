@@ -451,6 +451,11 @@
     "timetable": "Timetable editor",
     "versions": "Schedule versions"
   },
+  "notifications": {
+    "markAll": "Mark all as read",
+    "none": "You are all caught up.",
+    "title": "Notifications"
+  },
   "permissions": {
     "audit_view": "View audit log",
     "availability_manage": "Manage availability",

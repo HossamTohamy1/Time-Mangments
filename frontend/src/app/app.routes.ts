@@ -68,6 +68,11 @@ export const routes: Routes = [
         providers: [provideTranslocoScope('settings')],
         loadChildren: () => import('./features/settings/settings.routes').then((m) => m.SETTINGS_ROUTES),
       },
+      {
+        path: 'my-timetable', canActivate: [permissionGuard('timetable.view.own|timetable.view')], providers: [provideTranslocoScope('selfservice')],
+        loadComponent: () => import('./features/selfservice/my-timetable.page').then((m) => m.MyTimetablePage),
+      },
+      { path: 'notifications', loadComponent: () => import('./features/misc/notifications.page').then((m) => m.NotificationsPage) },
       { path: 'profile', loadComponent: () => import('./features/misc/profile.page').then((m) => m.ProfilePage) },
       { path: 'design-review', loadComponent: () => import('./features/misc/design-review.page').then((m) => m.DesignReviewPage) },
       { path: 'forbidden', loadComponent: () => import('./features/misc/forbidden.page').then((m) => m.ForbiddenPage) },
