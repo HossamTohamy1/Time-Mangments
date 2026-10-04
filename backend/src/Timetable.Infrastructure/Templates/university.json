@@ -1,0 +1,503 @@
+{
+  "code": "university",
+  "version": 1,
+  "nameAr": "جامعة",
+  "nameEn": "University",
+  "descriptionAr": "كلية > قسم > برنامج > فرقة؛ محاضرات وسكاشن ومعامل؛ دكاترة ومعيدون؛ فترات 90 دقيقة من الأحد إلى الخميس.",
+  "descriptionEn": "Faculty > Department > Program > Year; lectures, sections and labs; doctors and teaching assistants; 90-minute slots Sunday–Thursday.",
+  "defaultLanguage": "ar",
+  "orgUnitTypes": [
+    {
+      "code": "FACULTY",
+      "nameAr": "كلية",
+      "nameEn": "Faculty",
+      "color": "#4338ca",
+      "icon": "account_balance",
+      "sortOrder": 1,
+      "level": 1
+    },
+    {
+      "code": "DEPARTMENT",
+      "nameAr": "قسم",
+      "nameEn": "Department",
+      "color": "#0f9488",
+      "icon": "domain",
+      "sortOrder": 2,
+      "level": 2
+    },
+    {
+      "code": "PROGRAM",
+      "nameAr": "برنامج",
+      "nameEn": "Program",
+      "color": "#8b3fd9",
+      "icon": "school",
+      "sortOrder": 3,
+      "level": 3
+    },
+    {
+      "code": "YEAR",
+      "nameAr": "فرقة",
+      "nameEn": "Year",
+      "color": "#c2410c",
+      "icon": "event",
+      "sortOrder": 4,
+      "level": 4
+    }
+  ],
+  "roomTypes": [
+    {
+      "code": "HALL",
+      "nameAr": "مدرج",
+      "nameEn": "Lecture Hall",
+      "color": "#3b5bdb",
+      "icon": "meeting_room",
+      "sortOrder": 1
+    },
+    {
+      "code": "CLASSROOM",
+      "nameAr": "قاعة",
+      "nameEn": "Classroom",
+      "color": "#15a35a",
+      "icon": "door_front",
+      "sortOrder": 2
+    },
+    {
+      "code": "LAB",
+      "nameAr": "معمل",
+      "nameEn": "Laboratory",
+      "color": "#8b3fd9",
+      "icon": "science",
+      "sortOrder": 3
+    },
+    {
+      "code": "AUDITORIUM",
+      "nameAr": "قاعة كبرى",
+      "nameEn": "Auditorium",
+      "color": "#c2410c",
+      "icon": "theaters",
+      "sortOrder": 4
+    }
+  ],
+  "instructorTypes": [
+    {
+      "code": "DOCTOR",
+      "nameAr": "دكتور",
+      "nameEn": "Doctor",
+      "color": "#4338ca",
+      "icon": "person",
+      "sortOrder": 1,
+      "defaultMaxHoursPerWeek": 16
+    },
+    {
+      "code": "TA",
+      "nameAr": "معيد",
+      "nameEn": "Teaching Assistant",
+      "color": "#0f9488",
+      "icon": "person_outline",
+      "sortOrder": 2,
+      "defaultMaxHoursPerWeek": 20
+    }
+  ],
+  "groupKinds": [
+    {
+      "code": "COHORT",
+      "nameAr": "فرقة دراسية",
+      "nameEn": "Cohort",
+      "color": "#4338ca",
+      "icon": "groups",
+      "sortOrder": 1
+    },
+    {
+      "code": "SECTION",
+      "nameAr": "مجموعة سكشن",
+      "nameEn": "Section group",
+      "color": "#15a35a",
+      "icon": "group",
+      "sortOrder": 2
+    },
+    {
+      "code": "LAB_GROUP",
+      "nameAr": "مجموعة معمل",
+      "nameEn": "Lab group",
+      "color": "#8b3fd9",
+      "icon": "group_work",
+      "sortOrder": 3
+    }
+  ],
+  "equipmentTags": [
+    {
+      "code": "PC",
+      "nameAr": "أجهزة حاسب",
+      "nameEn": "Computers",
+      "color": null,
+      "icon": "computer",
+      "sortOrder": 1
+    },
+    {
+      "code": "PROJECTOR",
+      "nameAr": "جهاز عرض",
+      "nameEn": "Projector",
+      "color": null,
+      "icon": "videocam",
+      "sortOrder": 2
+    },
+    {
+      "code": "SMARTBOARD",
+      "nameAr": "سبورة ذكية",
+      "nameEn": "Smart board",
+      "color": null,
+      "icon": "present_to_all",
+      "sortOrder": 3
+    }
+  ],
+  "sessionTypes": [
+    {
+      "code": "LECTURE",
+      "nameAr": "محاضرة",
+      "nameEn": "Lecture",
+      "color": "#3b5bdb",
+      "icon": "co_present",
+      "sortOrder": 1,
+      "defaultDurationSlots": 1,
+      "defaultRoomTypeCode": "HALL",
+      "canBeShared": true,
+      "countsTowardLoad": true,
+      "loadMultiplier": 1.0,
+      "requiresInstructor": true,
+      "requiresRoom": true,
+      "allowedInstructorTypeCodes": [
+        "DOCTOR"
+      ],
+      "allowedDays": [],
+      "allowedSlotFrom": null,
+      "allowedSlotTo": null
+    },
+    {
+      "code": "SECTION",
+      "nameAr": "سكشن",
+      "nameEn": "Section",
+      "color": "#15a35a",
+      "icon": "groups",
+      "sortOrder": 2,
+      "defaultDurationSlots": 1,
+      "defaultRoomTypeCode": "CLASSROOM",
+      "canBeShared": false,
+      "countsTowardLoad": true,
+      "loadMultiplier": 1.0,
+      "requiresInstructor": true,
+      "requiresRoom": true,
+      "allowedInstructorTypeCodes": [
+        "TA"
+      ],
+      "allowedDays": [],
+      "allowedSlotFrom": null,
+      "allowedSlotTo": null
+    },
+    {
+      "code": "LAB",
+      "nameAr": "معمل",
+      "nameEn": "Lab",
+      "color": "#8b3fd9",
+      "icon": "science",
+      "sortOrder": 3,
+      "defaultDurationSlots": 2,
+      "defaultRoomTypeCode": "LAB",
+      "canBeShared": false,
+      "countsTowardLoad": true,
+      "loadMultiplier": 1.0,
+      "requiresInstructor": true,
+      "requiresRoom": true,
+      "allowedInstructorTypeCodes": [
+        "TA",
+        "DOCTOR"
+      ],
+      "allowedDays": [],
+      "allowedSlotFrom": null,
+      "allowedSlotTo": null
+    }
+  ],
+  "terminology": [
+    {
+      "key": "term.group",
+      "ar": "مجموعة",
+      "en": "Section"
+    },
+    {
+      "key": "term.groups",
+      "ar": "المجموعات",
+      "en": "Sections"
+    },
+    {
+      "key": "term.instructor",
+      "ar": "دكتور / معيد",
+      "en": "Doctor / TA"
+    },
+    {
+      "key": "term.instructors",
+      "ar": "أعضاء هيئة التدريس",
+      "en": "Faculty"
+    },
+    {
+      "key": "term.course",
+      "ar": "مقرر",
+      "en": "Course"
+    },
+    {
+      "key": "term.courses",
+      "ar": "المقررات",
+      "en": "Courses"
+    },
+    {
+      "key": "term.orgUnit",
+      "ar": "الهيكل الأكاديمي",
+      "en": "Academic structure"
+    }
+  ],
+  "time": {
+    "workingDays": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "weekStartDay": 0,
+    "weekCycleLength": 2,
+    "weekCycleLabels": [
+      "A",
+      "B"
+    ],
+    "periods": [
+      {
+        "index": 0,
+        "start": "08:00",
+        "end": "09:30",
+        "isBreak": false,
+        "nameAr": "الفترة 1",
+        "nameEn": "Slot 1"
+      },
+      {
+        "index": 1,
+        "start": "09:30",
+        "end": "11:00",
+        "isBreak": false,
+        "nameAr": "الفترة 2",
+        "nameEn": "Slot 2"
+      },
+      {
+        "index": 2,
+        "start": "11:00",
+        "end": "12:30",
+        "isBreak": false,
+        "nameAr": "الفترة 3",
+        "nameEn": "Slot 3"
+      },
+      {
+        "index": 3,
+        "start": "12:30",
+        "end": "13:30",
+        "isBreak": true,
+        "nameAr": "استراحة الغداء والصلاة",
+        "nameEn": "Lunch & prayer recess"
+      },
+      {
+        "index": 4,
+        "start": "13:30",
+        "end": "15:00",
+        "isBreak": false,
+        "nameAr": "الفترة 4",
+        "nameEn": "Slot 4"
+      },
+      {
+        "index": 5,
+        "start": "15:00",
+        "end": "16:30",
+        "isBreak": false,
+        "nameAr": "الفترة 5",
+        "nameEn": "Slot 5"
+      },
+      {
+        "index": 6,
+        "start": "16:30",
+        "end": "18:00",
+        "isBreak": false,
+        "nameAr": "الفترة 6",
+        "nameEn": "Slot 6"
+      }
+    ],
+    "shifts": [
+      {
+        "code": "DAY",
+        "nameAr": "نهاري",
+        "nameEn": "Day",
+        "firstSlot": 0,
+        "lastSlot": 6
+      }
+    ],
+    "dayOverrides": []
+  },
+  "constraints": [
+    {
+      "code": "ROOM_CAPACITY",
+      "severity": "Hard",
+      "weight": 5,
+      "parameters": {}
+    },
+    {
+      "code": "SESSION_ORDERING",
+      "severity": "Soft",
+      "weight": 6,
+      "parameters": {
+        "firstSessionType": "LECTURE",
+        "thenSessionType": "SECTION"
+      }
+    },
+    {
+      "code": "TRAVEL_TIME",
+      "severity": "Soft",
+      "weight": 6,
+      "parameters": {
+        "applyToGroups": true
+      }
+    },
+    {
+      "code": "BUILDING_CHANGES",
+      "severity": "Soft",
+      "weight": 2,
+      "parameters": {}
+    },
+    {
+      "code": "GROUP_GAPS",
+      "severity": "Soft",
+      "weight": 8,
+      "parameters": {}
+    },
+    {
+      "code": "INSTRUCTOR_GAPS",
+      "severity": "Soft",
+      "weight": 4,
+      "parameters": {}
+    },
+    {
+      "code": "COURSE_ONCE_PER_DAY",
+      "severity": "Soft",
+      "weight": 5,
+      "parameters": {}
+    },
+    {
+      "code": "AVOID_EDGE_SLOTS",
+      "severity": "Soft",
+      "weight": 2,
+      "parameters": {
+        "avoidFirst": false,
+        "avoidLast": true,
+        "sessionTypeCodes": []
+      }
+    },
+    {
+      "code": "SAME_ROOM_PER_GROUP",
+      "severity": "Off",
+      "weight": 1,
+      "parameters": {}
+    },
+    {
+      "code": "PREFER_HOME_ROOM",
+      "severity": "Off",
+      "weight": 6,
+      "parameters": {}
+    }
+  ],
+  "rules": [],
+  "featureFlags": {
+    "shared-sessions": true,
+    "week-cycles": true,
+    "shifts": false,
+    "substitutions": false,
+    "home-rooms": false,
+    "instructor-pools": true,
+    "buildings-travel": true,
+    "import-export": true,
+    "curriculum": true,
+    "auto-generation": true,
+    "custom-fields": true,
+    "rule-builder": true
+  },
+  "customFields": [
+    {
+      "entityType": "Instructor",
+      "key": "academicRank",
+      "nameAr": "الدرجة العلمية",
+      "nameEn": "Academic rank",
+      "dataType": "SingleSelect",
+      "required": false,
+      "searchable": true,
+      "showInTable": true,
+      "importable": true,
+      "options": [
+        {
+          "value": "prof",
+          "labelAr": "أستاذ",
+          "labelEn": "Professor"
+        },
+        {
+          "value": "assoc",
+          "labelAr": "أستاذ مساعد",
+          "labelEn": "Associate professor"
+        },
+        {
+          "value": "lect",
+          "labelAr": "مدرس",
+          "labelEn": "Lecturer"
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "code": "ADMIN",
+      "nameAr": "مدير النظام",
+      "nameEn": "Administrator",
+      "permissions": [
+        "*"
+      ]
+    },
+    {
+      "code": "SCHEDULER",
+      "nameAr": "منسق الجداول",
+      "nameEn": "Scheduler",
+      "permissions": [
+        "dashboard.view",
+        "timetable.view",
+        "timetable.edit",
+        "schedule.generate",
+        "schedule.publish",
+        "resources.view",
+        "resources.manage",
+        "availability.manage",
+        "exports.run",
+        "imports.run",
+        "substitutions.manage",
+        "audit.view"
+      ]
+    },
+    {
+      "code": "INSTRUCTOR",
+      "nameAr": "عضو هيئة التدريس",
+      "nameEn": "Instructor",
+      "permissions": [
+        "timetable.view.own",
+        "availability.manage.own",
+        "exports.run"
+      ]
+    },
+    {
+      "code": "STUDENT",
+      "nameAr": "طالب",
+      "nameEn": "Student",
+      "permissions": [
+        "timetable.view.own",
+        "exports.run"
+      ]
+    }
+  ]
+}

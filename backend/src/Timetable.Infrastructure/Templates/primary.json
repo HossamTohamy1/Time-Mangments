@@ -1,0 +1,442 @@
+{
+  "code": "primary",
+  "version": 1,
+  "nameAr": "مدرسة ابتدائية",
+  "nameEn": "Primary School",
+  "descriptionAr": "مرحلة > صف > فصل؛ حصص 45 دقيقة؛ فصول ثابتة ومدرس متنقل؛ خميس قصير؛ حصص بديلة.",
+  "descriptionEn": "Stage > Grade > Class; 45-minute periods; home rooms (class stays, teacher moves); short Thursday; substitutions.",
+  "defaultLanguage": "ar",
+  "orgUnitTypes": [
+    {
+      "code": "STAGE",
+      "nameAr": "مرحلة",
+      "nameEn": "Stage",
+      "color": "#4338ca",
+      "icon": "stairs",
+      "sortOrder": 1,
+      "level": 1
+    },
+    {
+      "code": "GRADE",
+      "nameAr": "صف",
+      "nameEn": "Grade",
+      "color": "#0f9488",
+      "icon": "looks_one",
+      "sortOrder": 2,
+      "level": 2
+    }
+  ],
+  "roomTypes": [
+    {
+      "code": "CLASSROOM",
+      "nameAr": "فصل",
+      "nameEn": "Classroom",
+      "color": "#15a35a",
+      "icon": "door_front",
+      "sortOrder": 1
+    },
+    {
+      "code": "LAB",
+      "nameAr": "معمل",
+      "nameEn": "Laboratory",
+      "color": "#8b3fd9",
+      "icon": "science",
+      "sortOrder": 2
+    },
+    {
+      "code": "GYM",
+      "nameAr": "ملعب / صالة",
+      "nameEn": "Gym / Playground",
+      "color": "#c2410c",
+      "icon": "sports_soccer",
+      "sortOrder": 3
+    },
+    {
+      "code": "ACTIVITY_ROOM",
+      "nameAr": "قاعة أنشطة",
+      "nameEn": "Activity room",
+      "color": "#0f9488",
+      "icon": "palette",
+      "sortOrder": 4
+    }
+  ],
+  "instructorTypes": [
+    {
+      "code": "TEACHER",
+      "nameAr": "مدرس",
+      "nameEn": "Teacher",
+      "color": "#4338ca",
+      "icon": "person",
+      "sortOrder": 1,
+      "defaultMaxHoursPerWeek": 18
+    }
+  ],
+  "groupKinds": [
+    {
+      "code": "CLASS",
+      "nameAr": "فصل",
+      "nameEn": "Class",
+      "color": "#4338ca",
+      "icon": "groups",
+      "sortOrder": 1
+    }
+  ],
+  "equipmentTags": [
+    {
+      "code": "PC",
+      "nameAr": "أجهزة حاسب",
+      "nameEn": "Computers",
+      "color": null,
+      "icon": "computer",
+      "sortOrder": 1
+    },
+    {
+      "code": "PROJECTOR",
+      "nameAr": "جهاز عرض",
+      "nameEn": "Projector",
+      "color": null,
+      "icon": "videocam",
+      "sortOrder": 2
+    }
+  ],
+  "sessionTypes": [
+    {
+      "code": "CLASS",
+      "nameAr": "حصة",
+      "nameEn": "Class period",
+      "color": "#3b5bdb",
+      "icon": "menu_book",
+      "sortOrder": 1,
+      "defaultDurationSlots": 1,
+      "defaultRoomTypeCode": "CLASSROOM",
+      "canBeShared": false,
+      "countsTowardLoad": true,
+      "loadMultiplier": 1.0,
+      "requiresInstructor": true,
+      "requiresRoom": true,
+      "allowedInstructorTypeCodes": [],
+      "allowedDays": [],
+      "allowedSlotFrom": null,
+      "allowedSlotTo": null
+    },
+    {
+      "code": "LAB",
+      "nameAr": "حصة معمل",
+      "nameEn": "Lab period",
+      "color": "#8b3fd9",
+      "icon": "science",
+      "sortOrder": 2,
+      "defaultDurationSlots": 1,
+      "defaultRoomTypeCode": "LAB",
+      "canBeShared": false,
+      "countsTowardLoad": true,
+      "loadMultiplier": 1.0,
+      "requiresInstructor": true,
+      "requiresRoom": true,
+      "allowedInstructorTypeCodes": [],
+      "allowedDays": [],
+      "allowedSlotFrom": null,
+      "allowedSlotTo": null
+    },
+    {
+      "code": "ACTIVITY",
+      "nameAr": "نشاط",
+      "nameEn": "Activity",
+      "color": "#c2410c",
+      "icon": "sports_soccer",
+      "sortOrder": 3,
+      "defaultDurationSlots": 1,
+      "defaultRoomTypeCode": "GYM",
+      "canBeShared": false,
+      "countsTowardLoad": true,
+      "loadMultiplier": 1.0,
+      "requiresInstructor": true,
+      "requiresRoom": true,
+      "allowedInstructorTypeCodes": [],
+      "allowedDays": [],
+      "allowedSlotFrom": null,
+      "allowedSlotTo": null
+    }
+  ],
+  "terminology": [
+    {
+      "key": "term.group",
+      "ar": "فصل",
+      "en": "Class"
+    },
+    {
+      "key": "term.groups",
+      "ar": "الفصول",
+      "en": "Classes"
+    },
+    {
+      "key": "term.instructor",
+      "ar": "مدرس",
+      "en": "Teacher"
+    },
+    {
+      "key": "term.instructors",
+      "ar": "المدرسون",
+      "en": "Teachers"
+    },
+    {
+      "key": "term.course",
+      "ar": "مادة",
+      "en": "Subject"
+    },
+    {
+      "key": "term.courses",
+      "ar": "المواد",
+      "en": "Subjects"
+    },
+    {
+      "key": "term.orgUnit",
+      "ar": "المراحل والصفوف",
+      "en": "Stages & grades"
+    },
+    {
+      "key": "term.session",
+      "ar": "حصة",
+      "en": "Period"
+    }
+  ],
+  "time": {
+    "workingDays": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "weekStartDay": 0,
+    "weekCycleLength": 1,
+    "weekCycleLabels": [],
+    "periods": [
+      {
+        "index": 0,
+        "start": "08:00",
+        "end": "08:45",
+        "isBreak": false,
+        "nameAr": "الحصة الأولى",
+        "nameEn": "Period 1"
+      },
+      {
+        "index": 1,
+        "start": "08:45",
+        "end": "09:30",
+        "isBreak": false,
+        "nameAr": "الحصة الثانية",
+        "nameEn": "Period 2"
+      },
+      {
+        "index": 2,
+        "start": "09:30",
+        "end": "10:15",
+        "isBreak": false,
+        "nameAr": "الحصة الثالثة",
+        "nameEn": "Period 3"
+      },
+      {
+        "index": 3,
+        "start": "10:15",
+        "end": "10:45",
+        "isBreak": true,
+        "nameAr": "الفسحة",
+        "nameEn": "Break"
+      },
+      {
+        "index": 4,
+        "start": "10:45",
+        "end": "11:30",
+        "isBreak": false,
+        "nameAr": "الحصة الرابعة",
+        "nameEn": "Period 4"
+      },
+      {
+        "index": 5,
+        "start": "11:30",
+        "end": "12:15",
+        "isBreak": false,
+        "nameAr": "الحصة الخامسة",
+        "nameEn": "Period 5"
+      },
+      {
+        "index": 6,
+        "start": "12:15",
+        "end": "13:00",
+        "isBreak": false,
+        "nameAr": "الحصة السادسة",
+        "nameEn": "Period 6"
+      },
+      {
+        "index": 7,
+        "start": "13:00",
+        "end": "13:45",
+        "isBreak": false,
+        "nameAr": "الحصة السابعة",
+        "nameEn": "Period 7"
+      }
+    ],
+    "shifts": [
+      {
+        "code": "MORNING",
+        "nameAr": "صباحي",
+        "nameEn": "Morning",
+        "firstSlot": 0,
+        "lastSlot": 7
+      }
+    ],
+    "dayOverrides": [
+      {
+        "dayOfWeek": 4,
+        "slotIndex": 7,
+        "disabled": true
+      }
+    ]
+  },
+  "constraints": [
+    {
+      "code": "MAX_COURSE_SESSIONS_PER_DAY",
+      "severity": "Hard",
+      "weight": 8,
+      "parameters": {
+        "max": 1
+      }
+    },
+    {
+      "code": "HEAVY_SUBJECTS_EARLY",
+      "severity": "Soft",
+      "weight": 3,
+      "parameters": {
+        "tag": "heavy",
+        "latestSlot": 3
+      }
+    },
+    {
+      "code": "SUBJECT_SLOT_RESTRICTION",
+      "severity": "Soft",
+      "weight": 4,
+      "parameters": {
+        "tag": "pe",
+        "forbiddenSlots": [
+          1
+        ],
+        "notAdjacentToTags": [
+          "pe"
+        ]
+      }
+    },
+    {
+      "code": "PREFER_HOME_ROOM",
+      "severity": "Soft",
+      "weight": 6,
+      "parameters": {
+        "sessionTypeCodes": [
+          "CLASS"
+        ]
+      }
+    },
+    {
+      "code": "GROUP_GAPS",
+      "severity": "Soft",
+      "weight": 10,
+      "parameters": {}
+    },
+    {
+      "code": "INSTRUCTOR_GAPS",
+      "severity": "Soft",
+      "weight": 2,
+      "parameters": {}
+    },
+    {
+      "code": "COURSE_ONCE_PER_DAY",
+      "severity": "Soft",
+      "weight": 4,
+      "parameters": {}
+    },
+    {
+      "code": "SPREAD_COURSE_DAYS",
+      "severity": "Soft",
+      "weight": 3,
+      "parameters": {}
+    },
+    {
+      "code": "INSTRUCTOR_MAX_CONSECUTIVE",
+      "severity": "Soft",
+      "weight": 4,
+      "parameters": {
+        "maxConsecutive": 4
+      }
+    },
+    {
+      "code": "AVOID_EDGE_SLOTS",
+      "severity": "Off",
+      "weight": 2,
+      "parameters": {}
+    }
+  ],
+  "rules": [],
+  "featureFlags": {
+    "shared-sessions": false,
+    "week-cycles": false,
+    "shifts": true,
+    "substitutions": true,
+    "home-rooms": true,
+    "instructor-pools": false,
+    "buildings-travel": false,
+    "import-export": true,
+    "curriculum": true,
+    "auto-generation": true,
+    "custom-fields": true,
+    "rule-builder": true
+  },
+  "customFields": [],
+  "roles": [
+    {
+      "code": "ADMIN",
+      "nameAr": "مدير النظام",
+      "nameEn": "Administrator",
+      "permissions": [
+        "*"
+      ]
+    },
+    {
+      "code": "SCHEDULER",
+      "nameAr": "منسق الجداول",
+      "nameEn": "Scheduler",
+      "permissions": [
+        "dashboard.view",
+        "timetable.view",
+        "timetable.edit",
+        "schedule.generate",
+        "schedule.publish",
+        "resources.view",
+        "resources.manage",
+        "availability.manage",
+        "exports.run",
+        "imports.run",
+        "substitutions.manage",
+        "audit.view"
+      ]
+    },
+    {
+      "code": "INSTRUCTOR",
+      "nameAr": "عضو هيئة التدريس",
+      "nameEn": "Instructor",
+      "permissions": [
+        "timetable.view.own",
+        "availability.manage.own",
+        "exports.run"
+      ]
+    },
+    {
+      "code": "STUDENT",
+      "nameAr": "طالب",
+      "nameEn": "Student",
+      "permissions": [
+        "timetable.view.own",
+        "exports.run"
+      ]
+    }
+  ]
+}
