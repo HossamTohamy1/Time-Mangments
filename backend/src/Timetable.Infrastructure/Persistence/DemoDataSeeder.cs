@@ -200,8 +200,9 @@ public sealed class DemoDataSeeder(
         Qualify(mona, cs201, cs305, cs204); Qualify(omar, math201, cs210, cs311); Qualify(karim, cs204, cs402);
         Qualify(dina, cs201, cs311, cs404); Qualify(tarek, cs402, cs404, cs305);
 
-        var term = new AcademicTerm { InstitutionId = inst, Code = "FALL24", NameAr = "الفصل الدراسي الأول 2024", NameEn = "Fall 2024", StartDate = new DateOnly(2024, 9, 22), EndDate = new DateOnly(2025, 1, 9), IsCurrent = true };
-        term.CalendarDays.Add(new TermCalendarDay { Date = new DateOnly(2024, 10, 6), Kind = CalendarDayKind.Holiday, NameAr = "عيد القوات المسلحة", NameEn = "Armed Forces Day" });
+        var (start, end) = DemoTermRange(DayOfWeek.Sunday);
+        var term = new AcademicTerm { InstitutionId = inst, Code = $"T{start:yyyy}", NameAr = $"الفصل الدراسي {start:yyyy}", NameEn = $"Term {start:yyyy}", StartDate = start, EndDate = end, IsCurrent = true };
+        term.CalendarDays.Add(new TermCalendarDay { Date = start.AddDays(45), Kind = CalendarDayKind.Holiday, NameAr = "عطلة رسمية", NameEn = "Public holiday" });
         db.AcademicTerms.Add(term);
         await db.SaveChangesAsync(ct);
 
@@ -289,7 +290,8 @@ public sealed class DemoDataSeeder(
         var tPe = T("T-PE", "أ. شريف مراد", "Mr. Sherif Morad");
         var tIct = T("T-IC", "أ. منة الله سمير", "Ms. Menna Samir");
 
-        var term = new AcademicTerm { InstitutionId = inst, Code = "T1-2024", NameAr = "الفصل الدراسي الأول 2024/2025", NameEn = "Term 1 2024/2025", StartDate = new DateOnly(2024, 9, 29), EndDate = new DateOnly(2025, 1, 16), IsCurrent = true };
+        var (start, end) = DemoTermRange(DayOfWeek.Sunday);
+        var term = new AcademicTerm { InstitutionId = inst, Code = $"T1-{start:yyyy}", NameAr = $"الفصل الدراسي الأول {start:yyyy}", NameEn = $"Term 1 {start:yyyy}", StartDate = start, EndDate = end, IsCurrent = true };
         db.AcademicTerms.Add(term);
 
         foreach (var (g, label) in new[] { ("10", "الأول الثانوي"), ("11", "الثاني الثانوي") })
@@ -327,5 +329,14 @@ public sealed class DemoDataSeeder(
         foreach (var s in await db.Sessions.Where(s => s.CourseId == computer.Id).ToListAsync(ct)) s.RequiredEquipment = ["PC"];
         db.Schedules.Add(new Schedule { InstitutionId = inst, TermId = term.Id, Name = "Draft v1", Version = 1 });
         await db.SaveChangesAsync(ct);
+    }
+
+    /// <summary>Demo terms are always "current": they start about four weeks before the seeding date and last sixteen weeks.</summary>
+    private static (DateOnly Start, DateOnly End) DemoTermRange(DayOfWeek weekStart)
+    {
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        var start = today.AddDays(-28);
+        start = start.AddDays(-(((int)start.DayOfWeek - (int)weekStart + 7) % 7));
+        return (start, start.AddDays(7 * 16 - 1));
     }
 }

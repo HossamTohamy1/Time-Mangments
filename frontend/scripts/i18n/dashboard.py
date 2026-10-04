@@ -1,3 +1,20 @@
+# Dashboard (scope "dashboard"): key -> (en, ar).
 T = {
  "welcome": ("Welcome, {name}", "مرحباً، {name}"),
+ "coverage": ("Coverage", "نسبة التغطية"), "placedOf": ("{placed} of {total} weekly sessions placed", "تم وضع {placed} من {total} جلسة أسبوعية"),
+ "hard": ("Hard conflicts", "التعارضات الأساسية"), "hardHint": ("Must be fixed before publishing", "يجب حلها قبل النشر"), "hardNone": ("All mandatory rules are met", "كل القواعد الإلزامية متحققة"),
+ "soft": ("Soft penalty", "المخالفات المرنة"), "softHint": ("Lower is better", "الأقل أفضل"),
+ "roomUse": ("Room utilisation", "استغلال القاعات"),
+ "resources": ("{instructors} instructors · {rooms} rooms · {groups} groups", "{instructors} محاضر · {rooms} قاعة · {groups} مجموعة"),
+ "substitutions": ("Open substitutions", "استبدالات مفتوحة"), "substitutionsHint": ("Absences that still need cover", "غيابات تحتاج إلى تغطية"),
+ "load": ("Teaching load — {who}", "العبء التدريسي — {who}"), "max": ("Weekly maximum: {max}", "الحد الأسبوعي: {max}"),
+ "roomTypes": ("Utilisation by room type", "الاستغلال حسب نوع القاعة"), "perDay": ("Sessions per day", "الجلسات في كل يوم"),
+ "findings": ("Top findings", "أبرز الملاحظات"), "penalty": ("penalty {value}", "مخالفة {value}"), "clean": ("No findings — everything is satisfied.", "لا توجد ملاحظات — كل شيء متحقق."),
+ "activity": ("Recent activity", "النشاط الأخير"), "noActivity": ("No edits yet.", "لا توجد تعديلات بعد."), "noData": ("No data yet.", "لا توجد بيانات بعد."),
+ "lastJob": ("Last generation: {status}", "آخر توليد: {status}"),
+ "jobStatus.Queued": ("queued", "في الانتظار"), "jobStatus.Running": ("running", "قيد التشغيل"), "jobStatus.Succeeded": ("completed", "مكتمل"),
+ "jobStatus.Infeasible": ("completed with unplaced sessions", "مكتمل مع جلسات بلا موعد"), "jobStatus.Failed": ("failed", "فشل"), "jobStatus.Cancelled": ("stopped", "متوقف"),
+ "kinds.assign": ("Placed", "وضع"), "kinds.move": ("Moved", "نقل"), "kinds.unplace": ("Unplaced", "إزالة"), "kinds.pin": ("Pinned", "تثبيت"),
+ "kinds.unpin": ("Unpinned", "إلغاء تثبيت"), "kinds.swap": ("Swapped", "تبديل"), "kinds.autoPlace": ("Auto-placed", "وضع تلقائي"),
+ "noSchedule": ("There is no timetable yet. Start in the editor or the generation wizard.", "لا يوجد جدول بعد. ابدأ من المحرر أو معالج التوليد."),
 }

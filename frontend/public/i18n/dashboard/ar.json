@@ -1,3 +1,43 @@
 {
+  "activity": "النشاط الأخير",
+  "clean": "لا توجد ملاحظات — كل شيء متحقق.",
+  "coverage": "نسبة التغطية",
+  "findings": "أبرز الملاحظات",
+  "hard": "التعارضات الأساسية",
+  "hardHint": "يجب حلها قبل النشر",
+  "hardNone": "كل القواعد الإلزامية متحققة",
+  "jobStatus": {
+    "Cancelled": "متوقف",
+    "Failed": "فشل",
+    "Infeasible": "مكتمل مع جلسات بلا موعد",
+    "Queued": "في الانتظار",
+    "Running": "قيد التشغيل",
+    "Succeeded": "مكتمل"
+  },
+  "kinds": {
+    "assign": "وضع",
+    "autoPlace": "وضع تلقائي",
+    "move": "نقل",
+    "pin": "تثبيت",
+    "swap": "تبديل",
+    "unpin": "إلغاء تثبيت",
+    "unplace": "إزالة"
+  },
+  "lastJob": "آخر توليد: {status}",
+  "load": "العبء التدريسي — {who}",
+  "max": "الحد الأسبوعي: {max}",
+  "noActivity": "لا توجد تعديلات بعد.",
+  "noData": "لا توجد بيانات بعد.",
+  "noSchedule": "لا يوجد جدول بعد. ابدأ من المحرر أو معالج التوليد.",
+  "penalty": "مخالفة {value}",
+  "perDay": "الجلسات في كل يوم",
+  "placedOf": "تم وضع {placed} من {total} جلسة أسبوعية",
+  "resources": "{instructors} محاضر · {rooms} قاعة · {groups} مجموعة",
+  "roomTypes": "الاستغلال حسب نوع القاعة",
+  "roomUse": "استغلال القاعات",
+  "soft": "المخالفات المرنة",
+  "softHint": "الأقل أفضل",
+  "substitutions": "استبدالات مفتوحة",
+  "substitutionsHint": "غيابات تحتاج إلى تغطية",
   "welcome": "مرحباً، {name}"
 }

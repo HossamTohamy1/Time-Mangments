@@ -1,0 +1,46 @@
+.me { padding: 16px 20px 24px; display: flex; flex-direction: column; gap: 14px; max-inline-size: 1400px; }
+.head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  h1 { margin: 0; font-size: 22px; } p { margin: 4px 0 0; } }
+.week { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.week-label { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-inline-size: 0; flex-wrap: wrap; }
+.tabs { display: none; gap: 6px; overflow-x: auto; padding-block-end: 2px; scrollbar-width: none; }
+.tab { flex: 1 0 64px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; border-radius: 12px; border: 1px solid var(--tt-border);
+  background: var(--tt-surface); color: var(--tt-on-surface); cursor: pointer;
+  .dn { font-size: 12px; color: var(--tt-on-surface-muted); }
+  .dd { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .dc { font-size: 11px; min-inline-size: 18px; border-radius: 999px; background: var(--tt-surface-variant); color: var(--tt-on-surface-muted); text-align: center; }
+  &.today .dd { color: var(--tt-primary); }
+  &[aria-selected='true'] { background: var(--tt-primary); border-color: var(--tt-primary); color: var(--tt-on-primary);
+    .dn, .dd { color: var(--tt-on-primary); } .dc { background: color-mix(in srgb, var(--tt-on-primary) 25%, transparent); color: var(--tt-on-primary); } } }
+.days { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; align-items: start; }
+.day { display: flex; flex-direction: column; gap: 8px; min-inline-size: 0;
+  h2 { margin: 0; font-size: 14px; display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; } }
+.item { --c: var(--tt-primary); --cbg: var(--tt-primary-soft);
+  display: flex; gap: 10px; padding: 10px; border-radius: 12px; background: var(--tt-surface); border: 1px solid var(--tt-border);
+  border-inline-start: 4px solid var(--c); box-shadow: var(--tt-shadow-sm);
+  &.now { outline: 2px solid var(--tt-primary); outline-offset: 1px; }
+  &.cancelled { opacity: .65; h3 { text-decoration: line-through; } } }
+.time { display: flex; flex-direction: column; align-items: center; min-inline-size: 48px; font-variant-numeric: tabular-nums;
+  strong { font-size: 14px; } span { font-size: 12px; color: var(--tt-on-surface-muted); } }
+.body { flex: 1; min-inline-size: 0; display: flex; flex-direction: column; gap: 4px; }
+.title { display: flex; align-items: flex-start; gap: 6px; h3 { flex: 1; margin: 0; font-size: 14px; line-height: 1.3; } }
+.badge { flex-shrink: 0; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 5px; background: var(--cbg); color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--tt-on-surface-muted); span { display: inline-flex; align-items: center; gap: 4px; } }
+.status { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+  &.bad { background: var(--tt-conflict-bg); color: var(--tt-conflict); }
+  &.warn { background: var(--tt-penalty-bg); color: var(--tt-penalty); }
+  &.info { background: var(--tt-info-bg); color: var(--tt-info); }
+  &.now { background: var(--tt-primary-soft); color: var(--tt-primary); } }
+.pulse { inline-size: 8px; block-size: 8px; border-radius: 50%; background: currentColor; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .3; } }
+.free, .holiday { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; border: 1px dashed var(--tt-border-strong); color: var(--tt-on-surface-muted); font-size: 13px; }
+.holiday { color: var(--tt-penalty); border-color: var(--tt-penalty-border); background: var(--tt-penalty-bg); }
+@media (max-width: 760px) {
+  .me { padding: 12px; }
+  .head .lbl { display: none; }
+  .tabs { display: flex; }
+  .days { grid-template-columns: minmax(0, 1fr); }
+  .day { display: none; &.active { display: flex; } h2 { display: none; } }
+  .today-btn { order: 3; }
+}
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }

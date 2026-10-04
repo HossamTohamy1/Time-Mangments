@@ -15,6 +15,7 @@ import { TermPipe, LocalNamePipe } from '../shared/pipes/pipes';
 import { NAV, NavItem } from './nav';
 import { ShellStatus } from './shell-status';
 import { ScheduleContext } from '../core/schedule/schedule-context';
+import { NotificationCenter } from '../core/notifications/notification-center';
 
 @Component({
   selector: 'app-shell',
@@ -32,6 +33,7 @@ export class Shell {
   private readonly realtime = inject(RealtimeService);
   private readonly router = inject(Router);
   private readonly schedules = inject(ScheduleContext);
+  private readonly notifications = inject(NotificationCenter);
 
   protected readonly navOpen = signal(false);
   protected readonly collapsed = signal(false);
@@ -46,6 +48,7 @@ export class Shell {
     const nav = toSignal(this.router.events.pipe(filter((e) => e instanceof NavigationEnd)));
     void nav;
     this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => this.navOpen.set(false));
+    this.notifications.start();
   }
 
   protected isTerm(label: string): boolean { return label.startsWith('term:'); }
@@ -70,6 +73,7 @@ export class Shell {
   protected async switchInstitution(id: string): Promise<void> {
     await this.auth.switchInstitution(id);
     this.schedules.reset();
+    void this.notifications.refresh();
     await afterSignIn(this.auth, this.config, this.realtime);
     await this.router.navigateByUrl('/dashboard');
   }
@@ -78,6 +82,7 @@ export class Shell {
     void this.realtime.disconnect();
     this.config.clear();
     this.schedules.reset();
+    this.notifications.reset();
     void this.auth.logout();
   }
 }

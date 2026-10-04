@@ -20,7 +20,9 @@
 
 .banner { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; font-size: 13px;
   background: var(--tt-surface-variant); border: 1px solid var(--tt-border); color: var(--tt-on-surface-muted);
-  &.pick { background: var(--tt-primary-soft); border-color: var(--tt-primary-soft-border); color: var(--tt-primary); }
+  /* Floating: it must not shift the grid while dragging (CDK caches drop-list positions when a drag starts). */
+  &.pick { position: fixed; z-index: 60; left: 50%; transform: translateX(-50%); inset-block-end: 20px; inline-size: min(720px, calc(100vw - 32px));
+    background: var(--tt-surface); border-color: var(--tt-primary-soft-border); color: var(--tt-primary); box-shadow: var(--tt-shadow-lg); }
   span { flex: 1; } }
 
 .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px; min-block-size: 0; flex: 1; align-items: start; }

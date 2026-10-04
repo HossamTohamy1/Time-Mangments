@@ -66,6 +66,9 @@ internal sealed class SelfServiceHandlers(IAppDbContext db, ICurrentUser user, E
         var published = await PublishedAsync(date, ct);
         if (published.IsFailure) return published.Error!;
         var (schedule, term) = published.Value;
+        // Outside the term, show its nearest week rather than an empty one.
+        if (date < term.StartDate) date = term.StartDate;
+        else if (date > term.EndDate) date = term.EndDate;
         var config = (await configs.GetAsync(user.InstitutionId, ct)).Config;
         var time = config.Time;
         var periods = time.Periods.OrderBy(p => p.Index).ToList();

@@ -246,22 +246,22 @@ export class TimetablePage implements OnInit {
     void this.store.startPick({ sessionId: e.source.data.sessionId, entryId: e.source.data.entryId ?? null });
   }
 
+  /** CDK emits "ended" before "dropped" (the drop follows the return animation), so the pick is cleared by the drop handlers. */
   protected dragEnded(): void {
     this.dragging.set(false);
     this.hover.set(null);
-    // Leave the pick open only when the drop handler is still placing.
-    setTimeout(() => { if (!this.store.busy()) this.store.cancelPick(); }, 0);
   }
 
   protected async droppedOnCell(e: CdkDragDrop<GridCell, unknown, DragData>): Promise<void> {
-    if (!this.canEdit()) return;
+    if (!this.canEdit() || !e.isPointerOverContainer) { this.store.cancelPick(); return; }
     await this.store.placeAt(e.container.data);
+    this.store.cancelPick();
   }
 
   protected async droppedOnPanel(e: CdkDragDrop<string, unknown, DragData>): Promise<void> {
     const entry = e.item.data.entryId ? this.store.entries().get(e.item.data.entryId) : undefined;
     this.store.cancelPick();
-    if (entry && this.canEdit()) await this.store.unplace(entry);
+    if (entry && this.canEdit() && e.isPointerOverContainer) await this.store.unplace(entry);
   }
 
   // ---- click / keyboard placement ------------------------------------------------------------------

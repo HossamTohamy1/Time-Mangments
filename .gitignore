@@ -32,3 +32,8 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 __pycache__/
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/

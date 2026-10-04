@@ -29,8 +29,8 @@
     <div class="spacer"></div>
 
     <div class="tt-seg" role="group" [attr.aria-label]="t('shell.language')">
-      <button type="button" [attr.aria-pressed]="lang.lang() === 'en'" (click)="lang.set('en')" lang="en">EN</button>
-      <button type="button" [attr.aria-pressed]="lang.lang() === 'ar'" (click)="lang.set('ar')" lang="ar">AR</button>
+      <button type="button" [attr.aria-pressed]="lang.lang() === 'en'" (click)="lang.set('en')" lang="en" data-testid="lang-en">EN</button>
+      <button type="button" [attr.aria-pressed]="lang.lang() === 'ar'" (click)="lang.set('ar')" lang="ar" data-testid="lang-ar">AR</button>
     </div>
 
     <button type="button" class="icon-btn" [attr.aria-label]="t('theme.toggle', { mode: t('theme.' + theme.mode()) })" [title]="t('theme.' + theme.mode())" (click)="theme.cycle()" data-testid="theme-toggle">

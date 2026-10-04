@@ -451,6 +451,11 @@
     "timetable": "محرر الجدول",
     "versions": "إصدارات الجدول"
   },
+  "notifications": {
+    "markAll": "تحديد الكل كمقروء",
+    "none": "لا توجد إشعارات جديدة.",
+    "title": "الإشعارات"
+  },
   "permissions": {
     "audit_view": "عرض سجل التدقيق",
     "availability_manage": "إدارة الإتاحة",

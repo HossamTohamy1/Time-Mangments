@@ -1,3 +1,43 @@
 {
+  "activity": "Recent activity",
+  "clean": "No findings — everything is satisfied.",
+  "coverage": "Coverage",
+  "findings": "Top findings",
+  "hard": "Hard conflicts",
+  "hardHint": "Must be fixed before publishing",
+  "hardNone": "All mandatory rules are met",
+  "jobStatus": {
+    "Cancelled": "stopped",
+    "Failed": "failed",
+    "Infeasible": "completed with unplaced sessions",
+    "Queued": "queued",
+    "Running": "running",
+    "Succeeded": "completed"
+  },
+  "kinds": {
+    "assign": "Placed",
+    "autoPlace": "Auto-placed",
+    "move": "Moved",
+    "pin": "Pinned",
+    "swap": "Swapped",
+    "unpin": "Unpinned",
+    "unplace": "Unplaced"
+  },
+  "lastJob": "Last generation: {status}",
+  "load": "Teaching load — {who}",
+  "max": "Weekly maximum: {max}",
+  "noActivity": "No edits yet.",
+  "noData": "No data yet.",
+  "noSchedule": "There is no timetable yet. Start in the editor or the generation wizard.",
+  "penalty": "penalty {value}",
+  "perDay": "Sessions per day",
+  "placedOf": "{placed} of {total} weekly sessions placed",
+  "resources": "{instructors} instructors · {rooms} rooms · {groups} groups",
+  "roomTypes": "Utilisation by room type",
+  "roomUse": "Room utilisation",
+  "soft": "Soft penalty",
+  "softHint": "Lower is better",
+  "substitutions": "Open substitutions",
+  "substitutionsHint": "Absences that still need cover",
   "welcome": "Welcome, {name}"
 }
