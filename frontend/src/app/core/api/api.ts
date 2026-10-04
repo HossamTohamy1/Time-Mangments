@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, from, switchMap, throwError } from 'rxjs';
 
 export const API_BASE = '/api/v1';
 
@@ -42,6 +42,17 @@ export function toApiError(err: unknown): ApiError {
   return new ApiError({ status: 0, code: 'UNEXPECTED_ERROR', message: String(err) });
 }
 
+/** Error bodies of blob requests arrive as a Blob holding the JSON problem. */
+async function blobProblem(e: unknown): Promise<ApiError> {
+  if (e instanceof HttpErrorResponse && e.error instanceof Blob) {
+    try {
+      const body = JSON.parse(await e.error.text());
+      return toApiError(new HttpErrorResponse({ error: body, status: e.status, statusText: e.statusText, url: e.url ?? undefined }));
+    } catch { /* not JSON */ }
+  }
+  return toApiError(e);
+}
+
 export type QueryValue = string | number | boolean | null | undefined;
 
 export interface PagedResult<T> { items: T[]; total: number; page: number; pageSize: number; }
@@ -68,7 +79,8 @@ export class Api {
   }
 
   download(path: string, query?: Record<string, QueryValue>): Observable<Blob> {
-    return this.http.get(API_BASE + path, { params: this.params(query), responseType: 'blob' }).pipe(catchError((e) => throwError(() => toApiError(e))));
+    return this.http.get(API_BASE + path, { params: this.params(query), responseType: 'blob' })
+      .pipe(catchError((e) => from(blobProblem(e)).pipe(switchMap((err) => throwError(() => err)))));
   }
 
   upload<T>(path: string, form: FormData, query?: Record<string, QueryValue>): Observable<T> {

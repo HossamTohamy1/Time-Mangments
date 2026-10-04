@@ -1667,6 +1667,131 @@
         }
       }
     },
+    "/api/v1/imports": {
+      "get": {
+        "tags": [
+          "Imports"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportKindDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/{kind}/template": {
+      "get": {
+        "tags": [
+          "Imports"
+        ],
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "xlsx"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/{kind}": {
+      "post": {
+        "tags": [
+          "Imports"
+        ],
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "upsert"
+            }
+          },
+          {
+            "name": "dryRun",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportReportDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/institutions": {
       "get": {
         "tags": [
@@ -4334,6 +4459,79 @@
         }
       }
     },
+    "/api/v1/schedules/{id}/export": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "pdf"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "group"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "week",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/sessions": {
       "get": {
         "tags": [
@@ -6475,6 +6673,26 @@
         },
         "additionalProperties": false
       },
+      "ImportColumnDto": {
+        "required": [
+          "example",
+          "key",
+          "required"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "example": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "ImportConfigRequest": {
         "required": [
           "bundle",
@@ -6485,6 +6703,125 @@
           "bundle": { },
           "dryRun": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImportIssueDto": {
+        "required": [
+          "code",
+          "field",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImportKindDto": {
+        "required": [
+          "columns",
+          "kind"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImportColumnDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImportReportDto": {
+        "required": [
+          "applied",
+          "created",
+          "dryRun",
+          "failed",
+          "kind",
+          "rows",
+          "skipped",
+          "total",
+          "updated"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "dryRun": {
+            "type": "boolean"
+          },
+          "applied": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "skipped": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImportRowDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImportRowDto": {
+        "required": [
+          "action",
+          "issues",
+          "row"
+        ],
+        "type": "object",
+        "properties": {
+          "row": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "action": {
+            "type": "string"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImportIssueDto"
+            }
           }
         },
         "additionalProperties": false
@@ -9425,6 +9762,9 @@
     },
     {
       "name": "Groups"
+    },
+    {
+      "name": "Imports"
     },
     {
       "name": "Institutions"

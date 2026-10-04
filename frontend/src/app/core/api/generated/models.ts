@@ -43,7 +43,12 @@ export type { GenerateSessionsRequest } from './models/generate-sessions-request
 export type { GroupDto } from './models/group-dto';
 export type { GroupInput } from './models/group-input';
 export type { ImpactDto } from './models/impact-dto';
+export type { ImportColumnDto } from './models/import-column-dto';
 export type { ImportConfigRequest } from './models/import-config-request';
+export type { ImportIssueDto } from './models/import-issue-dto';
+export type { ImportKindDto } from './models/import-kind-dto';
+export type { ImportReportDto } from './models/import-report-dto';
+export type { ImportRowDto } from './models/import-row-dto';
 export type { InstitutionDto } from './models/institution-dto';
 export type { InstitutionMembership } from './models/institution-membership';
 export type { InstructorDto } from './models/instructor-dto';

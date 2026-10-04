@@ -1,0 +1,62 @@
+{
+  "export": {
+    "allHint": "Leave empty to export every timetable that has sessions.",
+    "allWeeks": "All weeks",
+    "download": "Download",
+    "format": "Format",
+    "language": "Document language",
+    "preparing": "Preparing…",
+    "schedule": "Schedule",
+    "subtitle": "Printable PDF (one page per timetable), Excel workbook or CSV — in Arabic or English.",
+    "title": "Export timetables",
+    "view": "Timetables of",
+    "week": "Week",
+    "which": "{count, plural, =0 {All with sessions} one {# selected} other {# selected}}"
+  },
+  "formats": {
+    "csv": "CSV",
+    "csvHint": "Flat list for other systems",
+    "pdf": "PDF",
+    "pdfHint": "Print-ready, A4 landscape",
+    "xlsx": "Excel",
+    "xlsxHint": "Sheet per timetable + list"
+  },
+  "import": {
+    "action": "Result",
+    "actions": {
+      "create": "New",
+      "error": "Error",
+      "skip": "Skip",
+      "update": "Update"
+    },
+    "applied": "Imported: {created} new, {updated} updated.",
+    "apply": "Import {count} rows",
+    "columns": "Columns:",
+    "created": "{count} new",
+    "done": "Imported",
+    "drop": "Drop a file here or click to choose",
+    "dropHint": ".xlsx or .csv, up to 5,000 rows",
+    "failed": "{count} with errors",
+    "insert": "Add new only, skip existing",
+    "issues": "Issues",
+    "kind": "What to import",
+    "mode": "Existing codes",
+    "noIssues": "No issues found.",
+    "notApplied": "Not imported: fix the errors and try again",
+    "onlyIssues": "Show only rows with issues",
+    "preview": "Preview — nothing saved yet",
+    "recheck": "Check again",
+    "row": "Row",
+    "skipped": "{count} skipped",
+    "subtitle": "Upload Excel or CSV. The file is checked first; nothing is saved until every row is valid.",
+    "templateCsv": "CSV template",
+    "templateXlsx": "Excel template",
+    "title": "Import data",
+    "updated": "{count} updated",
+    "upsert": "Update existing, add new"
+  },
+  "kinds": {
+    "buildings": "Buildings"
+  },
+  "title": "Exports & imports"
+}

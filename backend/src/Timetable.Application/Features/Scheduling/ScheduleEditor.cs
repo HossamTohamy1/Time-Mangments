@@ -134,8 +134,8 @@ public sealed class ScheduleEditor(IAppDbContext db, ScheduleStateService states
                 AfterJson = EntrySnapshot.Serialize(after.Select(EntrySnapshot.Of)), UserId = UserKey, UserName = user.UserName, At = DateTimeOffset.UtcNow,
             });
         }
-        schedule.ModifiedAt = DateTimeOffset.UtcNow;
         await db.SaveChangesAsync(ct);
+        await ScheduleCounters.TouchAsync(db, scheduleId, ct);
         l.Apply(before.Select(b => b.ToPlacement()), after.Select(a => EntrySnapshot.Of(a).ToPlacement()));
 
         var (canUndo, canRedo) = await UndoStateAsync(db, scheduleId, user.UserId, ct);
@@ -199,4 +199,21 @@ public sealed class ScheduleEditor(IAppDbContext db, ScheduleStateService states
         EntryId = p.EntryId, SessionId = p.SessionId, Occurrence = p.Occurrence, Day = day ?? p.Day, StartSlot = start ?? p.StartSlot, Duration = p.Duration,
         RoomId = room, InstructorId = instructor, WeekMask = p.WeekMask, Pinned = p.Pinned,
     };
+}
+
+/// <summary>
+/// Derived schedule fields (scores, last change) are written with set-based updates so they never collide with the
+/// schedule's row version while users edit or the re-validation worker runs.
+/// </summary>
+public static class ScheduleCounters
+{
+    public static Task SetAsync(IAppDbContext db, Guid scheduleId, int hard, decimal soft, CancellationToken ct) =>
+        db.Schedules.IgnoreQueryFilters().Where(s => s.Id == scheduleId)
+            .ExecuteUpdateAsync(u => u.SetProperty(s => s.HardViolations, hard).SetProperty(s => s.SoftScore, soft), ct);
+
+    public static Task TouchAsync(IAppDbContext db, Guid scheduleId, CancellationToken ct)
+    {
+        var now = DateTimeOffset.UtcNow;
+        return db.Schedules.IgnoreQueryFilters().Where(s => s.Id == scheduleId).ExecuteUpdateAsync(u => u.SetProperty(s => s.ModifiedAt, now), ct);
+    }
 }

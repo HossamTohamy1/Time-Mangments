@@ -49,7 +49,12 @@ export type { GenerateSessionsRequest } from './models/generate-sessions-request
 export type { GroupDto } from './models/group-dto';
 export type { GroupInput } from './models/group-input';
 export type { ImpactDto } from './models/impact-dto';
+export type { ImportColumnDto } from './models/import-column-dto';
 export type { ImportConfigRequest } from './models/import-config-request';
+export type { ImportIssueDto } from './models/import-issue-dto';
+export type { ImportKindDto } from './models/import-kind-dto';
+export type { ImportReportDto } from './models/import-report-dto';
+export type { ImportRowDto } from './models/import-row-dto';
 export type { InstitutionDto } from './models/institution-dto';
 export type { InstitutionMembership } from './models/institution-membership';
 export type { InstructorDto } from './models/instructor-dto';
@@ -216,6 +221,12 @@ export type { ApiV1GroupsIdPut$Params as ApiV1GroupsIdPut$Params } from './fn/gr
 export { apiV1GroupsIdPut as apiV1GroupsIdPut } from './fn/groups/api-v-1-groups-id-put';
 export type { ApiV1GroupsIdDelete$Params as ApiV1GroupsIdDelete$Params } from './fn/groups/api-v-1-groups-id-delete';
 export { apiV1GroupsIdDelete as apiV1GroupsIdDelete } from './fn/groups/api-v-1-groups-id-delete';
+export type { ApiV1ImportsGet$Params as ApiV1ImportsGet$Params } from './fn/imports/api-v-1-imports-get';
+export { apiV1ImportsGet as apiV1ImportsGet } from './fn/imports/api-v-1-imports-get';
+export type { ApiV1ImportsKindTemplateGet$Params as ApiV1ImportsKindTemplateGet$Params } from './fn/imports/api-v-1-imports-kind-template-get';
+export { apiV1ImportsKindTemplateGet as apiV1ImportsKindTemplateGet } from './fn/imports/api-v-1-imports-kind-template-get';
+export type { ApiV1ImportsKindPost$Params as ApiV1ImportsKindPost$Params } from './fn/imports/api-v-1-imports-kind-post';
+export { apiV1ImportsKindPost as apiV1ImportsKindPost } from './fn/imports/api-v-1-imports-kind-post';
 export type { ApiV1InstitutionsGet$Params as ApiV1InstitutionsGet$Params } from './fn/institutions/api-v-1-institutions-get';
 export { apiV1InstitutionsGet as apiV1InstitutionsGet } from './fn/institutions/api-v-1-institutions-get';
 export type { ApiV1InstitutionsPost$Params as ApiV1InstitutionsPost$Params } from './fn/institutions/api-v-1-institutions-post';
@@ -352,6 +363,8 @@ export type { ApiV1SchedulesIdUndoPost$Params as ApiV1SchedulesIdUndoPost$Params
 export { apiV1SchedulesIdUndoPost as apiV1SchedulesIdUndoPost } from './fn/schedules/api-v-1-schedules-id-undo-post';
 export type { ApiV1SchedulesIdRedoPost$Params as ApiV1SchedulesIdRedoPost$Params } from './fn/schedules/api-v-1-schedules-id-redo-post';
 export { apiV1SchedulesIdRedoPost as apiV1SchedulesIdRedoPost } from './fn/schedules/api-v-1-schedules-id-redo-post';
+export type { ApiV1SchedulesIdExportGet$Params as ApiV1SchedulesIdExportGet$Params } from './fn/schedules/api-v-1-schedules-id-export-get';
+export { apiV1SchedulesIdExportGet as apiV1SchedulesIdExportGet } from './fn/schedules/api-v-1-schedules-id-export-get';
 export type { ApiV1SessionsGet$Params as ApiV1SessionsGet$Params } from './fn/sessions/api-v-1-sessions-get';
 export { apiV1SessionsGet as apiV1SessionsGet } from './fn/sessions/api-v-1-sessions-get';
 export type { ApiV1SessionsPost$Params as ApiV1SessionsPost$Params } from './fn/sessions/api-v-1-sessions-post';
