@@ -55,3 +55,10 @@ Format: **what** — why — which flow it affects.
 - **Session edits only adjust draft schedules** (occurrence count / duration); published schedules are re-validated and surface conflicts instead of being silently changed.
 - **Effective config ETag** = hash of the cached institution configuration + hash of the caller's permissions; 304 on `If-None-Match`.
 - **First-run institution creation**: an authenticated user with no memberships may create an institution (becomes its ADMIN); afterwards `institutions.manage` is required.
+- **Fix (flow: E2E hosting)**: controllers are registered as an explicit application part, so the API works whatever the entry assembly is (test host, publish).
+- **Fix (flow: app bootstrap)**: `inject()` after `await` in the app initializer threw NG0203; dependencies are now resolved synchronously first.
+- **Test/E2E SQLite fallback uses a temporary file database** (one connection per DbContext) — a shared in-memory connection is not safe under concurrent requests.
+- **Session hint flag** (`tt.session` in localStorage, no secret) avoids a refresh call (and a 400 in the console) for anonymous visitors.
+- **Self-service menu items** (My timetable / My availability) are shown only when the account is linked to an instructor or group.
+- **Permission codes contain dots**; their translation keys replace dots with underscores to avoid nested-key collisions (`timetable.view` vs `timetable.view.own`).
+- **Language endonyms** ("English", "العربية") are deliberately not translated in language pickers; the i18n checker allow-lists them.

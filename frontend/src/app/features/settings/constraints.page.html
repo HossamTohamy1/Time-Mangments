@@ -1,0 +1,85 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="shield" [size]="22" class="head-icon" /><h1>{{ t('settings.constraints.title') }}</h1>
+  </div>
+  <p class="tt-muted">{{ t('settings.constraints.subtitle') }}</p>
+
+  @for (g of groups(); track g[0]) {
+    <section class="tt-card group">
+      <h2>{{ t('settings.constraints.categories.' + g[0]) }}</h2>
+      @for (c of g[1]; track c.code) {
+        @let d = draft(c);
+        <div class="row" [class.off]="d.severity === 'Off'" [attr.data-testid]="'constraint-' + c.code">
+          <div class="info">
+            <div class="name">
+              {{ t('constraints.' + c.code + '.name') }}
+              @if (c.isCore) { <span class="tt-chip primary"><app-icon name="lock" /> {{ t('settings.constraints.core') }}</span> }
+              <span class="tt-chip">{{ t('settings.constraints.arity.' + c.arity) }}</span>
+            </div>
+            <div class="desc tt-muted">{{ t('constraints.' + c.code + '.description') }}</div>
+          </div>
+          <div class="controls">
+            <div class="tt-seg" role="radiogroup" [attr.aria-label]="t('settings.constraints.severity')">
+              @for (s of severities; track s) {
+                <button type="button" role="radio" [attr.aria-pressed]="d.severity === s" [attr.aria-checked]="d.severity === s"
+                  [disabled]="c.isCore && s !== 'Hard'" (click)="change(c, { severity: s })">{{ t('enums.severity.' + s) }}</button>
+              }
+            </div>
+            @if (d.severity === 'Soft') {
+              <label class="weight">{{ t('settings.constraints.weight') }}
+                <input type="range" min="1" max="10" [ngModel]="d.weight" (ngModelChange)="change(c, { weight: +$event })" />
+                <span class="tt-chip primary">{{ d.weight }}/10</span>
+              </label>
+            }
+          </div>
+          @if (c.parameters.length > 0 && d.severity !== 'Off') {
+            <div class="params">
+              @for (p of c.parameters; track p.name) {
+                <div class="tt-field" role="group" [attr.aria-label]="t('constraints.params.' + p.name)">{{ t('constraints.params.' + p.name) }}
+                  @switch (p.type) {
+                    @case ('Bool') { <input type="checkbox" [ngModel]="param(c, p)" (ngModelChange)="setParam(c, p, $event)" /> }
+                    @case ('Int') { <input class="tt-input" type="number" [attr.min]="p.min" [attr.max]="p.max" [ngModel]="param(c, p)" (ngModelChange)="setParam(c, p, $event)" dir="ltr" /> }
+                    @case ('Decimal') { <input class="tt-input" type="number" step="0.5" [ngModel]="param(c, p)" (ngModelChange)="setParam(c, p, $event)" dir="ltr" /> }
+                    @case ('StringList') {
+                      @if (p.source === 'sessionType') {
+                        <span class="codes">
+                          @for (st of config.lookups('session-types'); track st.id) {
+                            <label class="chip-check"><input type="checkbox" [checked]="listText(c, p).split(', ').includes(st.code)" (change)="toggleCode(c, p, st.code)" /> {{ config.name(st) }}</label>
+                          }
+                        </span>
+                      } @else {
+                        <input class="tt-input" [ngModel]="listText(c, p)" (change)="setParam(c, p, $any($event.target).value)" dir="auto" />
+                      }
+                    }
+                    @case ('IntList') { <input class="tt-input" [ngModel]="listText(c, p)" (change)="setParam(c, p, $any($event.target).value)" dir="ltr" /> }
+                    @default {
+                      @if (p.source === 'sessionType') {
+                        <select class="tt-input" [ngModel]="param(c, p)" (ngModelChange)="setParam(c, p, $event)">
+                          <option [ngValue]="null">—</option>
+                          @for (st of config.lookups('session-types'); track st.id) { <option [ngValue]="st.code">{{ config.name(st) }}</option> }
+                        </select>
+                      } @else {
+                        <input class="tt-input" [ngModel]="param(c, p)" (ngModelChange)="setParam(c, p, $event)" dir="auto" />
+                      }
+                    }
+                  }
+                </div>
+              }
+            </div>
+          }
+          @if (d.error) { <p class="error" role="alert">{{ d.error }}</p> }
+          @if (d.dirty) {
+            <div class="row-actions">
+              <button type="button" class="tt-btn sm" (click)="revert(c)">{{ t('common.reset') }}</button>
+              <button type="button" class="tt-btn sm primary" (click)="save(c)" [attr.data-testid]="'save-' + c.code">{{ t('common.save') }}</button>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+
+  @if (config.feature('rule-builder')) {
+    <app-rule-builder-section />
+  }
+</div>

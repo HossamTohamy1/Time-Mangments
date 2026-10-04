@@ -1,0 +1,59 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="matrix" [size]="22" class="head-icon" />
+    <h1>{{ self() ? t('availability.mine') : t('availability.title') }}</h1>
+    <div class="tt-spacer"></div>
+    <button type="button" class="tt-btn primary" [disabled]="!dirty() || busy()" (click)="save()" data-testid="availability-save">{{ t('common.save') }}</button>
+  </div>
+
+  <div class="tt-card controls">
+    @if (!self()) {
+      <div class="tt-seg" role="tablist">
+        <button type="button" role="tab" [attr.aria-pressed]="target() === 'instructors'" (click)="switchTarget('instructors')"><app-icon name="users" /> {{ 'instructors' | term }}</button>
+        <button type="button" role="tab" [attr.aria-pressed]="target() === 'rooms'" (click)="switchTarget('rooms')"><app-icon name="door" /> {{ t('entities.rooms') }}</button>
+      </div>
+      <select class="tt-input picker" [value]="selectedId()" (change)="selectedId.set($any($event.target).value)" [attr.aria-label]="t('availability.select')">
+        @for (i of items(); track i.id) { <option [value]="i.id" dir="auto">{{ refs.itemLabel(i) }}</option> }
+      </select>
+    }
+    <div class="tt-spacer"></div>
+    <div class="brushes" role="radiogroup" [attr.aria-label]="t('availability.brush')">
+      @for (b of brushes(); track b) {
+        <button type="button" role="radio" class="brush" [class]="b" [attr.aria-checked]="brush() === b" (click)="brush.set(b)">
+          <span class="swatch"></span>{{ t('enums.availabilityState.' + b) }}
+        </button>
+      }
+    </div>
+    <button type="button" class="tt-btn sm" (click)="fillAll('Available')">{{ t('availability.clear') }}</button>
+  </div>
+
+  @if (error()) { <div class="tt-card tt-empty" role="alert">{{ error() }}</div> }
+
+  <div class="tt-card matrix-wrap">
+    <div class="matrix" [style.--days]="days().length" role="grid" [attr.aria-label]="t('availability.title')">
+      <div class="corner" role="columnheader">{{ t('timetable.time') }}</div>
+      @for (d of days(); track d) { <div class="day" role="columnheader">{{ d | dayName }}</div> }
+      @for (p of periods(); track p.index) {
+        <div class="slot-label" role="rowheader" [class.break]="p.isBreak">
+          <span class="name">{{ p | localName }}</span><span class="time" dir="ltr">{{ p.start }}–{{ p.end }}</span>
+        </div>
+        @for (d of days(); track d) {
+          @if (p.isBreak) {
+            <div class="cell break" aria-hidden="true"></div>
+          } @else {
+            <div class="cell" role="gridcell" tabindex="0" [attr.data-cell]="d + ':' + p.index"
+                 [class]="'cell ' + state(d, p.index)" [class.disabled]="disabled(d, p.index)"
+                 [attr.aria-label]="(d | dayName) + ' ' + (p | localName) + ': ' + t('enums.availabilityState.' + state(d, p.index))"
+                 (pointerdown)="start(d, p.index, $event)" (pointerenter)="enter(d, p.index)" (keydown)="key($event, d, p.index)">
+              @switch (state(d, p.index)) {
+                @case ('Unavailable') { <app-icon name="close" /> }
+                @case ('Preferred') { <app-icon name="check" /> }
+              }
+            </div>
+          }
+        }
+      }
+    </div>
+  </div>
+  <p class="tt-muted legend">{{ t('availability.hint') }}</p>
+</div>

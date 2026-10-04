@@ -19,6 +19,7 @@ public sealed class AuthController(IIdentityService identity, ICurrentUser curre
 
     [AllowAnonymous]
     [HttpPost("login")]
+    [ProducesResponseType<AuthResponse>(200)]
     [EnableRateLimiting("auth")]
     public async Task<IActionResult> Login(LoginRequest request, CancellationToken ct)
     {
@@ -32,6 +33,7 @@ public sealed class AuthController(IIdentityService identity, ICurrentUser curre
 
     [AllowAnonymous]
     [HttpPost("refresh")]
+    [ProducesResponseType<AuthResponse>(200)]
     [EnableRateLimiting("auth")]
     public async Task<IActionResult> Refresh(CancellationToken ct)
     {
@@ -58,6 +60,7 @@ public sealed class AuthController(IIdentityService identity, ICurrentUser curre
     }
 
     [HttpGet("me")]
+    [ProducesResponseType<MeResponse>(200)]
     public async Task<IActionResult> Me(CancellationToken ct)
     {
         var userId = currentUser.UserId!.Value;
@@ -69,6 +72,7 @@ public sealed class AuthController(IIdentityService identity, ICurrentUser curre
     }
 
     [HttpPut("profile")]
+    [ProducesResponseType<UserProfileDto>(200)]
     public async Task<IActionResult> UpdateProfile(ProfileUpdate update, CancellationToken ct) =>
         this.ToActionResult(await identity.UpdateProfileAsync(currentUser.UserId!.Value, update, ct));
 

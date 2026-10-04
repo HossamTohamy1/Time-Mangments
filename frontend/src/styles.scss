@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @use 'tokens';
 @use 'base';
+@import '@angular/cdk/overlay-prebuilt.css';
 
 // Self-hosted fonts (bundled by the build; no CDN at runtime).
 @import '@fontsource/inter/400.css';

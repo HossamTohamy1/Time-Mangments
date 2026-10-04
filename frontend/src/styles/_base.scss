@@ -77,6 +77,7 @@ textarea.tt-input { block-size: auto; padding-block: 8px; }
   button { border: 0; background: transparent; padding: 5px 11px; border-radius: 6px; font-weight: 500;
     color: var(--tt-on-surface-muted); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
   button[aria-pressed='true'] { background: var(--tt-surface); color: var(--tt-primary); box-shadow: var(--tt-shadow-sm); }
+  button:disabled { opacity: .4; cursor: not-allowed; }
   &.solid button[aria-pressed='true'] { background: var(--tt-primary); color: var(--tt-on-primary); }
 }
 
@@ -97,7 +98,7 @@ textarea.tt-input { block-size: auto; padding-block: 8px; }
 
 .tt-empty { padding: 32px 16px; text-align: center; color: var(--tt-on-surface-muted); }
 
-label.tt-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 500; min-inline-size: 0;
+.tt-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 500; min-inline-size: 0;
   .hint { font-weight: 400; color: var(--tt-on-surface-faint); font-size: 12px; }
   .error { font-weight: 500; color: var(--tt-conflict); font-size: 12px; } }
 
@@ -110,3 +111,13 @@ label.tt-field { display: flex; flex-direction: column; gap: 4px; font-size: 13p
   }
   .tt-no-print { display: none !important; }
 }
+
+// ---------- Dialogs (CDK) ----------
+.cdk-overlay-backdrop.cdk-overlay-dark-backdrop { background: var(--tt-scrim); }
+.tt-dialog {
+  background: var(--tt-surface); color: var(--tt-on-surface); border-radius: var(--tt-radius-lg);
+  border: 1px solid var(--tt-border); box-shadow: var(--tt-shadow-lg); padding: 20px; max-block-size: 85vh; overflow: auto;
+  h2 { margin: 0 0 8px; font-size: 18px; }
+}
+.tt-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-block-start: 16px; flex-wrap: wrap; }
+.cdk-dialog-container { outline: none; }

@@ -16,6 +16,7 @@ public sealed record MergeRequest(Guid TargetId);
 public sealed class LookupsController : ApiControllerBase
 {
     [HttpGet]
+    [ProducesResponseType<PagedResult<LookupDto>>(200)]
     public Task<IActionResult> List(string kind, [FromQuery] int page = 1, [FromQuery] int pageSize = 200, [FromQuery] string? search = null,
         [FromQuery] bool activeOnly = false, CancellationToken ct = default)
     {

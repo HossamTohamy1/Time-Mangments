@@ -11,6 +11,7 @@ namespace Timetable.Api.Controllers;
 public sealed partial class MeController(ICurrentUser user) : ApiControllerBase
 {
     [HttpGet("availability")]
+    [ProducesResponseType<AvailabilityDto>(200)]
     public async Task<IActionResult> GetAvailability(CancellationToken ct) =>
         user.InstructorId is { } id
             ? this.ToActionResult(await Sender.Send(new GetAvailabilityQuery(AvailabilityTarget.Instructor, id), ct))

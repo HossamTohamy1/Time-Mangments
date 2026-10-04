@@ -1,0 +1,99 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon [name]="schema().icon" [size]="22" class="head-icon" />
+    <h1>{{ title() }}</h1>
+    <span class="tt-chip primary">{{ total() | num }}</span>
+    <div class="tt-spacer"></div>
+    @if (canManage()) {
+      <button type="button" class="tt-btn primary" (click)="openForm(null)" data-testid="entity-add">
+        <app-icon name="plus" /> {{ t('common.add') }}
+      </button>
+    }
+  </div>
+
+  @if (links().length > 0) {
+    <nav class="links" [attr.aria-label]="title()">
+      @for (l of links(); track l.path) { <a [routerLink]="l.path" routerLinkActive="active" class="link">{{ colLabel({ key: l.path, label: l.label }) }}</a> }
+    </nav>
+  }
+  <div class="toolbar tt-card">
+    <label class="search">
+      <app-icon name="search" />
+      <input type="search" [value]="search()" (input)="search.set($any($event.target).value)" [placeholder]="t('common.searchPlaceholder')" [attr.aria-label]="t('common.search')" />
+    </label>
+    @for (f of visibleFilters(); track f.key) {
+      <label class="filter">
+        <span class="tt-visually-hidden">{{ f.label.startsWith('term:') ? (f.label.slice(5) | term) : t(f.label) }}</span>
+        <select class="tt-input" (change)="setFilter(f, $any($event.target).value)">
+          <option value="">{{ f.label.startsWith('term:') ? (f.label.slice(5) | term) : t(f.label) }}: {{ t('common.all') }}</option>
+          @for (o of filterOptions(f); track o.value) { <option [value]="o.value" [selected]="filters()[f.key] === o.value">{{ o.label }}</option> }
+        </select>
+      </label>
+    }
+  </div>
+
+  <div class="tt-card table-wrap">
+    @if (error()) {
+      <div class="tt-empty" role="alert">{{ error() }} <button class="tt-btn sm" type="button" (click)="load()">{{ t('common.retry') }}</button></div>
+    } @else {
+      <table class="tt-table">
+        <thead>
+          <tr>
+            @for (c of schema().columns; track c.key) {
+              <th scope="col">
+                <button type="button" class="sort" (click)="setSort(c.key)" [attr.aria-sort]="sort() === c.key ? (desc() ? 'descending' : 'ascending') : 'none'">
+                  {{ colLabel(c) }}
+                  @if (sort() === c.key) { <span aria-hidden="true">{{ desc() ? '▾' : '▴' }}</span> }
+                </button>
+              </th>
+            }
+            @for (cf of customColumns(); track cf.key) { <th scope="col">{{ cf | localName }}</th> }
+            <th scope="col" class="actions-col"><span class="tt-visually-hidden">{{ t('common.actions') }}</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (loading() && rows().length === 0) {
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <tr>@for (c of schema().columns; track c.key) { <td><div class="tt-skeleton"></div></td> }<td></td></tr>
+            }
+          }
+          @for (row of rows(); track row.id) {
+            <tr>
+              @for (c of schema().columns; track c.key) {
+                <td [class.code]="c.kind === 'code'">
+                  @if (c.kind === 'color') {
+                    <span class="swatch" [style.background]="row[c.key] || 'transparent'"></span>
+                  } @else {
+                    <span dir="auto">{{ cell(row, c) }}</span>
+                  }
+                </td>
+              }
+              @for (cf of customColumns(); track cf.key) { <td dir="auto">{{ cfCell(row, cf.key) }}</td> }
+              <td class="actions">
+                @if (canManage()) {
+                  <button type="button" class="tt-btn sm ghost icon" (click)="openForm(row)" [attr.aria-label]="t('common.edit')"><app-icon name="edit" /></button>
+                  <button type="button" class="tt-btn sm ghost icon" (click)="remove(row)" [attr.aria-label]="t('common.delete')"><app-icon name="trash" /></button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            @if (!loading()) {
+              <tr><td [attr.colspan]="schema().columns.length + customColumns().length + 1" class="tt-empty">
+                {{ t('common.empty') }}
+                @if (canManage()) { <button type="button" class="tt-btn sm primary" (click)="openForm(null)">{{ t('common.addFirst') }}</button> }
+              </td></tr>
+            }
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (pages() > 1) {
+    <nav class="pager tt-row" [attr.aria-label]="t('common.pagination')">
+      <button type="button" class="tt-btn sm" [disabled]="page() <= 1" (click)="page.set(page() - 1)"><app-icon name="chevronLeft" /> {{ t('common.prev') }}</button>
+      <span class="tt-muted">{{ t('common.pageOf', { page: page(), pages: pages() }) }}</span>
+      <button type="button" class="tt-btn sm" [disabled]="page() >= pages()" (click)="page.set(page() + 1)">{{ t('common.next') }} <app-icon name="chevronRight" /></button>
+    </nav>
+  }
+</div>

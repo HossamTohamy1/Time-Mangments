@@ -17,7 +17,7 @@ namespace Timetable.Api.IntegrationTests.Infrastructure;
 public class TimetableApiFactory : WebApplicationFactory<Program>
 {
     private static readonly object Gate = new();
-    private readonly SqliteConnection? _sqlite;
+    private readonly string? _sqlite;
     private readonly string? _sqlServer;
 
     public TimetableApiFactory() : this(seedDemo: true) { }
@@ -33,8 +33,9 @@ public class TimetableApiFactory : WebApplicationFactory<Program>
         }
         else
         {
-            _sqlite = new SqliteConnection("DataSource=:memory:");
-            _sqlite.Open();
+            // Temporary file database: every DbContext gets its own connection (safe under concurrent requests).
+            var file = Path.Combine(Path.GetTempPath(), $"timetable-it-{Guid.NewGuid():N}.db");
+            _sqlite = new SqliteConnectionStringBuilder { DataSource = file, DefaultTimeout = 30, Pooling = false }.ToString();
         }
     }
 
@@ -87,7 +88,11 @@ public class TimetableApiFactory : WebApplicationFactory<Program>
     {
         base.Dispose(disposing);
         if (!disposing) return;
-        _sqlite?.Dispose();
+        if (_sqlite is not null)
+        {
+            var file = new SqliteConnectionStringBuilder(_sqlite).DataSource;
+            try { File.Delete(file); } catch (IOException) { /* best effort */ }
+        }
         if (_sqlServer is not null)
         {
             try

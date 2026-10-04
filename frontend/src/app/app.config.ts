@@ -37,10 +37,11 @@ export const appConfig: ApplicationConfig = {
       const lang = inject(LanguageService);
       const theme = inject(ThemeService);
       const transloco = inject(TranslocoService);
+      const restoreSession = appBootstrap();
       theme.init();
       lang.init();
       await firstValueFrom(transloco.load(lang.lang()));
-      await appBootstrap();
+      await restoreSession();
     }),
   ],
 };

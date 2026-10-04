@@ -1,0 +1,16 @@
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+.field { display: flex; flex-direction: column; gap: 4px; min-inline-size: 0; }
+.span2 { grid-column: 1 / -1; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; padding-block: 8px; }
+.multi { border: 1px solid var(--tt-border); border-radius: 8px; padding: 8px 10px; display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0;
+  legend { font-size: 13px; font-weight: 500; padding-inline: 4px; } }
+.multi.scroll { max-block-size: 180px; overflow-y: auto; flex-direction: column; flex-wrap: nowrap; }
+.chip-check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.hint { font-size: 12px; color: var(--tt-on-surface-faint); }
+.error { font-size: 12px; color: var(--tt-conflict); font-weight: 500; }
+.color-row { display: flex; gap: 8px; align-items: center; input[type='color'] { inline-size: 42px; block-size: 38px; border: 1px solid var(--tt-border); border-radius: 8px; background: var(--tt-surface); padding: 2px; } }
+.cf-title { font-weight: 600; margin-block-start: 6px; border-block-start: 1px solid var(--tt-border); padding-block-start: 12px; }
+.cal { flex-direction: column; flex-wrap: nowrap; }
+.cal-row { display: grid; grid-template-columns: 150px 130px 1fr 1fr auto; gap: 6px; }
+.mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .cal-row { grid-template-columns: 1fr 1fr; } }

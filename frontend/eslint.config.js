@@ -5,6 +5,7 @@ const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 
 module.exports = defineConfig([
+  { ignores: ['src/app/core/api/generated/**'] },
   {
     files: ['**/*.ts'],
     extends: [
@@ -19,7 +20,8 @@ module.exports = defineConfig([
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          // *hasPermission / *ifFeature are part of the public template API.
+          prefix: ['app', 'has', 'if'],
           style: 'camelCase',
         },
       ],

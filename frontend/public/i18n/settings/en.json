@@ -1,0 +1,168 @@
+{
+  "audit": {
+    "description": "Every configuration change with before/after.",
+    "details": "Details",
+    "title": "Audit log",
+    "what": "What",
+    "when": "When",
+    "who": "Who"
+  },
+  "constraints": {
+    "arity": {
+      "Aggregate": "Pattern",
+      "Resource": "Resource clash",
+      "Unary": "Per session"
+    },
+    "categories": {
+      "groups": "Groups",
+      "instructors": "Instructors",
+      "integrity": "Integrity",
+      "rooms": "Rooms",
+      "rules": "Custom rules",
+      "time": "Time"
+    },
+    "core": "Core",
+    "description": "Hard/soft constraints, weights and custom rules.",
+    "severity": "Severity",
+    "subtitle": "The same configuration drives manual validation and automatic generation.",
+    "title": "Constraints & rules",
+    "weight": "Weight"
+  },
+  "curriculum": {
+    "action": "Change",
+    "actions": {
+      "blocked": "Kept (in use)",
+      "create": "Create",
+      "remove": "Remove",
+      "unchanged": "Unchanged",
+      "update": "Update"
+    },
+    "applied": "Applied",
+    "apply": "Apply",
+    "created": "{n} new",
+    "description": "Weekly quotas per unit and session generation.",
+    "generate": "Generate sessions",
+    "hint": "Idempotent: running it again only changes what differs. Sessions already on a schedule are never removed.",
+    "nothing": "Everything is already up to date.",
+    "preview": "Preview changes",
+    "removed": "{n} removed",
+    "title": "Curriculum",
+    "unchanged": "{n} unchanged",
+    "updated": "{n} updated"
+  },
+  "customFields": {
+    "description": "Extra fields for instructors, rooms, courses, groups, sessions.",
+    "title": "Custom fields"
+  },
+  "features": {
+    "description": "Turn whole capabilities on or off.",
+    "subtitle": "Menus, pages, API endpoints and the solver follow these switches immediately.",
+    "title": "Feature flags"
+  },
+  "institution": {
+    "description": "Details, templates, import/export.",
+    "details": "Institution details",
+    "timeZone": "Time zone",
+    "title": "Institution & configuration"
+  },
+  "lookups": {
+    "deactivated": "Deactivated — kept for history.",
+    "description": "Session, instructor and room types, group kinds, equipment.",
+    "kinds": {
+      "equipment-tags": "Equipment",
+      "group-kinds": "Group kinds",
+      "instructor-types": "Instructor types",
+      "org-unit-types": "Hierarchy levels",
+      "room-types": "Room types",
+      "session-types": "Session types"
+    },
+    "lowContrast": "This color cannot reach AA contrast in one of the themes.",
+    "mergeInto": "Target value",
+    "mergeText": "All sessions, rooms, rules and other references will point to the chosen value; then this one is removed.",
+    "mergeTitle": "Merge {code} into…",
+    "merged": "Merged; all references were moved.",
+    "system": "System",
+    "title": "Lookups",
+    "usages": "Used by"
+  },
+  "org": {
+    "addChild": "Add child",
+    "addRoot": "Add top-level unit",
+    "empty": "No units yet. Start with the top level."
+  },
+  "orgStructure": {
+    "description": "Tree of faculties, departments, stages, grades…",
+    "title": "Organization structure"
+  },
+  "roles": {
+    "add": "New role",
+    "description": "Who can do what.",
+    "members": "{n, plural, =0 {no members} one {# member} other {# members}}",
+    "permission": "Permission",
+    "title": "Roles & permissions"
+  },
+  "rules": {
+    "title": "Rule Builder"
+  },
+  "setup": {
+    "create": "Create institution",
+    "custom": "Custom",
+    "defaultLanguage": "Default language",
+    "eyebrow": "Institution setup",
+    "stepDetails": "Details",
+    "stepTemplate": "Choose a template",
+    "title": "Create an institution"
+  },
+  "subtitle": "Everything that varies between institutions is configured here — no code changes, no redeploy.",
+  "terminology": {
+    "default": "Default",
+    "description": "Rename any UI term per language.",
+    "key": "Term",
+    "subtitle": "Leave empty to use the default wording.",
+    "title": "Terminology"
+  },
+  "time": {
+    "addPeriod": "Add period",
+    "addShift": "Add shift",
+    "break": "Break",
+    "cycleHint": "1 = same every week; 2 = A/B weeks; up to 8.",
+    "cycleLabel": "Label of week {n}",
+    "cycleLabels": "Week labels",
+    "cycleLength": "Week cycle length",
+    "description": "Working days, periods, breaks, shifts, week cycles.",
+    "end": "End",
+    "firstSlot": "First period",
+    "lastSlot": "Last period",
+    "noShifts": "No shifts defined.",
+    "off": "Off",
+    "overrides": "Per-day overrides",
+    "overridesHint": "Switch off periods on specific days (e.g. a short Thursday).",
+    "periods": "Periods & breaks",
+    "shifts": "Shifts",
+    "start": "Start",
+    "title": "Time structure & shifts",
+    "week": "Week",
+    "weekStart": "Week starts on",
+    "workingDays": "Working days"
+  },
+  "title": "Settings",
+  "transfer": {
+    "applied": "Configuration applied.",
+    "applyMessage": "{n} items will be created or updated.",
+    "applyTitle": "Apply configuration changes?",
+    "area": "Area",
+    "export": "Export configuration",
+    "import": "Import configuration…",
+    "previewTemplate": "Preview template",
+    "saveAs": "Save as template",
+    "saveAsButton": "Save template",
+    "subtitle": "Export this configuration as JSON, import one with a preview, or apply a template.",
+    "template": "Template",
+    "templateSaved": "Template saved.",
+    "title": "Templates, import & export"
+  },
+  "users": {
+    "description": "Accounts, links and role assignments.",
+    "title": "Users"
+  }
+}

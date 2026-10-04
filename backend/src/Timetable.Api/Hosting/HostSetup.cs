@@ -51,6 +51,7 @@ public static class HostSetup
         services.AddProblemDetails();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddControllers()
+            .AddApplicationPart(typeof(HostSetup).Assembly)
             .AddJsonOptions(o =>
             {
                 o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -136,7 +137,10 @@ public static class HostSetup
         services.AddSwaggerGen(o =>
         {
             o.SwaggerDoc("v1", new OpenApiInfo { Title = "Timetable API", Version = "v1" });
-            o.CustomSchemaIds(t => t.FullName?.Replace("+", ".", StringComparison.Ordinal));
+            o.CustomSchemaIds(SchemaIds.For);
+            o.SchemaFilter<RequiredNonNullableSchemaFilter>();
+            o.OperationFilter<CrudResponseOperationFilter>();
+            o.SupportNonNullableReferenceTypes();
             o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme { Type = SecuritySchemeType.Http, Scheme = "bearer", BearerFormat = "JWT" });
         });
 

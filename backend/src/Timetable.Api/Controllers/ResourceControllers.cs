@@ -22,6 +22,7 @@ public sealed class TravelTimesController : CrudController<BuildingTravelTime, T
 public sealed class RoomsController : CrudController<Room, RoomDto, RoomInput>
 {
     [HttpGet("{id:guid}/availability")]
+    [ProducesResponseType<AvailabilityDto>(200)]
     public async Task<IActionResult> GetAvailability(Guid id, CancellationToken ct) =>
         this.ToActionResult(await Sender.Send(new GetAvailabilityQuery(AvailabilityTarget.Room, id), ct));
 
@@ -34,6 +35,7 @@ public sealed class RoomsController : CrudController<Room, RoomDto, RoomInput>
 public sealed class InstructorsController : CrudController<Instructor, InstructorDto, InstructorInput>
 {
     [HttpGet("{id:guid}/availability")]
+    [ProducesResponseType<AvailabilityDto>(200)]
     public async Task<IActionResult> GetAvailability(Guid id, CancellationToken ct) =>
         this.ToActionResult(await Sender.Send(new GetAvailabilityQuery(AvailabilityTarget.Instructor, id), ct));
 
