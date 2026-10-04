@@ -50,13 +50,25 @@ public sealed class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidat
         var failures = results.SelectMany(r => r.Errors).Where(f => f is not null).ToList();
         if (failures.Count == 0) return await next(cancellationToken);
 
+        return ResultFactory.Fail<TResponse>(ValidationErrors.ToError(failures));
+    }
+
+}
+
+public static class ValidationErrors
+{
+    public static Error ToError(IEnumerable<FluentValidation.Results.ValidationFailure> failures)
+    {
         var errors = failures
             .GroupBy(f => ToCamel(f.PropertyName))
             .ToDictionary(g => g.Key, g => g.Select(f => new FieldError(f.ErrorCode, f.ErrorMessage, f.FormattedMessagePlaceholderValues?
                 .Where(kv => kv.Key is not "PropertyName" and not "PropertyValue" and not "PropertyPath")
                 .ToDictionary(kv => kv.Key, kv => kv.Value))).ToArray());
-        return ResultFactory.Fail<TResponse>(Error.Validation("VALIDATION_FAILED", details: errors));
+        return Error.Validation("VALIDATION_FAILED", details: errors);
     }
+
+    public static Error Single(string field, string code, IReadOnlyDictionary<string, object>? p = null) =>
+        Error.Validation("VALIDATION_FAILED", details: new Dictionary<string, FieldError[]> { [field] = [new FieldError(code, code, p)] });
 
     private static string ToCamel(string s)
     {
