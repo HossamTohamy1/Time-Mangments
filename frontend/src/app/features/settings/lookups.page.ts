@@ -15,6 +15,7 @@ import { Icon } from '../../shared/ui/icon';
 import { EntityFormDialog } from '../entities/entity-form.dialog';
 import { UsageDialog, UsageDecision, UsageItem } from '../entities/usage.dialog';
 import { MergeDialog } from './merge.dialog';
+import { ImpactService } from '../../shared/impact/impact';
 
 const KINDS: LookupKind[] = ['session-types', 'instructor-types', 'room-types', 'group-kinds', 'org-unit-types', 'equipment-tags'];
 
@@ -111,6 +112,7 @@ export class LookupsPage {
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
   private readonly theme = inject(ThemeService);
+  private readonly impact = inject(ImpactService);
   protected readonly config = inject(ConfigStore);
   protected readonly kinds = KINDS;
   protected readonly kind = signal<LookupKind>('session-types');
@@ -135,7 +137,11 @@ export class LookupsPage {
 
   async edit(row: LookupDto | null): Promise<void> {
     const value = row ? { ...row, allowedSlotFrom: row.allowedSlotFrom ?? null, allowedSlotTo: row.allowedSlotTo ?? null } as Record<string, unknown> : null;
-    const ref = this.dialog.open<Record<string, unknown>>(EntityFormDialog, { data: { schema: this.schema(), value } });
+    // Session-type behaviour changes (duration, allowed days/slots) go through impact analysis first.
+    const beforeSave = this.kind() === 'session-types'
+      ? (body: Record<string, unknown>, id: string | undefined) => id ? this.impact.confirm(`/lookups/session-types/${id}/impact`, body) : Promise.resolve(true)
+      : undefined;
+    const ref = this.dialog.open<Record<string, unknown>>(EntityFormDialog, { data: { schema: this.schema(), value, beforeSave } });
     if (await firstValueFrom(ref.closed)) {
       this.toast.success('common.saved');
       await Promise.all([this.load(), this.config.load(true)]);

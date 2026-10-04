@@ -62,3 +62,12 @@ Format: **what** — why — which flow it affects.
 - **Self-service menu items** (My timetable / My availability) are shown only when the account is linked to an instructor or group.
 - **Permission codes contain dots**; their translation keys replace dots with underscores to avoid nested-key collisions (`timetable.view` vs `timetable.view.own`).
 - **Language endonyms** ("English", "العربية") are deliberately not translated in language pickers; the i18n checker allow-lists them.
+
+## Phase 4 — Engine & validator
+
+- **Severity is configuration, not code**: constraints only report violations with an amount; the configuration decides hard/soft and weight (soft penalty = weight × amount). Core constraints are always hard.
+- **Candidate evaluation is incremental**: unary constraints evaluate only the candidate; resource conflicts use the occupancy index; aggregate constraints compute the delta (with − without), so a drag preview stays well under 100 ms for thousands of sessions.
+- **Cached schedule state keyed by (config version, data version, schedule version)**; any configuration change bumps the version and the next request rebuilds.
+- **Impact before save**: risky configuration changes are evaluated against existing schedules first (dry run), and the user confirms with the list of affected entries.
+- **Fix (flow: conflicts)**: a group/parent-group clash was reported twice (once per direction); entity refs are now symmetric and de-duplicated.
+- **Week patterns are bitmasks** (`0` = every week), so Week A/B and custom rotations need no special code.

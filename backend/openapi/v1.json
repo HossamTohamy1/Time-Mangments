@@ -558,6 +558,92 @@
         }
       }
     },
+    "/api/v1/config/constraints/{code}/impact": {
+      "post": {
+        "tags": [
+          "Config"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstraintSettingRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstraintSettingRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstraintSettingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/config/time-structure/impact": {
+      "post": {
+        "tags": [
+          "Config"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeStructureDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeStructureDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeStructureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/config/audit": {
       "get": {
         "tags": [
@@ -2199,6 +2285,63 @@
         }
       }
     },
+    "/api/v1/lookups/{kind}/{id}/impact": {
+      "post": {
+        "tags": [
+          "Lookups"
+        ],
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LookupInput"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LookupInput"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LookupInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/me/availability": {
       "get": {
         "tags": [
@@ -3127,6 +3270,112 @@
         }
       }
     },
+    "/api/v1/rules/preview": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RulePreviewRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RulePreviewRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RulePreviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RulePreviewDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rules/impact": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuleImpactRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuleImpactRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuleImpactRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rules/{id}/removal-impact": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/rules": {
       "get": {
         "tags": [
@@ -3325,6 +3574,85 @@
         }
       }
     },
+    "/api/v1/schedules/{id}/conflicts": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationReportDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/entries/validate-move": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignmentProbe"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignmentProbe"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignmentProbe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidateDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/sessions": {
       "get": {
         "tags": [
@@ -3519,6 +3847,55 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/sessions/{id}/valid-slots": {
+      "get": {
+        "tags": [
+          "SessionSlots"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "scheduleId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "entryId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SlotOptionDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -4062,6 +4439,54 @@
         },
         "additionalProperties": false
       },
+      "AssignmentProbe": {
+        "required": [
+          "day",
+          "sessionId",
+          "startSlot"
+        ],
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "entryId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "occurrence": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "weekMask": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AuditEntryDto": {
         "required": [
           "action",
@@ -4266,6 +4691,30 @@
           "Exception"
         ],
         "type": "string"
+      },
+      "CandidateDto": {
+        "required": [
+          "penalty",
+          "status",
+          "violations"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "penalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "violations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViolationDto"
+            }
+          }
+        },
+        "additionalProperties": false
       },
       "ChangeAction": {
         "enum": [
@@ -4889,6 +5338,23 @@
         },
         "additionalProperties": false
       },
+      "EntityRefDto": {
+        "required": [
+          "id",
+          "kind"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
       "GenerateSessionsRequest": {
         "required": [
           "termId"
@@ -5032,6 +5498,33 @@
             "type": "object",
             "additionalProperties": { },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImpactDto": {
+        "required": [
+          "affectedEntries",
+          "newHardViolations",
+          "schedules"
+        ],
+        "type": "object",
+        "properties": {
+          "schedules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleImpactDto"
+            }
+          },
+          "newHardViolations": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "affectedEntries": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -6533,6 +7026,29 @@
         },
         "additionalProperties": false
       },
+      "RuleImpactRequest": {
+        "required": [
+          "definition",
+          "severity",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "definition": { },
+          "severity": {
+            "$ref": "#/components/schemas/ConstraintSeverity"
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "RuleInput": {
         "required": [
           "code",
@@ -6564,6 +7080,84 @@
         },
         "additionalProperties": false
       },
+      "RulePreviewDto": {
+        "required": [
+          "affectedSessions",
+          "findings",
+          "penalty",
+          "sessions",
+          "violations"
+        ],
+        "type": "object",
+        "properties": {
+          "affectedSessions": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RulePreviewSession"
+            }
+          },
+          "violations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "penalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViolationDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "RulePreviewRequest": {
+        "required": [
+          "definition",
+          "severity",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "definition": { },
+          "severity": {
+            "$ref": "#/components/schemas/ConstraintSeverity"
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "scheduleId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RulePreviewSession": {
+        "required": [
+          "label",
+          "sessionId"
+        ],
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "SaveAsTemplateRequest": {
         "required": [
           "code"
@@ -6580,6 +7174,62 @@
           "nameEn": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduleImpactDto": {
+        "required": [
+          "hardAfter",
+          "hardBefore",
+          "name",
+          "newlyInvalidEntryIds",
+          "newViolations",
+          "scheduleId",
+          "softAfter",
+          "softBefore",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "scheduleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "hardBefore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hardAfter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softBefore": {
+            "type": "number",
+            "format": "double"
+          },
+          "softAfter": {
+            "type": "number",
+            "format": "double"
+          },
+          "newlyInvalidEntryIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "newViolations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViolationDto"
+            }
           }
         },
         "additionalProperties": false
@@ -6908,6 +7558,55 @@
           "lastSlot": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SlotOptionDto": {
+        "required": [
+          "day",
+          "penalty",
+          "reasons",
+          "startSlot",
+          "status",
+          "validAlternatives"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string"
+          },
+          "roomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "penalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "validAlternatives": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViolationDto"
+            }
           }
         },
         "additionalProperties": false
@@ -7363,6 +8062,94 @@
           }
         },
         "additionalProperties": false
+      },
+      "ValidationReportDto": {
+        "required": [
+          "hardCount",
+          "scheduleId",
+          "softPenalty",
+          "unplacedOccurrences",
+          "violations"
+        ],
+        "type": "object",
+        "properties": {
+          "scheduleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "hardCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softPenalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "unplacedOccurrences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "violations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViolationDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ViolationDto": {
+        "required": [
+          "code",
+          "constraintCode",
+          "entities",
+          "message",
+          "params",
+          "penalty",
+          "severity"
+        ],
+        "type": "object",
+        "properties": {
+          "constraintCode": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "penalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "message": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntityRefDto"
+            }
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "slot": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       }
     },
     "securitySchemes": {
@@ -7426,7 +8213,13 @@
       "name": "Rules"
     },
     {
+      "name": "Schedules"
+    },
+    {
       "name": "Sessions"
+    },
+    {
+      "name": "SessionSlots"
     },
     {
       "name": "Templates"

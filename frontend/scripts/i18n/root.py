@@ -122,6 +122,15 @@ T = {
  "design.toastError": ("Error toast", "تنبيه خطأ"), "design.dialog": ("Confirm dialog", "نافذة تأكيد"),
 }
 
+T.update({
+ "impact.title": ("This change affects existing timetables", "هذا التغيير يؤثر على الجداول الحالية"),
+ "impact.subtitle": ("{violations, plural, =0 {No new hard conflicts} one {# new hard conflict} other {# new hard conflicts}}; {entries, plural, =0 {no entries} one {# entry} other {# entries}} would become invalid.",
+                     "{violations, plural, zero {لا تعارضات جديدة} one {تعارض جديد واحد} two {تعارضان جديدان} few {# تعارضات جديدة} many {# تعارضًا جديدًا} other {# تعارض جديد}}؛ {entries, plural, zero {لا جلسات} one {جلسة واحدة} two {جلستان} few {# جلسات} many {# جلسة} other {# جلسة}} ستصبح غير صالحة."),
+ "impact.schedule": ("Schedule", "الجدول"), "impact.hard": ("Hard conflicts", "التعارضات الإلزامية"), "impact.soft": ("Soft penalty", "المخالفات المرنة"),
+ "impact.entries": ("Newly invalid", "أصبحت غير صالحة"), "impact.examples": ("Examples", "أمثلة"), "impact.applyAnyway": ("Apply anyway", "تطبيق على أي حال"),
+ "schedules.status.Draft": ("Draft", "مسودة"), "schedules.status.Published": ("Published", "منشور"), "schedules.status.Archived": ("Archived", "مؤرشف"),
+})
+
 # Constraint catalogue names/descriptions/params (rendered in Settings → Constraints)
 C = {
  "INSTRUCTOR_CONFLICT": ("No instructor double-booking", "عدم تعارض عضو التدريس", "An instructor teaches one session at a time, also across institutions.", "يدرّس عضو التدريس جلسة واحدة في الوقت نفسه، حتى بين المؤسسات."),

@@ -25,6 +25,18 @@ public static partial class DependencyInjection
         services.AddScoped<EffectiveConfigService>();
         services.AddScoped<IFeatureService>(sp => sp.GetRequiredService<EffectiveConfigService>());
 
+        // Constraint engine wiring (validator, cached schedule states, impact analysis, re-validation).
+        services.AddSingleton<Features.Scheduling.ScheduleStateStore>();
+        services.AddSingleton<Features.Scheduling.RevalidationQueue>();
+        services.AddScoped<Features.Scheduling.ScheduleProblemFactory>();
+        services.AddScoped<Features.Scheduling.ConstraintConfigurationProvider>();
+        services.AddScoped<Features.Scheduling.ScheduleStateService>();
+        services.AddScoped<Features.Scheduling.ScheduleValidator>();
+        services.AddScoped<Features.Scheduling.IScheduleValidator>(sp => sp.GetRequiredService<Features.Scheduling.ScheduleValidator>());
+        services.AddScoped<Features.Scheduling.ImpactAnalyzer>();
+        services.AddScoped<Features.Scheduling.RulePreviewer>();
+        services.AddScoped<Features.Scheduling.RevalidationService>();
+
         services.AddCrud<Building, BuildingDto, BuildingInput, BuildingDefinition>();
         services.AddCrud<BuildingTravelTime, TravelTimeDto, TravelTimeInput, TravelTimeDefinition>();
         services.AddCrud<Room, RoomDto, RoomInput, RoomDefinition>();

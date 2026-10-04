@@ -1,0 +1,16 @@
+.editor { inline-size: min(1060px, calc(100vw - 32px)); }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 16px; }
+.block { border: 1px solid var(--tt-border); border-radius: 10px; padding: 12px; margin-block-end: 10px; display: flex; flex-direction: column; gap: 10px;
+  h3 { margin: 0; font-size: 14px; } h4 { margin: 4px 0 0; font-size: 13px; } }
+.small { font-size: 12px; margin: 0; }
+.scope { display: flex; flex-direction: column; gap: 8px; }
+.chips { border: 1px solid var(--tt-border); border-radius: 8px; padding: 6px 10px; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 12px;
+  legend { font-size: 12px; font-weight: 500; padding-inline: 4px; } label { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; } }
+.check { display: inline-flex; gap: 6px; align-items: center; }
+.preview { background: var(--tt-surface-variant); border: 1px solid var(--tt-border); border-radius: 10px; padding: 12px; align-self: start; position: sticky; inset-block-start: 0;
+  h3 { margin: 0 0 8px; font-size: 14px; display: flex; gap: 6px; align-items: center; } h4 { font-size: 12px; margin: 10px 0 4px; } }
+.stat { display: flex; align-items: baseline; gap: 8px; strong { font-size: 22px; } span { color: var(--tt-on-surface-muted); font-size: 12px; }
+  &.bad strong { color: var(--tt-conflict); } }
+.sessions { padding-inline-start: 16px; font-size: 12px; max-block-size: 160px; overflow: auto; margin: 6px 0; }
+.error { color: var(--tt-conflict); }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } .preview { position: static; } }

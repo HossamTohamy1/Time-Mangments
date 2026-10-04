@@ -9,7 +9,13 @@ import { EntitySchema } from '../../shared/forms/field-defs';
 import { DynamicForm } from '../../shared/forms/dynamic-form';
 import { buildForm, formToInput, serverFieldErrors } from '../../shared/forms/form-builder';
 
-export interface EntityFormData { schema: EntitySchema; value: Record<string, unknown> | null; defaults?: Record<string, unknown>; }
+export interface EntityFormData {
+  schema: EntitySchema;
+  value: Record<string, unknown> | null;
+  defaults?: Record<string, unknown>;
+  /** Optional gate before saving (e.g. impact analysis). Returning false cancels the save. */
+  beforeSave?: (body: Record<string, unknown>, id: string | undefined) => Promise<boolean>;
+}
 
 @Component({
   selector: 'app-entity-form-dialog',
@@ -56,6 +62,7 @@ export class EntityFormDialog {
     const body = formToInput(this.data.schema.fields, this.form);
     try {
       const id = this.data.value?.['id'] as string | undefined;
+      if (this.data.beforeSave && !(await this.data.beforeSave(body, id))) return;
       const saved = id
         ? await firstValueFrom(this.api.put<Record<string, unknown>>(`${this.data.schema.endpoint}/${id}`, body))
         : await firstValueFrom(this.api.post<Record<string, unknown>>(this.data.schema.endpoint, body));

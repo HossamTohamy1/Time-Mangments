@@ -44,7 +44,9 @@ public abstract class ResourceConflictConstraint : ConstraintBase
                     instance.Report(sink, MessageCode, 1,
                         P(("resource", NameOf(s, key)), ("session", s.Session(p).CourseName), ("other", other?.CourseName),
                           ("otherCode", other?.Label), ("day", DayText(p.Day)), ("slot", overlapStart + 1)),
-                        Refs(p, Refs(o, new EntityRef(RefKind, key))), p.Day, overlapStart);
+                        // Both the occupying resource and the clashing one are referenced so the pair key is symmetric
+                        // (parent/child group clashes are found once from each side).
+                        Refs(p, Refs(o, new EntityRef(RefKind, resource), new EntityRef(RefKind, key))).Distinct().ToArray(), p.Day, overlapStart);
                 }
             }
         }

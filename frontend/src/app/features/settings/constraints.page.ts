@@ -8,6 +8,7 @@ import { ConfigStore } from '../../core/config/config.store';
 import { ToastService } from '../../core/ui/toast.service';
 import { Icon } from '../../shared/ui/icon';
 import { RuleBuilderSection } from './rule-builder.section';
+import { ImpactService } from '../../shared/impact/impact';
 
 interface Draft { severity: ConstraintSeverity; weight: number; params: Record<string, unknown>; dirty: boolean; error?: string; }
 
@@ -22,6 +23,7 @@ interface Draft { severity: ConstraintSeverity; weight: number; params: Record<s
 export class ConstraintsPage {
   private readonly api = inject(Api);
   private readonly toast = inject(ToastService);
+  private readonly impact = inject(ImpactService);
   protected readonly config = inject(ConfigStore);
   protected readonly drafts = signal<Record<string, Draft>>({});
   protected readonly severities: ConstraintSeverity[] = ['Hard', 'Soft', 'Off'];
@@ -71,6 +73,8 @@ export class ConstraintsPage {
   async save(c: ConstraintSummaryDto): Promise<void> {
     const d = this.draft(c);
     try {
+      const body = { severity: d.severity, weight: d.weight, parameters: d.params };
+      if (!(await this.impact.confirm(`/config/constraints/${c.code}/impact`, body))) return;
       await firstValueFrom(this.api.put(`/config/constraints/${c.code}`, { severity: d.severity, weight: d.weight, parameters: d.params }));
       this.drafts.update((x) => { const n = { ...x }; delete n[c.code]; return n; });
       await this.config.load(true);

@@ -102,7 +102,50 @@
     "title": "Roles & permissions"
   },
   "rules": {
-    "title": "Rule Builder"
+    "add": "New rule",
+    "affected": "sessions affected",
+    "condition": "Condition",
+    "conditionType": "Rule",
+    "conditions": {
+      "after": "Must be after…",
+      "avoidTime": "Avoided time",
+      "before": "Must be before…",
+      "days": "Only on certain days",
+      "maxPerDay": "At most N per day",
+      "maxPerWeek": "At most N per week",
+      "minGap": "Minimum gap between sessions",
+      "notAdjacent": "Not next to…",
+      "preferredTime": "Preferred time",
+      "sameDay": "All on the same day",
+      "sameRoom": "Always the same room",
+      "slotRange": "Only within a period range"
+    },
+    "courseTags": "Course tags",
+    "days": "Days",
+    "dryRunPenalty": "penalty in the current draft",
+    "dryRunViolations": "violations in the current draft",
+    "edit": "Edit rule",
+    "effect": "Effect",
+    "effects": {
+      "forbid": "Forbid",
+      "limit": "Limit",
+      "prefer": "Prefer (soft)"
+    },
+    "empty": "No custom rules yet.",
+    "findings": "What would be flagged",
+    "from": "From period",
+    "max": "Maximum",
+    "otherScope": "Related sessions",
+    "per": "Counted per",
+    "preview": "Live preview",
+    "previewHint": "Adjust the rule to see which sessions it affects.",
+    "sameCourse": "Only within the same course",
+    "scope": "Applies to",
+    "scopeHint": "Leave a group of filters empty to include everything.",
+    "slots": "Minimum free slots",
+    "subtitle": "Create your own scheduling rules without code: choose which sessions, a condition and an effect.",
+    "title": "Rule Builder",
+    "to": "To period"
   },
   "setup": {
     "create": "Create institution",
