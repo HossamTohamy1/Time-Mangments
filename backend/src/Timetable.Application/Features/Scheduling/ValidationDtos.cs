@@ -37,3 +37,14 @@ public static class ViolationMapper
 
     public static string Status(SlotStatus s) => s switch { SlotStatus.Valid => "valid", SlotStatus.ValidWithPenalty => "penalty", _ => "invalid" };
 }
+
+public static class SessionLabels
+{
+    /// <summary>"CS201 · Lab · CS-Y3-A1": course code, localized session type and groups — unique enough to tell occurrences apart.</summary>
+    public static string Describe(ScheduleProblem problem, SessionInfo s, string lang)
+    {
+        var type = s.SessionTypeName.For(lang);
+        var groups = string.Join(", ", s.GroupIds.Select(g => problem.Groups.TryGetValue(g, out var x) ? x.Code : null).Where(c => c is not null));
+        return string.Join(" · ", new[] { s.CourseCode, type, groups }.Where(x => !string.IsNullOrWhiteSpace(x)));
+    }
+}

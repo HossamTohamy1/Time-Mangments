@@ -1,0 +1,78 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="swap" [size]="22" class="head-icon" />
+    <h1>{{ t('timetable.compare.title') }}</h1>
+  </div>
+
+  <div class="pickers tt-card">
+    <label class="tt-field">
+      {{ t('timetable.compare.a') }}
+      <select class="tt-input" [value]="a() ?? ''" (change)="pick('a', $any($event.target).value)">
+        @for (s of context.schedules(); track s.id) { <option [value]="s.id" [selected]="s.id === a()">{{ label(s) }}</option> }
+      </select>
+    </label>
+    <button type="button" class="tt-btn icon" (click)="swap()" [attr.aria-label]="t('timetable.compare.swap')" [title]="t('timetable.compare.swap')"><app-icon name="arrows" /></button>
+    <label class="tt-field">
+      {{ t('timetable.compare.b') }}
+      <select class="tt-input" [value]="b() ?? ''" (change)="pick('b', $any($event.target).value)">
+        @for (s of context.schedules(); track s.id) { <option [value]="s.id" [selected]="s.id === b()">{{ label(s) }}</option> }
+      </select>
+    </label>
+  </div>
+
+  @if (loading()) {
+    <div class="tt-card"><div class="tt-skeleton" style="block-size: 200px"></div></div>
+  } @else if (result(); as r) {
+    <div class="scores">
+      @for (m of ['placed', 'unplaced', 'hardCount', 'softPenalty']; track m) {
+        @let av = $any(r.a)[m];
+        @let bv = $any(r.b)[m];
+        @let d = delta(av, bv);
+        <div class="tt-card score">
+          <span class="lbl">{{ t('timetable.compare.metrics.' + m) }}</span>
+          <div class="vals"><span>{{ av | num:1 }}</span><app-icon name="arrowRight" [size]="14" /><strong>{{ bv | num:1 }}</strong></div>
+          @if (d !== 0) {
+            <span class="delta" [class.good]="m === 'placed' ? d > 0 : d < 0" [class.bad]="m === 'placed' ? d < 0 : d > 0">{{ d > 0 ? '+' : '' }}{{ d | num:1 }}</span>
+          } @else { <span class="delta">{{ t('timetable.compare.same') }}</span> }
+        </div>
+      }
+    </div>
+
+    <div class="tt-card list">
+      <div class="list-head">
+        <div class="tt-seg" role="group" [attr.aria-label]="t('timetable.compare.filter')">
+          @for (k of kinds; track k) {
+            <button type="button" [attr.aria-pressed]="kind() === k" (click)="kind.set(k)">
+              {{ t('timetable.compare.kinds.' + k) }}
+              <span class="count">{{ k === 'all' ? r.moved + r.added + r.removed : k === 'moved' ? r.moved : k === 'added' ? r.added : r.removed }}</span>
+            </button>
+          }
+        </div>
+        <span class="tt-muted">{{ t('timetable.compare.unchanged', { count: r.unchanged }) }}</span>
+      </div>
+      <div class="table-wrap">
+        <table class="tt-table">
+          <thead><tr>
+            <th scope="col">{{ 'session' | term }}</th><th scope="col">{{ t('timetable.compare.change') }}</th>
+            <th scope="col">{{ t('timetable.compare.before') }}</th><th scope="col">{{ t('timetable.compare.after') }}</th>
+          </tr></thead>
+          <tbody>
+            @for (c of changes(); track c.sessionId + ':' + c.occurrence) {
+              <tr>
+                <td class="sess">{{ sessionLabel(c) }}</td>
+                <td>
+                  <span class="tt-chip" [class.valid]="c.kind === 'added'" [class.conflict]="c.kind === 'removed'" [class.primary]="c.kind === 'moved'">{{ t('timetable.compare.kinds.' + c.kind) }}</span>
+                  @for (x of c.changes; track x) { <span class="tt-chip">{{ t('timetable.compare.what.' + x) }}</span> }
+                </td>
+                <td>@if (c.from; as f) { <span class="pl">{{ f.day | dayName:true }} {{ time(f) }} · {{ room(f) }} · {{ instructor(f) }}</span> } @else { — }</td>
+                <td>@if (c.to; as p) { <span class="pl">{{ p.day | dayName:true }} {{ time(p) }} · {{ room(p) }} · {{ instructor(p) }}</span> } @else { — }</td>
+              </tr>
+            } @empty { <tr><td colspan="4" class="tt-empty">{{ t('timetable.compare.none') }}</td></tr> }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div class="tt-card tt-empty">{{ t('timetable.compare.pick') }}</div>
+  }
+</div>

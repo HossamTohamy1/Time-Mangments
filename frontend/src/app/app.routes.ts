@@ -33,6 +33,18 @@ export const routes: Routes = [
         loadComponent: () => import('./features/timetable/conflicts.page').then((m) => m.ConflictsPage),
       },
       {
+        path: 'schedules/compare', canActivate: [permissionGuard('timetable.view|timetable.edit')], providers: [provideTranslocoScope('timetable')],
+        loadComponent: () => import('./features/timetable/compare.page').then((m) => m.ComparePage),
+      },
+      {
+        path: 'generation', canActivate: [permissionGuard('schedule.generate'), featureGuard('auto-generation')], providers: [provideTranslocoScope('generation')],
+        loadComponent: () => import('./features/generation/generation.page').then((m) => m.GenerationPage),
+      },
+      {
+        path: 'substitutions', canActivate: [permissionGuard('substitutions.manage'), featureGuard('substitutions')], providers: [provideTranslocoScope('substitutions')],
+        loadComponent: () => import('./features/substitutions/substitutions.page').then((m) => m.SubstitutionsPage),
+      },
+      {
         path: 'schedules', canActivate: [permissionGuard('timetable.view|timetable.edit')], providers: [provideTranslocoScope('timetable')],
         loadComponent: () => import('./features/timetable/schedules.page').then((m) => m.SchedulesPage),
       },

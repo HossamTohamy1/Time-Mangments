@@ -1,0 +1,104 @@
+{
+  "check": {
+    "constraints": "Hard / soft constraints",
+    "noCpSat": "The optimizing solver is not available on this server; the fast heuristic will be used.",
+    "occurrences": "Weekly occurrences",
+    "proceedMessage": "{count} blocking problems were found. The affected sessions will remain unplaced.",
+    "proceedTitle": "Generate anyway?",
+    "ready": "No problems found. Ready to generate.",
+    "recheck": "Check again",
+    "start": "Generate timetable",
+    "summary": "{errors} blocking, {warnings} warnings. Sessions with blocking problems will stay unplaced.",
+    "title": "Is the data ready?"
+  },
+  "engine": {
+    "advanced": "{count, plural, =0 {Adjust constraints for this run} one {Adjust constraints for this run (# changed)} other {Adjust constraints for this run (# changed)}}",
+    "advancedHint": "Changes apply to this run only; institution settings stay as they are.",
+    "constraint": "Constraint",
+    "hints": "Stay close to the starting version",
+    "severity": "Severity",
+    "timeHint": "More time usually means fewer soft penalties.",
+    "timeLimit": "Time limit: {seconds} s",
+    "title": "How should it be solved?",
+    "weight": "Weight"
+  },
+  "engineUsed": {
+    "cpsat": "Optimizing solver",
+    "cpsat+heuristic": "Solver + heuristic fallback",
+    "heuristic": "Fast heuristic"
+  },
+  "engines": {
+    "auto": "Automatic (recommended)",
+    "autoHint": "Optimizing solver, with the fast heuristic as fallback.",
+    "cpsat": "Optimizing solver",
+    "cpsatHint": "OR-Tools CP-SAT: best quality within the time limit.",
+    "heuristic": "Fast heuristic",
+    "heuristicHint": "Greedy placement + local improvement; seconds even for large data."
+  },
+  "history": "Recent runs",
+  "historyCols": {
+    "status": "Result",
+    "when": "Started"
+  },
+  "mode": {
+    "complete": "Complete the existing one",
+    "completeHint": "Keep every placed session and place only what is missing.",
+    "fresh": "Fresh timetable",
+    "freshHint": "Re-plan everything except pinned sessions."
+  },
+  "phases": {
+    "PROGRESS_BUILDING_MODEL": "Building the model…",
+    "PROGRESS_DONE": "Done",
+    "PROGRESS_SOLVING": "Searching for the best timetable…",
+    "PROGRESS_VERIFYING": "Verifying every rule…"
+  },
+  "run": {
+    "again": "New generation",
+    "cancel": "Stop",
+    "compare": "Compare",
+    "engine": "Engine",
+    "error": "Something went wrong while generating. Try again or use the fast heuristic.",
+    "hard": "Hard conflicts",
+    "open": "Open in editor",
+    "placed": "{placed} of {total} placed",
+    "placedLabel": "Placed",
+    "queued": "Waiting to start…",
+    "repaired": "Repaired by the safety net",
+    "running": "Generating…",
+    "score": "Penalty {score}",
+    "soft": "Soft penalty",
+    "status": {
+      "Cancelled": "Generation stopped",
+      "Failed": "Generation failed",
+      "Infeasible": "Generated with unplaced sessions",
+      "Queued": "Queued",
+      "Running": "Running",
+      "Succeeded": "Timetable generated"
+    },
+    "unplaced": "Unplaced",
+    "unplacedHint": "{count} occurrences found no valid slot. Open the editor to see why and place them manually, or relax a rule and generate again."
+  },
+  "scope": {
+    "base": "Start from",
+    "baseHint": "Pinned sessions of the chosen version are always kept.",
+    "mode": "Generation mode",
+    "name": "Name of the new draft",
+    "namePlaceholder": "Generated automatically",
+    "noBase": "Nothing (empty timetable)",
+    "title": "What should be generated?"
+  },
+  "severity": {
+    "Hard": "Hard",
+    "Off": "Off",
+    "Soft": "Soft"
+  },
+  "step": {
+    "check": "Readiness",
+    "engine": "Engine & limits",
+    "run": "Generate",
+    "scope": "Scope"
+  },
+  "steps": "Generation steps",
+  "subtitle": "Build a complete timetable automatically. The result is a new draft you can review, adjust and publish.",
+  "title": "Generation wizard"
+}

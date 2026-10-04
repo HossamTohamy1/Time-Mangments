@@ -25,7 +25,7 @@ public sealed record CompareSchedulesQuery(Guid A, Guid B) : IQuery<Result<Compa
     public string RequiredPermission => Permissions.TimetableView + "|" + Permissions.TimetableEdit;
 }
 
-internal sealed class CompareHandler(IAppDbContext db, ScheduleStateService states) : IRequestHandler<CompareSchedulesQuery, Result<CompareDto>>
+internal sealed class CompareHandler(IAppDbContext db, ScheduleStateService states, ICurrentUser user) : IRequestHandler<CompareSchedulesQuery, Result<CompareDto>>
 {
     public async Task<Result<CompareDto>> Handle(CompareSchedulesQuery q, CancellationToken ct)
     {
@@ -70,7 +70,7 @@ internal sealed class CompareHandler(IAppDbContext db, ScheduleStateService stat
         if (lease.IsFailure) return lease.Error!;
         using var l = lease.Value;
         var report = ScheduleEvaluator.EvaluateAll(l.State, l.Configuration);
-        var labels = l.State.Problem.Sessions.Values.ToDictionary(x => x.Id, x => x.Label);
+        var labels = l.State.Problem.Sessions.Values.ToDictionary(x => x.Id, x => SessionLabels.Describe(l.State.Problem, x, user.Language));
         return new SideData(s, entries, new CompareSideDto(ScheduleBoardHandlers.Summary(s, entries.Count), entries.Count, report.UnplacedOccurrences,
             report.HardCount, report.SoftPenalty), labels);
     }
