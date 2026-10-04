@@ -34,6 +34,10 @@ public static partial class DependencyInjection
         services.AddScoped<Features.Scheduling.ScheduleValidator>();
         services.AddScoped<Features.Scheduling.ScheduleEditor>();
         services.AddScoped<Features.Exports.TimetableDocumentBuilder>();
+        services.AddSingleton<Features.Generation.GenerationQueue>();
+        services.AddSingleton<Features.Generation.GenerationRegistry>();
+        services.AddSingleton<Features.Generation.ISchedulerEngine, Features.Generation.HeuristicEngine>();
+        services.AddScoped<Features.Generation.GenerationRunner>();
         services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.BuildingImport>();
         services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.RoomImport>();
         services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.InstructorImport>();
