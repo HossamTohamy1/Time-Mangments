@@ -1,0 +1,5 @@
+{
+  "app": { "name": "TimeTable", "suite": "Academic Suite", "tagline": "Configuration-driven timetabling for any institution." },
+  "shell": { "language": "Language" },
+  "theme": { "light": "Light", "dark": "Dark", "system": "System" }
+}

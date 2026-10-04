@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <title>TimeTable</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    /* No-flash bootstrap: resolve theme + language before Angular starts. Must stay tiny and dependency-free. */
+    (function () {
+      var d = document.documentElement, mode = 'system', lang = null;
+      try { mode = localStorage.getItem('tt.theme') || 'system'; lang = localStorage.getItem('tt.lang'); } catch (e) {}
+      var dark = mode === 'dark' || (mode === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      d.setAttribute('data-theme', dark ? 'dark' : 'light');
+      d.style.colorScheme = dark ? 'dark' : 'light';
+      if (!lang) { lang = ((navigator.language || 'en').toLowerCase().indexOf('ar') === 0) ? 'ar' : 'en'; }
+      d.lang = lang; d.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    })();
+  </script>
+</head>
+<body>
+  <app-root>
+    <div class="boot-splash" aria-busy="true"></div>
+  </app-root>
+</body>
+</html>

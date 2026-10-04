@@ -1,0 +1,33 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+backend/src/Timetable.Api/App_Data/
+backend/src/Timetable.Api/logs/
+*.db
+*.db-shm
+*.db-wal
+publish/
+artifacts/
+
+# Angular build output inside the API (keep the placeholder)
+backend/src/Timetable.Api/wwwroot/*
+!backend/src/Timetable.Api/wwwroot/.gitkeep
+
+# Node / Angular
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/test-results/
+frontend/playwright-report/
+frontend/coverage/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

@@ -1,0 +1,116 @@
+// Design tokens. Components consume ONLY these custom properties (never raw hex).
+// Full palette documented in docs/design-tokens.md.
+
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+  --tt-bg: #f5f6fa;
+  --tt-surface: #ffffff;
+  --tt-surface-variant: #f9fafc;
+  --tt-surface-sunken: #f2f3f8;
+  --tt-on-surface: #1d2133;
+  --tt-on-surface-muted: #5f6578;
+  --tt-on-surface-faint: #8a90a3;
+  --tt-border: #e4e7ef;
+  --tt-border-strong: #d5d9e4;
+  --tt-primary: #4338ca;
+  --tt-primary-strong: #3730a3;
+  --tt-on-primary: #ffffff;
+  --tt-primary-soft: #eef0ff;
+  --tt-primary-soft-border: #c9ccf5;
+  --tt-shadow-sm: 0 1px 2px rgb(20 24 40 / 6%);
+  --tt-shadow-md: 0 4px 14px rgb(20 24 40 / 8%);
+  --tt-shadow-lg: 0 12px 32px rgb(20 24 40 / 16%), 0 2px 6px rgb(20 24 40 / 8%);
+
+  // Semantic (meaning identical in both themes; always paired with icon/label)
+  --tt-valid: #15803d;
+  --tt-valid-bg: #effbf4;
+  --tt-valid-border: #86d4a6;
+  --tt-penalty: #a16207;
+  --tt-penalty-bg: #fff9e6;
+  --tt-penalty-border: #f0c75e;
+  --tt-conflict: #dc2626;
+  --tt-conflict-strong: #b91c1c;
+  --tt-conflict-bg: #fff2f2;
+  --tt-conflict-border: #f8caca;
+  --tt-on-conflict-bg: #7f1d1d;
+  --tt-pinned: #4338ca;
+  --tt-info: #2563eb;
+  --tt-info-bg: #eff6ff;
+
+  // Chart palette (read by charts at runtime)
+  --tt-chart-1: #4338ca;
+  --tt-chart-2: #0f9488;
+  --tt-chart-3: #c2410c;
+  --tt-chart-4: #8b3fd9;
+  --tt-chart-5: #15803d;
+  --tt-chart-grid: #e4e7ef;
+
+  --tt-hatch-a: #f9fafc;
+  --tt-hatch-b: #f2f3f8;
+  --tt-scrim: rgb(15 18 30 / 40%);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --tt-bg: #0f1220;
+  --tt-surface: #171b2d;
+  --tt-surface-variant: #1e2338;
+  --tt-surface-sunken: #12162a;
+  --tt-on-surface: #e7e9f3;
+  --tt-on-surface-muted: #a6abc2;
+  --tt-on-surface-faint: #7d839c;
+  --tt-border: #2a3049;
+  --tt-border-strong: #3a4160;
+  --tt-primary: #8f97ff;
+  --tt-primary-strong: #a9afff;
+  --tt-on-primary: #10132a;
+  --tt-primary-soft: #252a52;
+  --tt-primary-soft-border: #3c4384;
+  --tt-shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --tt-shadow-md: 0 4px 14px rgb(0 0 0 / 40%);
+  --tt-shadow-lg: 0 12px 32px rgb(0 0 0 / 55%), 0 2px 6px rgb(0 0 0 / 40%);
+
+  --tt-valid: #4ade80;
+  --tt-valid-bg: #11291c;
+  --tt-valid-border: #1f6a3c;
+  --tt-penalty: #fbbf24;
+  --tt-penalty-bg: #2d2410;
+  --tt-penalty-border: #7a5b12;
+  --tt-conflict: #f87171;
+  --tt-conflict-strong: #fca5a5;
+  --tt-conflict-bg: #351518;
+  --tt-conflict-border: #7a2a2f;
+  --tt-on-conflict-bg: #fecaca;
+  --tt-pinned: #a5b4fc;
+  --tt-info: #60a5fa;
+  --tt-info-bg: #13233f;
+
+  --tt-chart-1: #8f97ff;
+  --tt-chart-2: #2dd4bf;
+  --tt-chart-3: #fb923c;
+  --tt-chart-4: #c084fc;
+  --tt-chart-5: #4ade80;
+  --tt-chart-grid: #2a3049;
+
+  --tt-hatch-a: #1a1f33;
+  --tt-hatch-b: #151a2c;
+  --tt-scrim: rgb(0 0 0 / 60%);
+}
+
+:root {
+  --tt-radius: 10px;
+  --tt-radius-sm: 7px;
+  --tt-radius-lg: 12px;
+  --tt-sidebar-w: 248px;
+  --tt-header-h: 64px;
+  --tt-font-en: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --tt-font-ar: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+  --tt-font: var(--tt-font-en);
+  --tt-line-height: 1.45;
+}
+
+:root[lang='ar'] {
+  --tt-font: var(--tt-font-ar);
+  --tt-line-height: 1.65; // Arabic needs taller lines to avoid clipping diacritics.
+}

@@ -1,0 +1,112 @@
+// Global base styles. Layout uses CSS logical properties only (RTL-safe).
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--tt-font);
+  font-size: 14px;
+  line-height: var(--tt-line-height);
+  color: var(--tt-on-surface);
+  background: var(--tt-bg);
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--tt-primary); }
+:focus-visible { outline: 2px solid var(--tt-primary); outline-offset: 2px; }
+.boot-splash { position: fixed; inset: 0; background: var(--tt-bg); }
+
+// Directional icons mirror in RTL (arrows, chevrons, back/next). Never apply to logos/clocks/charts.
+[dir='rtl'] .tt-mirror { transform: scaleX(-1); }
+
+.tt-visually-hidden {
+  position: absolute !important; inline-size: 1px; block-size: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+// ---------- Shared UI primitives ----------
+.tt-card {
+  background: var(--tt-surface); border: 1px solid var(--tt-border);
+  border-radius: var(--tt-radius-lg); box-shadow: var(--tt-shadow-sm);
+}
+.tt-page { padding: 20px; display: flex; flex-direction: column; gap: 16px; min-inline-size: 0; }
+.tt-page-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.tt-page-head h1 { margin: 0; font-size: 22px; font-weight: 700; }
+.tt-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--tt-on-surface-faint); }
+.tt-muted { color: var(--tt-on-surface-muted); }
+.tt-spacer { flex: 1; }
+.tt-row { display: flex; align-items: center; gap: 8px; }
+.tt-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+
+.tt-btn {
+  display: inline-flex; align-items: center; gap: 8px; block-size: 36px; padding-inline: 12px;
+  border-radius: 8px; border: 1px solid var(--tt-border); background: var(--tt-surface);
+  font-weight: 500; white-space: nowrap; cursor: pointer; color: var(--tt-on-surface);
+  &:hover:not(:disabled) { border-color: var(--tt-border-strong); background: var(--tt-surface-variant); }
+  &:disabled { opacity: .55; cursor: not-allowed; }
+  &.primary { background: var(--tt-primary); border-color: var(--tt-primary); color: var(--tt-on-primary);
+    &:hover:not(:disabled) { background: var(--tt-primary-strong); border-color: var(--tt-primary-strong); } }
+  &.outline-primary { color: var(--tt-primary); border-color: var(--tt-primary-soft-border); }
+  &.soft { background: var(--tt-primary-soft); color: var(--tt-primary); border-color: var(--tt-primary-soft-border); }
+  &.danger { color: var(--tt-conflict); background: var(--tt-conflict-bg); border-color: var(--tt-conflict-border); }
+  &.ghost { border-color: transparent; background: transparent; }
+  &.sm { block-size: 30px; padding-inline: 10px; font-size: 13px; }
+  &.icon { inline-size: 36px; padding: 0; justify-content: center; }
+}
+
+.tt-chip {
+  display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600;
+  padding: 2px 7px; border-radius: 5px; white-space: nowrap;
+  background: var(--tt-surface-variant); border: 1px solid var(--tt-border); color: var(--tt-on-surface-muted);
+  &.primary { background: var(--tt-primary-soft); color: var(--tt-primary); border-color: transparent; }
+  &.valid { background: var(--tt-valid-bg); color: var(--tt-valid); border-color: var(--tt-valid-border); }
+  &.penalty { background: var(--tt-penalty-bg); color: var(--tt-penalty); border-color: var(--tt-penalty-border); }
+  &.conflict { background: var(--tt-conflict-bg); color: var(--tt-conflict); border-color: var(--tt-conflict-border); }
+}
+
+.tt-input {
+  block-size: 38px; padding-inline: 12px; border-radius: 8px; border: 1px solid var(--tt-border);
+  background: var(--tt-surface); color: var(--tt-on-surface); min-inline-size: 0;
+  &:focus { outline: 2px solid var(--tt-primary); outline-offset: -1px; }
+}
+select.tt-input { padding-inline-end: 28px; }
+textarea.tt-input { block-size: auto; padding-block: 8px; }
+
+.tt-seg {
+  display: inline-flex; padding: 3px; gap: 2px; background: var(--tt-surface-variant);
+  border: 1px solid var(--tt-border); border-radius: 9px;
+  button { border: 0; background: transparent; padding: 5px 11px; border-radius: 6px; font-weight: 500;
+    color: var(--tt-on-surface-muted); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  button[aria-pressed='true'] { background: var(--tt-surface); color: var(--tt-primary); box-shadow: var(--tt-shadow-sm); }
+  &.solid button[aria-pressed='true'] { background: var(--tt-primary); color: var(--tt-on-primary); }
+}
+
+.tt-table {
+  inline-size: 100%; border-collapse: collapse;
+  th, td { padding: 10px 12px; text-align: start; border-block-end: 1px solid var(--tt-border); vertical-align: middle; }
+  th { font-size: 12px; font-weight: 600; color: var(--tt-on-surface-muted); background: var(--tt-surface-variant); position: sticky; inset-block-start: 0; z-index: 1; }
+  tr:hover td { background: var(--tt-surface-variant); }
+}
+
+.tt-skeleton {
+  border-radius: 6px; min-block-size: 14px;
+  background: linear-gradient(90deg, var(--tt-surface-variant) 25%, var(--tt-border) 50%, var(--tt-surface-variant) 75%);
+  background-size: 200% 100%; animation: tt-shimmer 1.2s infinite linear;
+}
+@keyframes tt-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .tt-skeleton { animation: none; } }
+
+.tt-empty { padding: 32px 16px; text-align: center; color: var(--tt-on-surface-muted); }
+
+label.tt-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 500; min-inline-size: 0;
+  .hint { font-weight: 400; color: var(--tt-on-surface-faint); font-size: 12px; }
+  .error { font-weight: 500; color: var(--tt-conflict); font-size: 12px; } }
+
+// Print: always clean light ink-friendly style regardless of active theme.
+@media print {
+  :root, :root[data-theme='dark'] {
+    color-scheme: light;
+    --tt-bg: #fff; --tt-surface: #fff; --tt-surface-variant: #fff; --tt-on-surface: #000;
+    --tt-on-surface-muted: #333; --tt-border: #999; --tt-primary: #000; --tt-shadow-sm: none; --tt-shadow-md: none;
+  }
+  .tt-no-print { display: none !important; }
+}
