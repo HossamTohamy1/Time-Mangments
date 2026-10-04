@@ -31,7 +31,7 @@ public sealed class RevalidationService(IAppDbContext db, ScheduleStateService s
 {
     public async Task RevalidateAsync(Guid institutionId, string reason, CancellationToken ct)
     {
-        var schedules = await db.Schedules.Where(s => s.InstitutionId == institutionId && s.Status != ScheduleStatus.Archived && s.LockedByJobId == null).ToListAsync(ct);
+        var schedules = await db.Schedules.AsNoTracking().Where(s => s.InstitutionId == institutionId && s.Status != ScheduleStatus.Archived && s.LockedByJobId == null).ToListAsync(ct);
         foreach (var s in schedules)
         {
             var lease = await states.AcquireAsync(s.Id, ct);
@@ -39,8 +39,7 @@ public sealed class RevalidationService(IAppDbContext db, ScheduleStateService s
             EvaluationReport report;
             using (var l = lease.Value) report = ScheduleEvaluator.EvaluateAll(l.State, l.Configuration);
             var previousHard = s.HardViolations ?? 0;
-            s.HardViolations = report.HardCount;
-            s.SoftScore = report.SoftPenalty;
+            await ScheduleCounters.SetAsync(db, s.Id, report.HardCount, report.SoftPenalty, ct);
             await notifier.ScheduleChangedAsync(institutionId, s.Id, new { scheduleId = s.Id, kind = "revalidated", hard = report.HardCount, soft = report.SoftPenalty }, ct);
             if (s.Status == ScheduleStatus.Published && report.HardCount > previousHard)
                 await NotifyAsync(institutionId, s.Id, report.HardCount - previousHard, reason, ct);

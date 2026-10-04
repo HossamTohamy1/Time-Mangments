@@ -33,6 +33,12 @@ public static partial class DependencyInjection
         services.AddScoped<Features.Scheduling.ScheduleStateService>();
         services.AddScoped<Features.Scheduling.ScheduleValidator>();
         services.AddScoped<Features.Scheduling.ScheduleEditor>();
+        services.AddScoped<Features.Exports.TimetableDocumentBuilder>();
+        services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.BuildingImport>();
+        services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.RoomImport>();
+        services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.InstructorImport>();
+        services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.CourseImport>();
+        services.AddSingleton<Features.Imports.ImportDefinition, Features.Imports.GroupImport>();
         services.AddScoped<Features.Scheduling.IScheduleValidator>(sp => sp.GetRequiredService<Features.Scheduling.ScheduleValidator>());
         services.AddScoped<Features.Scheduling.ImpactAnalyzer>();
         services.AddScoped<Features.Scheduling.RulePreviewer>();

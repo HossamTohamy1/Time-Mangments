@@ -33,6 +33,8 @@ public static class DependencyInjection
         });
         services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<DatabaseInitializer>();
+        services.AddSingleton<IDocumentRenderer, Documents.DocumentRenderer>();
+        services.AddSingleton<ITabularFileService, Documents.TabularFileService>();
 
         services.AddIdentityCore<AppUser>(o =>
             {

@@ -131,14 +131,12 @@ internal sealed class ScheduleLifecycleHandlers(IAppDbContext db, ICurrentUser u
 
     public async Task<Result<ValidationReportDto>> Handle(ValidateScheduleCommand r, CancellationToken ct)
     {
-        var s = await db.Schedules.FirstOrDefaultAsync(x => x.Id == r.ScheduleId, ct);
+        var s = await db.Schedules.AsNoTracking().FirstOrDefaultAsync(x => x.Id == r.ScheduleId, ct);
         if (s is null) return Error.NotFound("schedule", r.ScheduleId);
         var report = await Evaluate(r.ScheduleId, ct);
         if (report.IsFailure) return report.Error!;
-        s.HardViolations = report.Value.HardCount;
-        s.SoftScore = report.Value.SoftPenalty;
-        await db.SaveChangesAsync(ct);
-        await notifier.ScheduleChangedAsync(s.InstitutionId, s.Id, new { scheduleId = s.Id, kind = "revalidated", hard = s.HardViolations, soft = s.SoftScore }, ct);
+        await ScheduleCounters.SetAsync(db, s.Id, report.Value.HardCount, report.Value.SoftPenalty, ct);
+        await notifier.ScheduleChangedAsync(s.InstitutionId, s.Id, new { scheduleId = s.Id, kind = "revalidated", hard = report.Value.HardCount, soft = report.Value.SoftPenalty }, ct);
         return validator.ToDto(r.ScheduleId, report.Value);
     }
 

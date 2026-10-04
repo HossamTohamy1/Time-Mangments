@@ -10,7 +10,7 @@ import { toApiError } from '../api/api';
 export const languageInterceptor: HttpInterceptorFn = (req, next) => {
   if (!req.url.startsWith('/api')) return next(req);
   const lang = inject(LanguageService).lang();
-  return next(req.clone({ setHeaders: { 'Accept-Language': lang } }));
+  return next(req.clone({ setHeaders: { 'Accept-Language': lang, 'X-Client-Language': lang } }));
 };
 
 function withAuth(req: HttpRequest<unknown>, token: string | null, institution: string | null) {

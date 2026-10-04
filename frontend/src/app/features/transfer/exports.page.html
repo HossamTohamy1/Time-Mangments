@@ -1,0 +1,159 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="arrows" [size]="22" class="head-icon" />
+    <h1>{{ t('exports.title') }}</h1>
+  </div>
+
+  <div class="columns">
+    @if (auth.has('exports.run')) {
+      <section class="tt-card block" aria-labelledby="export-title">
+        <h2 id="export-title"><app-icon name="download" /> {{ t('exports.export.title') }}</h2>
+        <p class="tt-muted">{{ t('exports.export.subtitle') }}</p>
+
+        <label class="tt-field">
+          {{ t('exports.export.schedule') }}
+          <select class="tt-input" [value]="context.currentId() ?? ''" (change)="context.select($any($event.target).value)">
+            @for (s of context.schedules(); track s.id) { <option [value]="s.id" [selected]="s.id === context.currentId()">{{ s.name }} — {{ t('schedules.status.' + s.status) }}</option> }
+          </select>
+        </label>
+
+        <div class="tt-field">
+          <span>{{ t('exports.export.view') }}</span>
+          <div class="tt-seg" role="group" [attr.aria-label]="t('exports.export.view')">
+            @for (v of views; track v) {
+              <button type="button" [attr.aria-pressed]="view() === v" (click)="setView(v)">{{ (v === 'group' ? 'groups' : v === 'instructor' ? 'instructors' : 'rooms') | term }}</button>
+            }
+          </div>
+        </div>
+
+        <div class="tt-field">
+          <span>{{ t('exports.export.which', { count: selected().size }) }}</span>
+          <label class="search">
+            <app-icon name="search" />
+            <input type="search" [value]="filter()" (input)="filter.set($any($event.target).value)" [placeholder]="t('common.search')" [attr.aria-label]="t('common.search')" />
+          </label>
+          <div class="pick-list" role="group" [attr.aria-label]="t('exports.export.which', { count: selected().size })">
+            @for (r of resources(); track r.id) {
+              <label class="pick"><input type="checkbox" [checked]="selected().has(r.id)" (change)="toggle(r.id)" /> <span>{{ label(r) }}</span></label>
+            } @empty { <p class="tt-muted empty">{{ t('common.empty') }}</p> }
+          </div>
+          <span class="hint">{{ t('exports.export.allHint') }}</span>
+        </div>
+
+        <div class="tt-field">
+          <span>{{ t('exports.export.format') }}</span>
+          <div class="formats" role="radiogroup" [attr.aria-label]="t('exports.export.format')">
+            @for (f of formats; track f.id) {
+              <button type="button" role="radio" class="format" [attr.aria-checked]="format() === f.id" (click)="format.set(f.id)">
+                <app-icon [name]="f.icon" [size]="20" />
+                <strong>{{ t('exports.formats.' + f.id) }}</strong>
+                <small>{{ t('exports.formats.' + f.id + 'Hint') }}</small>
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="row-2">
+          <label class="tt-field">
+            {{ t('exports.export.language') }}
+            <select class="tt-input" [value]="language()" (change)="language.set($any($event.target).value)">
+              <option value="ar">العربية</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+          @if (config.weekLabels().length > 1) {
+            <label class="tt-field">
+              {{ t('exports.export.week') }}
+              <select class="tt-input" (change)="week.set($any($event.target).value === '' ? null : +$any($event.target).value)">
+                <option value="">{{ t('exports.export.allWeeks') }}</option>
+                @for (w of config.weekLabels(); track $index) { <option [value]="$index">{{ w }}</option> }
+              </select>
+            </label>
+          }
+        </div>
+
+        <button type="button" class="tt-btn primary big" [disabled]="!context.current() || exporting()" (click)="download()">
+          <app-icon name="download" /> {{ exporting() ? t('exports.export.preparing') : t('exports.export.download') }}
+        </button>
+      </section>
+    }
+
+    @if (auth.has('imports.run')) {
+      <section class="tt-card block" aria-labelledby="import-title">
+        <h2 id="import-title"><app-icon name="upload" /> {{ t('exports.import.title') }}</h2>
+        <p class="tt-muted">{{ t('exports.import.subtitle') }}</p>
+
+        <div class="row-2">
+          <label class="tt-field">
+            {{ t('exports.import.kind') }}
+            <select class="tt-input" [value]="kind()" (change)="setKind($any($event.target).value)">
+              @for (k of kinds(); track k.kind) { <option [value]="k.kind" [selected]="k.kind === kind()">{{ kindLabel(k.kind) }}</option> }
+            </select>
+          </label>
+          <label class="tt-field">
+            {{ t('exports.import.mode') }}
+            <select class="tt-input" [value]="mode()" (change)="mode.set($any($event.target).value); report.set(null)">
+              <option value="upsert">{{ t('exports.import.upsert') }}</option>
+              <option value="insert">{{ t('exports.import.insert') }}</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="columns-list">
+          <span class="tt-muted">{{ t('exports.import.columns') }}</span>
+          @for (c of kindColumns(); track c.key) { <code [class.req]="c.required">{{ c.key }}@if (c.required) {*}</code> }
+        </div>
+        <div class="tt-row">
+          <button type="button" class="tt-btn sm" (click)="template('xlsx')"><app-icon name="download" /> {{ t('exports.import.templateXlsx') }}</button>
+          <button type="button" class="tt-btn sm" (click)="template('csv')"><app-icon name="download" /> {{ t('exports.import.templateCsv') }}</button>
+        </div>
+
+        <label class="drop" [class.over]="dragOver()" (dragover)="$event.preventDefault(); dragOver.set(true)" (dragleave)="dragOver.set(false)" (drop)="dropped($event)">
+          <input #fileInput type="file" accept=".xlsx,.csv" (change)="pickFile(fileInput)" class="sr-only" />
+          <app-icon name="upload" [size]="26" />
+          @if (file(); as f) { <strong>{{ f.name }}</strong> } @else { <strong>{{ t('exports.import.drop') }}</strong> }
+          <small class="tt-muted">{{ t('exports.import.dropHint') }}</small>
+        </label>
+
+        @if (importing()) { <div class="tt-skeleton" style="block-size: 60px"></div> }
+
+        @if (report(); as r) {
+          <div class="summary" role="status">
+            <span class="tt-chip valid">{{ t('exports.import.created', { count: r.created }) }}</span>
+            <span class="tt-chip primary">{{ t('exports.import.updated', { count: r.updated }) }}</span>
+            <span class="tt-chip">{{ t('exports.import.skipped', { count: r.skipped }) }}</span>
+            <span class="tt-chip" [class.conflict]="r.failed > 0">{{ t('exports.import.failed', { count: r.failed }) }}</span>
+            <span class="tt-spacer"></span>
+            @if (r.applied) { <span class="tt-chip valid"><app-icon name="checkCircle" [size]="12" /> {{ t('exports.import.done') }}</span> }
+            @else if (r.dryRun) { <span class="tt-muted">{{ t('exports.import.preview') }}</span> }
+            @else { <span class="tt-chip conflict">{{ t('exports.import.notApplied') }}</span> }
+          </div>
+          @if (r.rows.length > 0) {
+            <label class="tt-row only"><input type="checkbox" [checked]="onlyIssues()" (change)="onlyIssues.set(!onlyIssues())" /> {{ t('exports.import.onlyIssues') }}</label>
+            <div class="table-wrap">
+              <table class="tt-table">
+                <thead><tr><th scope="col">{{ t('exports.import.row') }}</th><th scope="col">code</th><th scope="col">{{ t('exports.import.action') }}</th><th scope="col">{{ t('exports.import.issues') }}</th></tr></thead>
+                <tbody>
+                  @for (row of visibleRows(); track row.row) {
+                    <tr [class.bad]="row.action === 'error'">
+                      <td class="num">{{ row.row | num:0 }}</td>
+                      <td><code>{{ row.code }}</code></td>
+                      <td><span class="tt-chip" [class.valid]="row.action === 'create'" [class.primary]="row.action === 'update'" [class.conflict]="row.action === 'error'">{{ t('exports.import.actions.' + row.action) }}</span></td>
+                      <td>@for (i of row.issues; track $index) { <div>@if (i.field) {<code>{{ i.field }}</code> } {{ i.message }}</div> }</td>
+                    </tr>
+                  } @empty { <tr><td colspan="4" class="tt-empty">{{ t('exports.import.noIssues') }}</td></tr> }
+                </tbody>
+              </table>
+            </div>
+          }
+          <div class="tt-row actions">
+            <button type="button" class="tt-btn" [disabled]="!file() || importing()" (click)="run(true)"><app-icon name="refresh" /> {{ t('exports.import.recheck') }}</button>
+            <button type="button" class="tt-btn primary" [disabled]="!canApply() || importing()" (click)="run(false)">
+              <app-icon name="check" /> {{ t('exports.import.apply', { count: r.created + r.updated }) }}
+            </button>
+          </div>
+        }
+      </section>
+    }
+  </div>
+</div>

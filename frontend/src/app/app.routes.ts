@@ -36,6 +36,10 @@ export const routes: Routes = [
         path: 'schedules', canActivate: [permissionGuard('timetable.view|timetable.edit')], providers: [provideTranslocoScope('timetable')],
         loadComponent: () => import('./features/timetable/schedules.page').then((m) => m.SchedulesPage),
       },
+      {
+        path: 'exports', canActivate: [permissionGuard('exports.run|imports.run'), featureGuard('import-export')], providers: [provideTranslocoScope('exports')],
+        loadComponent: () => import('./features/transfer/exports.page').then((m) => m.ExportsPage),
+      },
       { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.page').then((m) => m.DashboardPage), providers: [provideTranslocoScope('dashboard')] },
       entity('rooms'), entity('buildings'), entity('instructors'), entity('courses'), entity('groups'), entity('sessions'),
       entity('terms'), entity('travel-times'), entity('offerings'),

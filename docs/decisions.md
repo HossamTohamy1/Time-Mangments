@@ -81,3 +81,12 @@ Format: **what** — why — which flow it affects.
 - **Group view = group + ancestors + descendants**, so a section sees its cohort's shared lectures and its lab groups' sessions.
 - **Fix (flow: swap)**: a unique room/time index made two-row swaps fail transiently; it was also wrong for shareable rooms. Replaced by a non-unique index (migration).
 - **Fix (flow: editor layout)**: grid columns sized to `max-content` grew to the card text width; columns are now `minmax(col-min × factor, factor fr)` with a per-day factor for parallel sessions, and narrow cards switch to a compact layout via container queries.
+
+## Phase 6 — Exports & imports
+
+- **Renderer-agnostic document model**: the Application layer resolves language, terminology, day names, colours and merges overlapping cells into blocks; Infrastructure only lays out (QuestPDF / ClosedXML). The same model can later feed other formats.
+- **Arabic font**: IBM Plex Sans Arabic (SIL OFL 1.1, licence file shipped next to the font) — the npm package only ships WOFF, so the TTFs were produced by unpacking the WOFF tables (lossless). Embedded as resources; system fonts are disabled so output is identical on every server.
+- **QuestPDF Community licence** is configured in code; organisations above the Community revenue threshold must switch the licence setting.
+- **Imports reuse the CRUD commands** (same validation, permission and custom-field rules as the UI). Dry run = real execution in a transaction that is rolled back, so the preview is exact (including rows that depend on earlier rows, e.g. a section whose parent cohort is in the same file).
+- **Fix (flow: background re-validation)**: score updates on the schedule row collided with concurrent edits (row version). Derived fields now use `ExecuteUpdate`.
+- **Fix (flow: language)**: messages followed the saved profile language even when the user switched the UI language; the SPA now sends `X-Client-Language`, which takes precedence.
