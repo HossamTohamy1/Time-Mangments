@@ -57,6 +57,18 @@ public sealed class ConfigController : ApiControllerBase
     public async Task<IActionResult> SaveConstraint(string code, [FromBody] ConstraintSettingRequest body, CancellationToken ct) =>
         this.ToActionResult(await Sender.Send(new SaveConstraintSettingCommand(code, body.Severity, body.Weight, body.Parameters?.GetRawText()), ct));
 
+    /// <summary>Impact of a proposed constraint setting on existing schedules (before saving).</summary>
+    [HttpPost("constraints/{code}/impact")]
+    [ProducesResponseType<Timetable.Application.Features.Scheduling.ImpactDto>(200)]
+    public async Task<IActionResult> ConstraintImpact(string code, [FromBody] ConstraintSettingRequest body, CancellationToken ct) =>
+        this.ToActionResult(await Sender.Send(new Timetable.Application.Features.Scheduling.ConstraintImpactQuery(code, body.Severity, body.Weight, body.Parameters?.GetRawText()), ct));
+
+    /// <summary>Impact of a proposed time structure (periods, breaks, days, overrides) on existing schedules.</summary>
+    [HttpPost("time-structure/impact")]
+    [ProducesResponseType<Timetable.Application.Features.Scheduling.ImpactDto>(200)]
+    public async Task<IActionResult> TimeImpact([FromBody] TimeStructureDto time, CancellationToken ct) =>
+        this.ToActionResult(await Sender.Send(new Timetable.Application.Features.Scheduling.TimeStructureImpactQuery(time), ct));
+
     [HttpGet("audit")]
     [ProducesResponseType<Timetable.Application.Common.PagedResult<AuditEntryDto>>(200)]
     public async Task<IActionResult> Audit([FromQuery] string? entityType, [FromQuery] int page = 1, [FromQuery] int pageSize = 50, CancellationToken ct = default) =>

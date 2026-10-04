@@ -8,6 +8,7 @@ import { ConfigStore } from '../../core/config/config.store';
 import { HasUnsavedChanges } from '../../core/guards/guards';
 import { ToastService } from '../../core/ui/toast.service';
 import { DayNamePipe, LocalNamePipe } from '../../shared/pipes/pipes';
+import { ImpactService } from '../../shared/impact/impact';
 import { Icon } from '../../shared/ui/icon';
 
 /** Time structure: working days, week start, N-week cycle, named periods (non-uniform), breaks, shifts, per-day overrides. */
@@ -21,6 +22,7 @@ import { Icon } from '../../shared/ui/icon';
 export class TimeStructurePage implements HasUnsavedChanges {
   private readonly api = inject(Api);
   private readonly toast = inject(ToastService);
+  private readonly impact = inject(ImpactService);
   protected readonly config = inject(ConfigStore);
 
   protected readonly model = signal<TimeStructureDto | null>(null);
@@ -90,6 +92,7 @@ export class TimeStructurePage implements HasUnsavedChanges {
     this.busy.set(true);
     this.errors.set({});
     try {
+      if (!(await this.impact.confirm('/config/time-structure/impact', this.model()))) return;
       const saved = await firstValueFrom(this.api.put<TimeStructureDto>('/config/time-structure', this.model()));
       this.model.set(saved);
       this.dirty.set(false);

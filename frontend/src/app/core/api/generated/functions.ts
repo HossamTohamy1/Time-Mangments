@@ -35,6 +35,10 @@ export type { ApiV1ConfigTimeStructurePut$Params as ApiV1ConfigTimeStructurePut$
 export { apiV1ConfigTimeStructurePut as apiV1ConfigTimeStructurePut } from './fn/config/api-v-1-config-time-structure-put';
 export type { ApiV1ConfigConstraintsCodePut$Params as ApiV1ConfigConstraintsCodePut$Params } from './fn/config/api-v-1-config-constraints-code-put';
 export { apiV1ConfigConstraintsCodePut as apiV1ConfigConstraintsCodePut } from './fn/config/api-v-1-config-constraints-code-put';
+export type { ApiV1ConfigConstraintsCodeImpactPost$Params as ApiV1ConfigConstraintsCodeImpactPost$Params } from './fn/config/api-v-1-config-constraints-code-impact-post';
+export { apiV1ConfigConstraintsCodeImpactPost as apiV1ConfigConstraintsCodeImpactPost } from './fn/config/api-v-1-config-constraints-code-impact-post';
+export type { ApiV1ConfigTimeStructureImpactPost$Params as ApiV1ConfigTimeStructureImpactPost$Params } from './fn/config/api-v-1-config-time-structure-impact-post';
+export { apiV1ConfigTimeStructureImpactPost as apiV1ConfigTimeStructureImpactPost } from './fn/config/api-v-1-config-time-structure-impact-post';
 export type { ApiV1ConfigAuditGet$Params as ApiV1ConfigAuditGet$Params } from './fn/config/api-v-1-config-audit-get';
 export { apiV1ConfigAuditGet as apiV1ConfigAuditGet } from './fn/config/api-v-1-config-audit-get';
 export type { ApiV1ConfigPermissionsGet$Params as ApiV1ConfigPermissionsGet$Params } from './fn/config/api-v-1-config-permissions-get';
@@ -121,6 +125,8 @@ export type { ApiV1LookupsKindIdDelete$Params as ApiV1LookupsKindIdDelete$Params
 export { apiV1LookupsKindIdDelete as apiV1LookupsKindIdDelete } from './fn/lookups/api-v-1-lookups-kind-id-delete';
 export type { ApiV1LookupsKindIdMergePost$Params as ApiV1LookupsKindIdMergePost$Params } from './fn/lookups/api-v-1-lookups-kind-id-merge-post';
 export { apiV1LookupsKindIdMergePost as apiV1LookupsKindIdMergePost } from './fn/lookups/api-v-1-lookups-kind-id-merge-post';
+export type { ApiV1LookupsKindIdImpactPost$Params as ApiV1LookupsKindIdImpactPost$Params } from './fn/lookups/api-v-1-lookups-kind-id-impact-post';
+export { apiV1LookupsKindIdImpactPost as apiV1LookupsKindIdImpactPost } from './fn/lookups/api-v-1-lookups-kind-id-impact-post';
 export type { ApiV1MeAvailabilityGet$Params as ApiV1MeAvailabilityGet$Params } from './fn/me/api-v-1-me-availability-get';
 export { apiV1MeAvailabilityGet as apiV1MeAvailabilityGet } from './fn/me/api-v-1-me-availability-get';
 export type { ApiV1MeAvailabilityPut$Params as ApiV1MeAvailabilityPut$Params } from './fn/me/api-v-1-me-availability-put';
@@ -169,6 +175,12 @@ export type { ApiV1RoomsIdPut$Params as ApiV1RoomsIdPut$Params } from './fn/room
 export { apiV1RoomsIdPut as apiV1RoomsIdPut } from './fn/rooms/api-v-1-rooms-id-put';
 export type { ApiV1RoomsIdDelete$Params as ApiV1RoomsIdDelete$Params } from './fn/rooms/api-v-1-rooms-id-delete';
 export { apiV1RoomsIdDelete as apiV1RoomsIdDelete } from './fn/rooms/api-v-1-rooms-id-delete';
+export type { ApiV1RulesPreviewPost$Params as ApiV1RulesPreviewPost$Params } from './fn/rules/api-v-1-rules-preview-post';
+export { apiV1RulesPreviewPost as apiV1RulesPreviewPost } from './fn/rules/api-v-1-rules-preview-post';
+export type { ApiV1RulesImpactPost$Params as ApiV1RulesImpactPost$Params } from './fn/rules/api-v-1-rules-impact-post';
+export { apiV1RulesImpactPost as apiV1RulesImpactPost } from './fn/rules/api-v-1-rules-impact-post';
+export type { ApiV1RulesIdRemovalImpactPost$Params as ApiV1RulesIdRemovalImpactPost$Params } from './fn/rules/api-v-1-rules-id-removal-impact-post';
+export { apiV1RulesIdRemovalImpactPost as apiV1RulesIdRemovalImpactPost } from './fn/rules/api-v-1-rules-id-removal-impact-post';
 export type { ApiV1RulesGet$Params as ApiV1RulesGet$Params } from './fn/rules/api-v-1-rules-get';
 export { apiV1RulesGet as apiV1RulesGet } from './fn/rules/api-v-1-rules-get';
 export type { ApiV1RulesPost$Params as ApiV1RulesPost$Params } from './fn/rules/api-v-1-rules-post';
@@ -179,6 +191,10 @@ export type { ApiV1RulesIdPut$Params as ApiV1RulesIdPut$Params } from './fn/rule
 export { apiV1RulesIdPut as apiV1RulesIdPut } from './fn/rules/api-v-1-rules-id-put';
 export type { ApiV1RulesIdDelete$Params as ApiV1RulesIdDelete$Params } from './fn/rules/api-v-1-rules-id-delete';
 export { apiV1RulesIdDelete as apiV1RulesIdDelete } from './fn/rules/api-v-1-rules-id-delete';
+export type { ApiV1SchedulesIdConflictsGet$Params as ApiV1SchedulesIdConflictsGet$Params } from './fn/schedules/api-v-1-schedules-id-conflicts-get';
+export { apiV1SchedulesIdConflictsGet as apiV1SchedulesIdConflictsGet } from './fn/schedules/api-v-1-schedules-id-conflicts-get';
+export type { ApiV1SchedulesIdEntriesValidateMovePost$Params as ApiV1SchedulesIdEntriesValidateMovePost$Params } from './fn/schedules/api-v-1-schedules-id-entries-validate-move-post';
+export { apiV1SchedulesIdEntriesValidateMovePost as apiV1SchedulesIdEntriesValidateMovePost } from './fn/schedules/api-v-1-schedules-id-entries-validate-move-post';
 export type { ApiV1SessionsGet$Params as ApiV1SessionsGet$Params } from './fn/sessions/api-v-1-sessions-get';
 export { apiV1SessionsGet as apiV1SessionsGet } from './fn/sessions/api-v-1-sessions-get';
 export type { ApiV1SessionsPost$Params as ApiV1SessionsPost$Params } from './fn/sessions/api-v-1-sessions-post';
@@ -189,6 +205,8 @@ export type { ApiV1SessionsIdPut$Params as ApiV1SessionsIdPut$Params } from './f
 export { apiV1SessionsIdPut as apiV1SessionsIdPut } from './fn/sessions/api-v-1-sessions-id-put';
 export type { ApiV1SessionsIdDelete$Params as ApiV1SessionsIdDelete$Params } from './fn/sessions/api-v-1-sessions-id-delete';
 export { apiV1SessionsIdDelete as apiV1SessionsIdDelete } from './fn/sessions/api-v-1-sessions-id-delete';
+export type { ApiV1SessionsIdValidSlotsGet$Params as ApiV1SessionsIdValidSlotsGet$Params } from './fn/session-slots/api-v-1-sessions-id-valid-slots-get';
+export { apiV1SessionsIdValidSlotsGet as apiV1SessionsIdValidSlotsGet } from './fn/session-slots/api-v-1-sessions-id-valid-slots-get';
 export type { ApiV1TemplatesGet$Params as ApiV1TemplatesGet$Params } from './fn/templates/api-v-1-templates-get';
 export { apiV1TemplatesGet as apiV1TemplatesGet } from './fn/templates/api-v-1-templates-get';
 export type { ApiV1TermsGet$Params as ApiV1TermsGet$Params } from './fn/terms/api-v-1-terms-get';

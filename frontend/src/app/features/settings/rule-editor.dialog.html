@@ -1,0 +1,135 @@
+<div class="tt-dialog editor" *transloco="let t">
+  <h2>{{ input.rule ? t('settings.rules.edit') : t('settings.rules.add') }}</h2>
+  <div class="layout">
+    <div class="main">
+      <section class="block">
+        <div class="tt-grid-2">
+          <label class="tt-field">{{ t('fields.code') }} *<input class="tt-input" dir="ltr" [ngModel]="code()" (ngModelChange)="code.set($event)" data-testid="rule-code" /></label>
+          <label class="tt-field">{{ t('fields.nameEn') }}<input class="tt-input" dir="ltr" [ngModel]="nameEn()" (ngModelChange)="nameEn.set($event)" data-testid="rule-name" /></label>
+          <label class="tt-field">{{ t('fields.nameAr') }}<input class="tt-input" dir="rtl" [ngModel]="nameAr()" (ngModelChange)="nameAr.set($event)" /></label>
+          <div class="tt-field">{{ t('settings.constraints.severity') }}
+            <div class="tt-seg" role="radiogroup">
+              @for (s of ['Hard', 'Soft', 'Off']; track s) {
+                <button type="button" role="radio" [attr.aria-pressed]="severity() === s" [attr.aria-checked]="severity() === s" (click)="severity.set($any(s))">{{ t('enums.severity.' + s) }}</button>
+              }
+            </div>
+          </div>
+          @if (severity() === 'Soft') {
+            <label class="tt-field">{{ t('settings.constraints.weight') }} ({{ weight() }}/10)<input type="range" min="1" max="10" [ngModel]="weight()" (ngModelChange)="weight.set(+$event)" /></label>
+          }
+        </div>
+      </section>
+
+      <section class="block">
+        <h3>1 · {{ t('settings.rules.scope') }}</h3>
+        <p class="tt-muted small">{{ t('settings.rules.scopeHint') }}</p>
+        <ng-container *ngTemplateOutlet="scopeTpl; context: { target: 'scope' }" />
+      </section>
+
+      <section class="block">
+        <h3>2 · {{ t('settings.rules.condition') }}</h3>
+        <div class="tt-grid-2">
+          <label class="tt-field">{{ t('settings.rules.conditionType') }}
+            <select class="tt-input" [ngModel]="cond().type" (ngModelChange)="setCond({ type: $event })" data-testid="rule-condition">
+              @for (c of conditionTypes; track c) { <option [value]="c">{{ t('settings.rules.conditions.' + c) }}</option> }
+            </select>
+          </label>
+          @if (usesPer()) {
+            <label class="tt-field">{{ t('settings.rules.per') }}
+              <select class="tt-input" [ngModel]="cond().per" (ngModelChange)="setCond({ per: $event })">
+                <option value="group">{{ 'group' | term }}</option><option value="instructor">{{ 'instructor' | term }}</option><option value="room">{{ 'room' | term }}</option>
+              </select>
+            </label>
+          }
+          @if (cond().type === 'maxPerDay' || cond().type === 'maxPerWeek') {
+            <label class="tt-field">{{ t('settings.rules.max') }}<input class="tt-input" type="number" min="0" [ngModel]="cond().max" (ngModelChange)="setCond({ max: +$event })" dir="ltr" data-testid="rule-max" /></label>
+          }
+          @if (cond().type === 'minGap') {
+            <label class="tt-field">{{ t('settings.rules.slots') }}<input class="tt-input" type="number" min="1" [ngModel]="cond().slots" (ngModelChange)="setCond({ slots: +$event })" dir="ltr" /></label>
+          }
+          @if (usesRange()) {
+            <label class="tt-field">{{ t('settings.rules.from') }}
+              <select class="tt-input" [ngModel]="cond().from" (ngModelChange)="setCond({ from: +$event || null })">
+                <option [ngValue]="null">—</option>
+                @for (p of config.periods(); track p.index) { @if (!p.isBreak) { <option [ngValue]="p.index + 1">{{ p | localName }}</option> } }
+              </select>
+            </label>
+            <label class="tt-field">{{ t('settings.rules.to') }}
+              <select class="tt-input" [ngModel]="cond().to" (ngModelChange)="setCond({ to: +$event || null })">
+                <option [ngValue]="null">—</option>
+                @for (p of config.periods(); track p.index) { @if (!p.isBreak) { <option [ngValue]="p.index + 1">{{ p | localName }}</option> } }
+              </select>
+            </label>
+          }
+        </div>
+        @if (usesDays()) {
+          <fieldset class="chips"><legend>{{ t('settings.rules.days') }}</legend>
+            @for (d of allDays; track d) { <label><input type="checkbox" [checked]="cond().days.includes(d)" (change)="toggleDay(d)" /> {{ d | dayName }}</label> }
+          </fieldset>
+        }
+        @if (usesOther()) {
+          <h4>{{ t('settings.rules.otherScope') }}</h4>
+          <ng-container *ngTemplateOutlet="scopeTpl; context: { target: 'other' }" />
+          @if (cond().type !== 'notAdjacent') {
+            <label class="check"><input type="checkbox" [ngModel]="cond().sameCourse" (ngModelChange)="setCond({ sameCourse: $event })" /> {{ t('settings.rules.sameCourse') }}</label>
+          }
+        }
+      </section>
+
+      <section class="block">
+        <h3>3 · {{ t('settings.rules.effect') }}</h3>
+        <div class="tt-seg" role="radiogroup">
+          @for (e of ['forbid', 'limit', 'prefer']; track e) {
+            <button type="button" role="radio" [attr.aria-pressed]="model().effect === e" [attr.aria-checked]="model().effect === e"
+              (click)="model.set({ ...model(), effect: $any(e) }); e === 'prefer' && severity.set('Soft')">{{ t('settings.rules.effects.' + e) }}</button>
+          }
+        </div>
+      </section>
+    </div>
+
+    <aside class="preview" aria-live="polite">
+      <h3><app-icon name="eye" /> {{ t('settings.rules.preview') }}</h3>
+      @if (preview(); as p) {
+        <div class="stat"><strong>{{ p.affectedSessions | num }}</strong><span>{{ t('settings.rules.affected') }}</span></div>
+        <div class="stat" [class.bad]="p.violations > 0"><strong>{{ p.violations | num }}</strong><span>{{ t('settings.rules.dryRunViolations') }}</span></div>
+        @if (p.penalty > 0) { <div class="stat"><strong>{{ p.penalty | num }}</strong><span>{{ t('settings.rules.dryRunPenalty') }}</span></div> }
+        <ul class="sessions">@for (s of p.sessions.slice(0, 12); track s.sessionId) { <li dir="auto">{{ s.label }}</li> }</ul>
+        @if (p.findings.length > 0) {
+          <h4>{{ t('settings.rules.findings') }}</h4>
+          <ul class="sessions">@for (f of p.findings.slice(0, 6); track $index) { <li dir="auto">{{ f.message }}</li> }</ul>
+        }
+      } @else { <p class="tt-muted small">{{ t('settings.rules.previewHint') }}</p> }
+    </aside>
+  </div>
+  @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+  <div class="tt-dialog-actions">
+    <button type="button" class="tt-btn" (click)="ref.close(false)">{{ t('common.cancel') }}</button>
+    <button type="button" class="tt-btn primary" [disabled]="busy() || !code()" (click)="save()" data-testid="rule-save">{{ t('common.save') }}</button>
+  </div>
+
+  <ng-template #scopeTpl let-target="target">
+    <div class="scope">
+      <fieldset class="chips"><legend>{{ t('fields.sessionType') }}</legend>
+        @for (l of lookups('session-types'); track l.id) { <label><input type="checkbox" [checked]="has(target, 'sessionTypeCodes', l.code)" (change)="toggle(target, 'sessionTypeCodes', l.code)" /> {{ config.name(l) }}</label> }
+      </fieldset>
+      <fieldset class="chips"><legend>{{ t('fields.instructorType') }}</legend>
+        @for (l of lookups('instructor-types'); track l.id) { <label><input type="checkbox" [checked]="has(target, 'instructorTypeCodes', l.code)" (change)="toggle(target, 'instructorTypeCodes', l.code)" /> {{ config.name(l) }}</label> }
+      </fieldset>
+      <fieldset class="chips"><legend>{{ t('fields.groupKind') }}</legend>
+        @for (l of lookups('group-kinds'); track l.id) { <label><input type="checkbox" [checked]="has(target, 'groupKindCodes', l.code)" (change)="toggle(target, 'groupKindCodes', l.code)" /> {{ config.name(l) }}</label> }
+      </fieldset>
+      <fieldset class="chips"><legend>{{ t('fields.roomType') }}</legend>
+        @for (l of lookups('room-types'); track l.id) { <label><input type="checkbox" [checked]="has(target, 'roomTypeCodes', l.code)" (change)="toggle(target, 'roomTypeCodes', l.code)" /> {{ config.name(l) }}</label> }
+      </fieldset>
+      @if (shifts().length > 0) {
+        <fieldset class="chips"><legend>{{ t('fields.shift') }}</legend>
+          @for (s of shifts(); track s.id) { <label><input type="checkbox" [checked]="has(target, 'shiftCodes', s.code)" (change)="toggle(target, 'shiftCodes', s.code)" /> {{ s | localName }}</label> }
+        </fieldset>
+      }
+      <label class="tt-field">{{ t('settings.rules.courseTags') }}
+        <input class="tt-input" dir="auto" [value]="(target === 'scope' ? model().scope.courseTags : (model().condition.otherScope?.courseTags ?? [])).join(', ')"
+          (change)="setTags(target, 'courseTags', $any($event.target).value)" />
+      </label>
+    </div>
+  </ng-template>
+</div>

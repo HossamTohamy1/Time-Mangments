@@ -408,6 +408,16 @@
     "password": "Leave empty to keep the current password.",
     "personId": "Same value on records in other institutions links one person (prevents double-booking across institutions)."
   },
+  "impact": {
+    "applyAnyway": "Apply anyway",
+    "entries": "Newly invalid",
+    "examples": "Examples",
+    "hard": "Hard conflicts",
+    "schedule": "Schedule",
+    "soft": "Soft penalty",
+    "subtitle": "{violations, plural, =0 {No new hard conflicts} one {# new hard conflict} other {# new hard conflicts}}; {entries, plural, =0 {no entries} one {# entry} other {# entries}} would become invalid.",
+    "title": "This change affects existing timetables"
+  },
   "languages": {
     "ar": "Arabic",
     "en": "English"
@@ -478,6 +488,13 @@
     "passwordChanged": "Password changed.",
     "preferences": "Preferences",
     "title": "Profile & preferences"
+  },
+  "schedules": {
+    "status": {
+      "Archived": "Archived",
+      "Draft": "Draft",
+      "Published": "Published"
+    }
   },
   "shell": {
     "collapseNav": "Collapse sidebar",

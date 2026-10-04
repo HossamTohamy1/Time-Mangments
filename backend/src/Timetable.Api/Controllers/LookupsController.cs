@@ -44,6 +44,14 @@ public sealed class LookupsController : ApiControllerBase
     [HttpPost("{id:guid}/merge")]
     public Task<IActionResult> Merge(string kind, Guid id, [FromBody] MergeRequest body, CancellationToken ct) => Dispatch(kind, new MergeOp(id, body.TargetId), ct);
 
+    /// <summary>Impact of changing a session type's behaviour (duration, allowed days/slots…) before saving.</summary>
+    [HttpPost("{id:guid}/impact")]
+    [ProducesResponseType<Timetable.Application.Features.Scheduling.ImpactDto>(200)]
+    public async Task<IActionResult> Impact(string kind, Guid id, [FromBody] LookupInput input, CancellationToken ct) =>
+        kind == LookupKinds.SessionTypes
+            ? this.ToActionResult(await Sender.Send(new Timetable.Application.Features.Scheduling.SessionTypeImpactQuery(id, input), ct))
+            : Ok(new Timetable.Application.Features.Scheduling.ImpactDto([]));
+
     private abstract record Op;
     private sealed record ListOp(ListRequest Request) : Op;
     private sealed record GetOp(Guid Id) : Op;

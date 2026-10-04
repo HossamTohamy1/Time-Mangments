@@ -74,12 +74,14 @@ public sealed class SignalRNotifier(IHubContext<TimetableHub> timetable, IHubCon
 }
 
 /// <summary>After configuration rows are saved: bump caches and broadcast ConfigChanged.</summary>
-public sealed class ConfigChangeSink(ConfigVersion version, Identity.PermissionCacheVersion permissions, IRealtimeNotifier notifier) : Persistence.IConfigChangeSink
+public sealed class ConfigChangeSink(ConfigVersion version, Identity.PermissionCacheVersion permissions, IRealtimeNotifier notifier,
+    Application.Features.Scheduling.RevalidationQueue revalidation) : Persistence.IConfigChangeSink
 {
     public async Task OnConfigChangedAsync(Guid institutionId, string area, CancellationToken ct)
     {
         version.Bump(institutionId);
         if (area is "permissions" or "institution") permissions.Bump(institutionId);
+        if (area is "constraints" or "rules" or "time" or "lookups" or "features") revalidation.Enqueue(institutionId, area);
         try { await notifier.ConfigChangedAsync(institutionId, area, ct); }
         catch (Exception) { /* broadcasting is best-effort; clients also refresh on reconnect */ }
     }

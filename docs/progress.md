@@ -25,3 +25,13 @@
 - Test-only E2E host (`backend/tests/Timetable.E2EHost`) runs the real API with a disposable DB for Playwright.
 - Tests: 16 API integration tests, 4 architecture tests, 12 Angular unit tests. i18n parity/hard-coded string check passes.
 - Deferred to later phases: Rule Builder editor/preview/impact (Phase 4), dashboards KPIs (Phase 8).
+
+## Phase 4 — Constraint engine wiring, validator, impact analysis, Rule Builder
+- `ScheduleProblemFactory` builds the engine problem from the database (time grid incl. shifts/overrides, sessions, groups with conflict sets, instructors/rooms availability, external busy time from other schedules, travel times).
+- `ConstraintConfigurationProvider` turns institution constraint settings + rules + feature flags into the effective configuration (core always hard, `Off` excluded, prefer → soft).
+- `IScheduleValidator`: `ValidateAssignment`, `ValidateSchedule`, `GetValidSlots` (green/amber/red per cell with reasons, best room/instructor), backed by a cached per-schedule state (`ScheduleStateStore`, version-keyed, incremental `Apply`).
+- Impact analysis for configuration proposals (constraint setting, rule add/edit/remove, time structure, session type behaviour): new hard violations + affected entries, shown in a confirm dialog before saving.
+- Rule preview endpoint (sessions in scope, current violations) — live preview in the Rule Builder dialog.
+- Background revalidation queue + worker: configuration/data changes re-validate draft and published schedules and notify users when entries become invalid.
+- Angular: Rule Builder (scope / condition / effect, no-code), impact dialog gating on constraints, time structure, session types and rules.
+- Tests: 58 domain tests (every built-in constraint hard+soft, rules, configuration, evaluator, validator performance 6000 sessions < 100 ms), 24 API integration tests.

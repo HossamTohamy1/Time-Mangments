@@ -56,6 +56,7 @@ public static class DependencyInjection
         services.AddSignalR();
         services.AddSingleton<IRealtimeNotifier, SignalRNotifier>();
         services.AddSingleton<IConfigChangeSink, ConfigChangeSink>();
+        services.AddHostedService<Jobs.RevalidationWorker>();
         return services;
     }
 }

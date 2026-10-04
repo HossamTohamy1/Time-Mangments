@@ -32,7 +32,7 @@ public sealed class AuthorizationBehavior<TRequest, TResponse>(ICurrentUser user
 {
     public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (request is IRequirePermission p && !string.IsNullOrEmpty(p.RequiredPermission) && !user.HasPermission(p.RequiredPermission))
+        if (request is IRequirePermission p && !string.IsNullOrEmpty(p.RequiredPermission) && !p.RequiredPermission.Split('|').Any(user.HasPermission))
             return Task.FromResult(ResultFactory.Fail<TResponse>(Error.Forbidden("PERMISSION_REQUIRED")));
         return next(cancellationToken);
     }
