@@ -207,5 +207,7 @@
   "SUBSTITUTE_NOT_ELIGIBLE": "لا يمكن لهذا العضو تغطية الجلسة (التوفر أو التعارض أو التأهيل أو العبء).",
   "NOTIFY_SESSION_CANCELLED": "تم إلغاء {session} يوم {date}.",
   "DATE_RANGE_INVALID": "يجب أن يكون تاريخ النهاية في يوم البداية أو بعده.",
-  "DATE_RANGE_TOO_LONG": "الحد الأقصى للفترة 62 يوماً."
+  "DATE_RANGE_TOO_LONG": "الحد الأقصى للفترة 62 يوماً.",
+  "NO_PUBLISHED_TIMETABLE": "لم يتم نشر جدول لهذا الفصل بعد.",
+  "NO_LINKED_PROFILE": "حسابك غير مرتبط بعضو هيئة تدريس أو بفصل."
 }

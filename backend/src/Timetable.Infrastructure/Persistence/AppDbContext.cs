@@ -100,6 +100,10 @@ public sealed class AppDbContext(
             }
             if (typeof(ISoftDelete).IsAssignableFrom(clr))
                 e.HasQueryFilter(SoftDeleteFilter, BuildSoftDeleteFilter(clr));
+            // Ids are client-generated GUID v7s. Declaring them as never store-generated makes EF insert new children that are
+            // added through navigations (e.g. periods of a time structure) instead of treating them as existing rows.
+            if (typeof(Entity).IsAssignableFrom(clr) && et.FindPrimaryKey()?.Properties is [{ Name: nameof(Entity.Id) }])
+                e.Property(nameof(Entity.Id)).ValueGeneratedNever();
             if (typeof(IBilingual).IsAssignableFrom(clr))
             {
                 e.Property(nameof(IBilingual.NameAr)).HasMaxLength(200);
