@@ -1469,6 +1469,153 @@
         }
       }
     },
+    "/api/v1/generation/readiness": {
+      "get": {
+        "tags": [
+          "Generation"
+        ],
+        "parameters": [
+          {
+            "name": "termId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/generation/jobs": {
+      "post": {
+        "tags": [
+          "Generation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerationRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerationRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerationJobDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Generation"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GenerationJobDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/generation/jobs/{id}": {
+      "get": {
+        "tags": [
+          "Generation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerationJobDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/generation/jobs/{id}/cancel": {
+      "post": {
+        "tags": [
+          "Generation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerationJobDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/groups": {
       "get": {
         "tags": [
@@ -3699,6 +3846,43 @@
         }
       }
     },
+    "/api/v1/schedules/compare": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "b",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompareDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/schedules/{id}/conflicts": {
       "get": {
         "tags": [
@@ -4779,6 +4963,336 @@
         }
       }
     },
+    "/api/v1/substitutions": {
+      "get": {
+        "tags": [
+          "Substitutions"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubstitutionDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Substitutions"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubstitutionRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubstitutionRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubstitutionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubstitutionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/substitutions/{id}": {
+      "get": {
+        "tags": [
+          "Substitutions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubstitutionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/substitutions/{id}/candidates": {
+      "get": {
+        "tags": [
+          "Substitutions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "entryId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubstituteCandidateDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/substitutions/{id}/assign": {
+      "post": {
+        "tags": [
+          "Substitutions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubstitutionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/substitutions/{id}/cancel-session": {
+      "post": {
+        "tags": [
+          "Substitutions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubstitutionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/substitutions/{id}/reopen": {
+      "post": {
+        "tags": [
+          "Substitutions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubstitutionItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubstitutionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/substitutions/{id}/close": {
+      "post": {
+        "tags": [
+          "Substitutions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cancel",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubstitutionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/templates": {
       "get": {
         "tags": [
@@ -5806,6 +6320,123 @@
         },
         "additionalProperties": false
       },
+      "CompareChangeDto": {
+        "required": [
+          "changes",
+          "kind",
+          "occurrence",
+          "sessionId"
+        ],
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "occurrence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "from": {
+            "$ref": "#/components/schemas/PlacementRefDto"
+          },
+          "to": {
+            "$ref": "#/components/schemas/PlacementRefDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompareDto": {
+        "required": [
+          "a",
+          "added",
+          "b",
+          "changes",
+          "moved",
+          "removed",
+          "sessionLabels",
+          "unchanged"
+        ],
+        "type": "object",
+        "properties": {
+          "a": {
+            "$ref": "#/components/schemas/CompareSideDto"
+          },
+          "b": {
+            "$ref": "#/components/schemas/CompareSideDto"
+          },
+          "unchanged": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "moved": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "added": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "removed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompareChangeDto"
+            }
+          },
+          "sessionLabels": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompareSideDto": {
+        "required": [
+          "hardCount",
+          "placed",
+          "schedule",
+          "softPenalty",
+          "unplaced"
+        ],
+        "type": "object",
+        "properties": {
+          "schedule": {
+            "$ref": "#/components/schemas/ScheduleSummaryDto"
+          },
+          "placed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unplaced": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hardCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softPenalty": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "ConfigChangePreview": {
         "required": [
           "action",
@@ -5822,6 +6453,31 @@
           },
           "action": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConstraintSettingInput": {
+        "required": [
+          "code",
+          "severity",
+          "weight"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/ConstraintSeverity"
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parametersJson": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6054,6 +6710,33 @@
           },
           "name": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateSubstitutionRequest": {
+        "required": [
+          "absentInstructorId",
+          "fromDate",
+          "toDate"
+        ],
+        "type": "object",
+        "properties": {
+          "absentInstructorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6513,6 +7196,189 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GenerationJobDto": {
+        "required": [
+          "createdAt",
+          "engine",
+          "id",
+          "progress",
+          "status",
+          "termId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "baseScheduleId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "resultScheduleId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          },
+          "engine": {
+            "type": "string"
+          },
+          "progress": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "phase": {
+            "type": "string",
+            "nullable": true
+          },
+          "bestScore": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "placed": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "summary": {
+            "$ref": "#/components/schemas/GenerationSummaryDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GenerationRequest": {
+        "required": [
+          "engine",
+          "mode",
+          "termId",
+          "timeLimitSeconds",
+          "useHints"
+        ],
+        "type": "object",
+        "properties": {
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "baseScheduleId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "engine": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "timeLimitSeconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "useHints": {
+            "type": "boolean"
+          },
+          "constraintOverrides": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConstraintSettingInput"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GenerationSummaryDto": {
+        "required": [
+          "engineStatus",
+          "engineUsed",
+          "hardViolations",
+          "placed",
+          "repaired",
+          "seconds",
+          "softPenalty",
+          "total",
+          "unplaced"
+        ],
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "placed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unplaced": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hardViolations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softPenalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "repaired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "engineStatus": {
+            "type": "string"
+          },
+          "engineUsed": {
+            "type": "string"
+          },
+          "seconds": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -8157,6 +9023,34 @@
         },
         "additionalProperties": false
       },
+      "PlacementRefDto": {
+        "required": [
+          "day",
+          "startSlot"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ProfileUpdate": {
         "type": "object",
         "properties": {
@@ -8178,6 +9072,89 @@
           },
           "displayNameEn": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReadinessDto": {
+        "required": [
+          "cpSatAvailable",
+          "groups",
+          "hardConstraints",
+          "instructors",
+          "issues",
+          "occurrences",
+          "rooms",
+          "sessions",
+          "softConstraints"
+        ],
+        "type": "object",
+        "properties": {
+          "sessions": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "occurrences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "groups": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "instructors": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hardConstraints": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softConstraints": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cpSatAvailable": {
+            "type": "boolean"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReadinessIssueDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReadinessIssueDto": {
+        "required": [
+          "code",
+          "message",
+          "severity"
+        ],
+        "type": "object",
+        "properties": {
+          "severity": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "entityKind": {
+            "type": "string",
+            "nullable": true
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           }
         },
@@ -9171,6 +10148,210 @@
         },
         "additionalProperties": false
       },
+      "SubstituteCandidateDto": {
+        "required": [
+          "instructor",
+          "instructorId",
+          "notes",
+          "penalty",
+          "qualified",
+          "weeklyLoad"
+        ],
+        "type": "object",
+        "properties": {
+          "instructorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "instructor": {
+            "type": "string"
+          },
+          "qualified": {
+            "type": "boolean"
+          },
+          "penalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "weeklyLoad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubstitutionDto": {
+        "required": [
+          "absentInstructor",
+          "absentInstructorId",
+          "cancelled",
+          "covered",
+          "createdAt",
+          "fromDate",
+          "id",
+          "items",
+          "open",
+          "scheduleId",
+          "status",
+          "toDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scheduleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "absentInstructorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "absentInstructor": {
+            "type": "string"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          },
+          "open": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "covered": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cancelled": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubstitutionItemDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubstitutionItemDto": {
+        "required": [
+          "date",
+          "day",
+          "duration",
+          "entryId",
+          "groups",
+          "session",
+          "sessionId",
+          "startSlot",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "entryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "session": {
+            "type": "string"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "groups": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          },
+          "substituteInstructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "substitute": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubstitutionItemRequest": {
+        "required": [
+          "date",
+          "entryId"
+        ],
+        "type": "object",
+        "properties": {
+          "entryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "SwapEntriesRequest": {
         "required": [
           "firstEntryId",
@@ -9761,6 +10942,9 @@
       "name": "CustomFields"
     },
     {
+      "name": "Generation"
+    },
+    {
       "name": "Groups"
     },
     {
@@ -9801,6 +10985,9 @@
     },
     {
       "name": "SessionSlots"
+    },
+    {
+      "name": "Substitutions"
     },
     {
       "name": "Templates"

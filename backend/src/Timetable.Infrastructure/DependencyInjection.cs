@@ -59,6 +59,8 @@ public static class DependencyInjection
         services.AddSingleton<IRealtimeNotifier, SignalRNotifier>();
         services.AddSingleton<IConfigChangeSink, ConfigChangeSink>();
         services.AddHostedService<Jobs.RevalidationWorker>();
+        services.AddHostedService<Jobs.GenerationWorker>();
+        services.AddSingleton<Application.Features.Generation.ISchedulerEngine, Scheduling.CpSatEngine>();
         return services;
     }
 }
