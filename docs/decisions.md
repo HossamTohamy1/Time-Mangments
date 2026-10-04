@@ -46,3 +46,12 @@ Format: **what** — why — which flow it affects.
 - **Permissions, not roles, are checked** (`[HasPermission]` policies + `AuthorizationBehavior` for MediatR requests). Roles are data per institution. `X-Institution-Id` selects the institution and is validated against the caller's memberships.
 - **Refresh tokens**: random 512-bit, stored as SHA-256 hash, rotated on every refresh, HttpOnly + Secure + SameSite=Strict cookie scoped to `/api/v1/auth`; re-use of a rotated token revokes the user's whole token family.
 - **Org-unit scoped role assignments** are stored and returned but not yet used to filter editable data (listed as deferred in progress.md).
+
+## Phase 3 — CRUD & settings
+
+- **Definition-driven generic CRUD** (`CrudDefinition<TEntity,TDto,TInput>` + closed generic MediatR handlers) — one consistent pipeline for paging, search across both names, sorting, filters, FluentValidation, reference checks inside the institution, custom-field validation and usage-blocked deletes for ~20 entity types.
+- **Deletes never orphan data**: definitions list usages; a delete with usages returns 409 `IN_USE` (or `SYSTEM_LOOKUP_IN_USE`) with the usage list. Lookups offer *deactivate* (keep for history) or *merge into another value* (re-points id and code references, then removes the source).
+- **Fix (flow: seeding / curriculum)**: the curriculum generator ran with tenant filters bypassed during seeding and picked up rules of other institutions. All its queries are now explicitly scoped by institution id (defence in depth, independent of query filters).
+- **Session edits only adjust draft schedules** (occurrence count / duration); published schedules are re-validated and surface conflicts instead of being silently changed.
+- **Effective config ETag** = hash of the cached institution configuration + hash of the caller's permissions; 304 on `If-None-Match`.
+- **First-run institution creation**: an authenticated user with no memberships may create an institution (becomes its ADMIN); afterwards `institutions.manage` is required.

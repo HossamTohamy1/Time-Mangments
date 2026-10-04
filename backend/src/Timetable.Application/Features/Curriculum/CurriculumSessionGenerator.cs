@@ -23,17 +23,20 @@ public sealed record SessionGenerationResult(IReadOnlyList<SessionDiffItem> Item
 /// </summary>
 public sealed class CurriculumSessionGenerator(IAppDbContext db)
 {
-    public async Task<SessionGenerationResult> GenerateAsync(Guid termId, Guid? orgUnitId, bool apply, CancellationToken ct)
+    public async Task<SessionGenerationResult> GenerateAsync(Guid institutionId, Guid termId, Guid? orgUnitId, bool apply, CancellationToken ct)
     {
-        var rules = await db.CurriculumRules.Where(r => r.IsActive).ToListAsync(ct);
-        var units = await db.OrgUnits.AsNoTracking().ToListAsync(ct);
-        var groups = await db.StudentGroups.AsNoTracking().ToListAsync(ct);
-        var sessionTypes = await db.SessionTypes.AsNoTracking().ToDictionaryAsync(s => s.Id, ct);
-        var instructorTypes = await db.InstructorTypes.AsNoTracking().ToDictionaryAsync(t => t.Id, ct);
-        var instructors = await db.Instructors.AsNoTracking().ToListAsync(ct);
-        var poolsOn = await db.FeatureFlags.AnyAsync(f => f.Code == FeatureCodes.InstructorPools && f.Enabled, ct);
-        var existing = await db.Sessions.Where(s => s.TermId == termId && s.CurriculumRuleId != null).ToListAsync(ct);
-        var scheduled = (await db.ScheduleEntries.Select(e => e.SessionId).Distinct().ToListAsync(ct)).ToHashSet();
+        // Explicit institution scoping (also correct when tenant filters are bypassed, e.g. during seeding).
+        var inst = institutionId;
+        var rules = await db.CurriculumRules.Where(r => r.InstitutionId == inst && r.IsActive).ToListAsync(ct);
+        var units = await db.OrgUnits.AsNoTracking().Where(x => x.InstitutionId == inst).ToListAsync(ct);
+        var groups = await db.StudentGroups.AsNoTracking().Where(x => x.InstitutionId == inst).ToListAsync(ct);
+        var sessionTypes = await db.SessionTypes.AsNoTracking().Where(x => x.InstitutionId == inst).ToDictionaryAsync(s => s.Id, ct);
+        var instructorTypes = await db.InstructorTypes.AsNoTracking().Where(x => x.InstitutionId == inst).ToDictionaryAsync(t => t.Id, ct);
+        var instructors = await db.Instructors.AsNoTracking().Where(x => x.InstitutionId == inst).ToListAsync(ct);
+        var poolsOn = await db.FeatureFlags.AnyAsync(f => f.InstitutionId == inst && f.Code == FeatureCodes.InstructorPools && f.Enabled, ct);
+        var existing = await db.Sessions.Where(s => s.InstitutionId == inst && s.TermId == termId && s.CurriculumRuleId != null).ToListAsync(ct);
+        var existingIds = existing.Select(s => s.Id).ToList();
+        var scheduled = (await db.ScheduleEntries.Where(e => existingIds.Contains(e.SessionId)).Select(e => e.SessionId).Distinct().ToListAsync(ct)).ToHashSet();
 
         var children = units.Where(u => u.ParentId is not null).ToLookup(u => u.ParentId!.Value, u => u.Id);
         HashSet<Guid> Subtree(Guid root)
@@ -80,7 +83,7 @@ public sealed class CurriculumSessionGenerator(IAppDbContext db)
                     if (apply)
                         db.Sessions.Add(new Session
                         {
-                            TermId = termId, CourseId = rule.CourseId, SessionTypeId = rule.SessionTypeId, DurationSlots = duration,
+                            InstitutionId = inst, TermId = termId, CourseId = rule.CourseId, SessionTypeId = rule.SessionTypeId, DurationSlots = duration,
                             SessionsPerWeek = rule.SessionsPerWeek, RequiredRoomTypeId = roomType, InstructorId = rule.DefaultInstructorId,
                             CandidateInstructorIds = pool, GroupIds = set, CurriculumRuleId = rule.Id,
                         });

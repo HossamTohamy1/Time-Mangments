@@ -229,7 +229,7 @@ public sealed class DemoDataSeeder(
         Rule(y4, cs404, lecture.Id, cohort.Id, 1, yasser);
         Rule(y4, cs404, labType.Id, labGroup.Id, 1, null);
         await db.SaveChangesAsync(ct);
-        await curriculum.GenerateAsync(term.Id, null, apply: true, ct);
+        await curriculum.GenerateAsync(inst, term.Id, null, apply: true, ct);
 
         // A few availability preferences / blackouts.
         db.InstructorAvailabilities.Add(new Domain.Availability.InstructorAvailability { InstructorId = sara.Id, DayOfWeek = 4, SlotIndex = 5, State = AvailabilityState.Unavailable });
@@ -322,7 +322,7 @@ public sealed class DemoDataSeeder(
             Q(computer, labType.Id, 2, tIct);
         }
         await db.SaveChangesAsync(ct);
-        await curriculum.GenerateAsync(term.Id, null, apply: true, ct);
+        await curriculum.GenerateAsync(inst, term.Id, null, apply: true, ct);
         // Computer sessions need PCs.
         foreach (var s in await db.Sessions.Where(s => s.CourseId == computer.Id).ToListAsync(ct)) s.RequiredEquipment = ["PC"];
         db.Schedules.Add(new Schedule { InstitutionId = inst, TermId = term.Id, Name = "Draft v1", Version = 1 });

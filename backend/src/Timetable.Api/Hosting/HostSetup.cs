@@ -169,7 +169,7 @@ public static class HostSetup
             SupportedUICultures = cultures,
         };
 
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Testing"))
         {
             app.UseSwagger(o => o.RouteTemplate = "api/swagger/{documentName}/swagger.json");
             app.UseSwaggerUI(o => { o.RoutePrefix = "api/swagger"; o.SwaggerEndpoint("/api/swagger/v1/swagger.json", "Timetable API v1"); });
