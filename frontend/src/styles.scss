@@ -1,0 +1,35 @@
+@use '@angular/material' as mat;
+@use 'tokens';
+@use 'base';
+
+// Self-hosted fonts (bundled by the build; no CDN at runtime).
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
+
+html {
+  @include mat.theme((
+    color: (primary: mat.$blue-palette, tertiary: mat.$magenta-palette, theme-type: color-scheme),
+    typography: (plain-family: var(--tt-font), brand-family: var(--tt-font)),
+    density: 0,
+  ));
+
+  // Wire Material's system tokens to our design tokens so Material + custom UI stay consistent in both themes.
+  --mat-sys-primary: var(--tt-primary);
+  --mat-sys-on-primary: var(--tt-on-primary);
+  --mat-sys-surface: var(--tt-surface);
+  --mat-sys-on-surface: var(--tt-on-surface);
+  --mat-sys-on-surface-variant: var(--tt-on-surface-muted);
+  --mat-sys-outline: var(--tt-border-strong);
+  --mat-sys-outline-variant: var(--tt-border);
+  --mat-sys-surface-container: var(--tt-surface);
+  --mat-sys-surface-container-low: var(--tt-surface);
+  --mat-sys-surface-container-high: var(--tt-surface-variant);
+  --mat-sys-surface-container-highest: var(--tt-surface-variant);
+  --mat-sys-error: var(--tt-conflict);
+}
