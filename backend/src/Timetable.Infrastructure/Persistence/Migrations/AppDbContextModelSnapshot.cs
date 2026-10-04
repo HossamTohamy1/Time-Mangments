@@ -156,7 +156,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Academic.AcademicTerm", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -218,7 +217,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Academic.Course", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -289,7 +287,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Academic.CourseOffering", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CourseId")
@@ -336,7 +333,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Academic.CurriculumRule", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CourseId")
@@ -405,7 +401,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Academic.Session", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.PrimitiveCollection<string>("CandidateInstructorIds")
@@ -501,7 +496,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Academic.TermCalendarDay", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("Date")
@@ -530,7 +524,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Availability.InstructorAvailability", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DayOfWeek")
@@ -556,7 +549,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Availability.RoomAvailability", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DayOfWeek")
@@ -582,7 +574,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.ConfigAuditEntry", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Action")
@@ -624,7 +615,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.ConstraintSetting", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConstraintCode")
@@ -675,7 +665,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.CustomFieldDefinition", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -748,7 +737,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.FeatureFlag", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -789,7 +777,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.InstitutionTemplate", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BundleJson")
@@ -848,7 +835,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.Notification", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -886,7 +872,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -939,7 +924,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.RuleDefinition", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1005,7 +989,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.Substitution", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AbsentInstructorId")
@@ -1056,7 +1039,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.TerminologyOverride", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -1104,7 +1086,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Configuration.UserRoleAssignment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("InstitutionId")
@@ -1134,7 +1115,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Lookups.EquipmentTag", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1197,7 +1177,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Lookups.GroupKind", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1260,7 +1239,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Lookups.InstructorType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1327,7 +1305,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Lookups.OrgUnitType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1393,7 +1370,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Lookups.RoomType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1456,7 +1432,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Lookups.SessionType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.PrimitiveCollection<string>("AllowedDays")
@@ -1555,7 +1530,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Organization.Building", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1612,7 +1586,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Organization.BuildingTravelTime", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("FromBuildingId")
@@ -1640,7 +1613,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Organization.Institution", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1702,7 +1674,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Organization.OrgUnit", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1768,7 +1739,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Organization.StudentGroup", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1854,7 +1824,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Resources.Instructor", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -1943,7 +1912,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Resources.Room", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("BuildingId")
@@ -2020,7 +1988,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Scheduling.GenerationJob", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("BaseScheduleId")
@@ -2091,7 +2058,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Scheduling.Schedule", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConfigSnapshotJson")
@@ -2177,7 +2143,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Scheduling.ScheduleChange", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AfterJson")
@@ -2224,7 +2189,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Scheduling.ScheduleEntry", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -2298,7 +2262,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Scheduling.ScheduleException", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -2358,7 +2321,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Time.DayOverride", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DayOfWeek")
@@ -2390,7 +2352,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Time.Period", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<TimeOnly>("End")
@@ -2427,7 +2388,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Time.Shift", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -2466,7 +2426,6 @@ namespace Timetable.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Timetable.Domain.Time.TimeStructure", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")

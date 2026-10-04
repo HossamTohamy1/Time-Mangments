@@ -1469,6 +1469,35 @@
         }
       }
     },
+    "/api/v1/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [
+          {
+            "name": "scheduleId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/generation/readiness": {
       "get": {
         "tags": [
@@ -2667,6 +2696,143 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/me/timetable": {
+      "get": {
+        "tags": [
+          "Me"
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyTimetableDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/timetable/export": {
+      "get": {
+        "tags": [
+          "Me"
+        ],
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "pdf"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/notifications": {
+      "get": {
+        "tags": [
+          "Me"
+        ],
+        "parameters": [
+          {
+            "name": "unreadOnly",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationListDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/notifications/read": {
+      "post": {
+        "tags": [
+          "Me"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -5816,6 +5982,32 @@
   },
   "components": {
     "schemas": {
+      "ActivityDto": {
+        "required": [
+          "at",
+          "entries",
+          "kind"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "entries": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "ApplyTemplateRequest": {
         "required": [
           "dryRun",
@@ -6457,6 +6649,32 @@
         },
         "additionalProperties": false
       },
+      "ConstraintCountDto": {
+        "required": [
+          "code",
+          "count",
+          "penalty",
+          "severity"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "penalty": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "ConstraintSettingInput": {
         "required": [
           "code",
@@ -7002,6 +7220,76 @@
           },
           "isActive": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DashboardDto": {
+        "required": [
+          "activity",
+          "instructorLoad",
+          "perDay",
+          "roomTypes",
+          "topConstraints"
+        ],
+        "type": "object",
+        "properties": {
+          "schedule": {
+            "$ref": "#/components/schemas/ScheduleSummaryDto"
+          },
+          "kpis": {
+            "$ref": "#/components/schemas/KpiDto"
+          },
+          "instructorLoad": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LoadBarDto"
+            }
+          },
+          "roomTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UtilizationDto"
+            }
+          },
+          "perDay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayCountDto"
+            }
+          },
+          "topConstraints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConstraintCountDto"
+            }
+          },
+          "activity": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityDto"
+            }
+          },
+          "lastJob": {
+            "$ref": "#/components/schemas/GenerationJobDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DayCountDto": {
+        "required": [
+          "count",
+          "day"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -7904,6 +8192,96 @@
         },
         "additionalProperties": false
       },
+      "KpiDto": {
+        "required": [
+          "coveragePercent",
+          "groups",
+          "hardConflicts",
+          "instructors",
+          "occurrences",
+          "openSubstitutions",
+          "placed",
+          "rooms",
+          "roomUtilizationPercent",
+          "softPenalty",
+          "unplaced"
+        ],
+        "type": "object",
+        "properties": {
+          "occurrences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "placed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unplaced": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "coveragePercent": {
+            "type": "number",
+            "format": "double"
+          },
+          "hardConflicts": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "softPenalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "instructors": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rooms": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "groups": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomUtilizationPercent": {
+            "type": "number",
+            "format": "double"
+          },
+          "openSubstitutions": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoadBarDto": {
+        "required": [
+          "id",
+          "label",
+          "periods"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "label": {
+            "type": "string"
+          },
+          "periods": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxPeriods": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginRequest": {
         "required": [
           "email",
@@ -8317,6 +8695,197 @@
           "failed": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MyDayDto": {
+        "required": [
+          "date",
+          "day",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "holiday": {
+            "type": "string",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MyItemDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "MyItemDto": {
+        "required": [
+          "courseCode",
+          "duration",
+          "end",
+          "entryId",
+          "start",
+          "startSlot",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "entryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          },
+          "courseCode": {
+            "type": "string"
+          },
+          "courseName": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "room": {
+            "type": "string",
+            "nullable": true
+          },
+          "groups": {
+            "type": "string",
+            "nullable": true
+          },
+          "instructor": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MyTimetableDto": {
+        "required": [
+          "days",
+          "scheduleId",
+          "scheduleName",
+          "subject",
+          "subjectKind",
+          "weekStart"
+        ],
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "subjectKind": {
+            "type": "string"
+          },
+          "scheduleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scheduleName": {
+            "type": "string"
+          },
+          "weekStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "weekLabel": {
+            "type": "string",
+            "nullable": true
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MyDayDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotificationDto": {
+        "required": [
+          "createdAt",
+          "id",
+          "isRead",
+          "message",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string",
+            "nullable": true
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotificationListDto": {
+        "required": [
+          "items",
+          "unread"
+        ],
+        "type": "object",
+        "properties": {
+          "unread": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationDto"
+            }
           }
         },
         "additionalProperties": false
@@ -10822,6 +11391,33 @@
         },
         "additionalProperties": false
       },
+      "UtilizationDto": {
+        "required": [
+          "capacity",
+          "label",
+          "used"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "label": {
+            "type": "string"
+          },
+          "used": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "capacity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "ValidationReportDto": {
         "required": [
           "hardCount",
@@ -10940,6 +11536,9 @@
     },
     {
       "name": "CustomFields"
+    },
+    {
+      "name": "Dashboard"
     },
     {
       "name": "Generation"

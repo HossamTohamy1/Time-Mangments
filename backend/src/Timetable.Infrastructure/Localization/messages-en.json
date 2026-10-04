@@ -207,5 +207,7 @@
   "SUBSTITUTE_NOT_ELIGIBLE": "This instructor cannot cover the session (availability, clash, qualification or load).",
   "NOTIFY_SESSION_CANCELLED": "{session} on {date} is cancelled.",
   "DATE_RANGE_INVALID": "The end date must be on or after the start date.",
-  "DATE_RANGE_TOO_LONG": "The period can be at most 62 days."
+  "DATE_RANGE_TOO_LONG": "The period can be at most 62 days.",
+  "NO_PUBLISHED_TIMETABLE": "No timetable has been published for this term yet.",
+  "NO_LINKED_PROFILE": "Your account is not linked to an instructor or a class."
 }
