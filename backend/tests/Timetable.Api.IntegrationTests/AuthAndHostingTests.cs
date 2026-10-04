@@ -62,4 +62,17 @@ public sealed class AuthAndHostingTests(TimetableApiFactory factory)
         var res = await factory.CreateClient().GetAsync("/health");
         res.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
+
+    [Fact]
+    public async Task Responses_carry_security_headers_and_a_strict_content_security_policy()
+    {
+        var client = factory.CreateClient();
+        var res = await client.GetAsync("/health");
+        res.Headers.GetValues("X-Content-Type-Options").ShouldContain("nosniff");
+        res.Headers.GetValues("X-Frame-Options").ShouldContain("DENY");
+        var csp = string.Join(";", res.Headers.GetValues("Content-Security-Policy"));
+        csp.ShouldContain("default-src 'self'");
+        csp.ShouldContain("frame-ancestors 'none'");
+        csp.ShouldNotContain("'unsafe-eval'");
+    }
 }

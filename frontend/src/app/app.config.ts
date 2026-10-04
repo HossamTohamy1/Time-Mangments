@@ -4,8 +4,8 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { provideTransloco } from '@jsverse/transloco';
-import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
+import { provideTransloco, TRANSLOCO_TRANSPILER } from '@jsverse/transloco';
+import { IcuTranspiler } from './core/i18n/icu-transpiler';
 import { firstValueFrom } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 import { routes } from './app.routes';
@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
-    provideTranslocoMessageformat(),
+    { provide: TRANSLOCO_TRANSPILER, useClass: IcuTranspiler },
     provideAppInitializer(async () => {
       const lang = inject(LanguageService);
       const theme = inject(ThemeService);

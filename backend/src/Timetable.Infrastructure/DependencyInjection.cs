@@ -60,6 +60,7 @@ public static class DependencyInjection
         services.AddSingleton<IConfigChangeSink, ConfigChangeSink>();
         services.AddHostedService<Jobs.RevalidationWorker>();
         services.AddHostedService<Jobs.GenerationWorker>();
+        services.Configure<Application.Features.Generation.SolverOptions>(configuration.GetSection("Solver"));
         services.AddSingleton<Application.Features.Generation.ISchedulerEngine, Scheduling.CpSatEngine>();
         return services;
     }

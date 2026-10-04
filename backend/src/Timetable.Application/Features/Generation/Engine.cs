@@ -3,6 +3,16 @@ using Timetable.Domain.Constraints.Builtins;
 
 namespace Timetable.Application.Features.Generation;
 
+/// <summary>Server-side solver settings (appsettings "Solver" section).</summary>
+public sealed class SolverOptions
+{
+    public int DefaultTimeLimitSeconds { get; set; } = 60;
+    /// <summary>CP-SAT worker threads; 0 = number of processors.</summary>
+    public int DefaultWorkers { get; set; }
+    /// <summary>In "auto" mode, problems with more pending occurrences than this use the heuristic directly (0 = never).</summary>
+    public int HeuristicThresholdSessions { get; set; }
+}
+
 public enum EngineStatus { Optimal, Feasible, Partial, Infeasible, Cancelled, Failed }
 
 /// <summary>Hints = previous positions of the pending occurrences (keeps a regenerated timetable close to the old one).</summary>

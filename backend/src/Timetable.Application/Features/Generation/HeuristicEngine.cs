@@ -78,7 +78,24 @@ public sealed class HeuristicEngine : ISchedulerEngine
 /// </summary>
 public static class Verifier
 {
-    public sealed record Outcome(IReadOnlyList<Placement> Placements, IReadOnlyList<PendingOccurrence> Unplaced, EvaluationReport Report, int Repaired);
+    public sealed record Outcome(IReadOnlyList<Placement> Placements, IReadOnlyList<PendingOccurrence> Unplaced, EvaluationReport Report, int Repaired,
+        IReadOnlyList<string> InitialHardCodes);
+
+    /// <summary>Generated placements involved in hard violations (one per violation, preferring the same day; or all of them).</summary>
+    private static HashSet<Placement> Offenders(EvaluationReport report, List<Placement> mine, bool perViolation)
+    {
+        var bad = new HashSet<Placement>();
+        foreach (var v in report.Violations.Where(v => v.Severity == ViolationSeverity.Hard))
+        {
+            var sessions = v.Entities.Where(e => e.Kind == EntityRefKind.Session).Select(e => e.Id).ToHashSet();
+            var involved = mine.Where(p => sessions.Contains(p.SessionId)).ToList();
+            if (!perViolation) { bad.UnionWith(involved); continue; }
+            var pick = involved.Where(p => v.Day is null || p.Day == v.Day).OrderByDescending(p => p.StartSlot).FirstOrDefault()
+                       ?? involved.OrderByDescending(p => p.StartSlot).FirstOrDefault();
+            if (pick is not null) bad.Add(pick);
+        }
+        return bad;
+    }
 
     public static Outcome VerifyAndRepair(ScheduleProblem problem, ConstraintConfiguration config, IReadOnlyList<Placement> fixedPlacements,
         IReadOnlyList<Placement> generated, CancellationToken ct, int rounds = 3)
@@ -87,17 +104,11 @@ public static class Verifier
         var mine = generated.ToList();
         var repaired = 0;
         var report = ScheduleEvaluator.EvaluateAll(state, config);
+        var initial = report.Violations.Where(v => v.Severity == ViolationSeverity.Hard).Select(v => v.MessageCode).Distinct().ToList();
         for (var round = 0; round < rounds && report.HardCount > 0; round++)
         {
             ct.ThrowIfCancellationRequested();
-            var bad = new HashSet<Placement>();
-            foreach (var v in report.Violations.Where(v => v.Severity == ViolationSeverity.Hard))
-            {
-                // Remove one generated placement per violation (the latest-starting one keeps earlier work stable).
-                var involved = mine.Where(p => v.Entities.Any(e => e.Kind == EntityRefKind.Session && e.Id == p.SessionId)
-                                               && (v.Day is null || p.Day == v.Day)).OrderByDescending(p => p.StartSlot).FirstOrDefault();
-                if (involved is not null) bad.Add(involved);
-            }
+            var bad = Offenders(report, mine, perViolation: true);
             if (bad.Count == 0) break;
             foreach (var p in bad) { state.Index.Remove(p); mine.Remove(p); }
             var retry = GreedyPlacer.Place(state, config, bad.Select(p => new PendingOccurrence(p.SessionId, p.Occurrence)).ToList(), ct: ct);
@@ -105,7 +116,16 @@ public static class Verifier
             repaired += bad.Count;
             report = ScheduleEvaluator.EvaluateAll(state, config);
         }
+        // Last resort: an unplaced occurrence is always better than an invalid timetable.
+        while (report.HardCount > 0)
+        {
+            var bad = Offenders(report, mine, perViolation: false);
+            if (bad.Count == 0) break;
+            foreach (var p in bad) { state.Index.Remove(p); mine.Remove(p); }
+            repaired += bad.Count;
+            report = ScheduleEvaluator.EvaluateAll(state, config);
+        }
         var unplaced = GreedyPlacer.Pending(state);
-        return new Outcome(mine, unplaced, report, repaired);
+        return new Outcome(mine, unplaced, report, repaired, initial);
     }
 }

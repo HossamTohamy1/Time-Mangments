@@ -57,3 +57,13 @@
 - Readiness checks (no instructor / no feasible slot / no suitable room / overloaded groups and instructors), version compare (moved / added / removed + both scores), substitutions (absence → dated affected sessions → engine-validated, ranked substitutes → per-date exceptions, cancellations with notifications).
 - Angular: generation wizard (scope → engine & limits incl. advanced per-run constraint tuning → readiness → live run with progress, score and placed count → open / compare / new run, recent runs), compare page, substitutions page, "compare with published" on versions.
 - Measured on the demo university: CP-SAT placed 30/30 occurrences, proven optimal in 4.8 s; tests: 41 API integration (CP-SAT on the school, heuristic on the university, complete mode + compare, substitutions end to end).
+
+## Phase 8 — Self-service, dashboards, hardening, verification
+- Self-service "My timetable" (instructor or student group): week navigation, day tabs on phones / all days on wide screens, per-date substitutions, cancellations and cover duties from the substitution workflow, holidays, "now" marker, personal PDF. Students and instructors land on it after sign-in.
+- Notifications inbox with unread badge, live pushes (toast) and mark-as-read; publication, generation and substitution events notify the affected accounts.
+- Operations dashboard: coverage, hard conflicts, soft penalty, room utilisation, open substitutions, teaching load against weekly maxima, utilisation per room type, sessions per day, top findings, recent activity, last generation.
+- Acceptance proof (`AcceptanceLanguageCenterTests`, `docs/dynamic-proof.md`): an unseen institution type configured purely through the API, generated, validated, edited, published, exported and imported.
+- Hardening: security headers with a strict CSP (inline bootstrap scripts allowed by hash, no `unsafe-eval`), HSTS outside development, `Solver` settings wired (workers, heuristic threshold), CP-SAT wall-clock guard, verifier that never returns an invalid timetable, demo terms relative to the seeding date.
+- Playwright e2e suite in four projects (en/ar × light/dark): shell language/theme/dir, page smoke, drag & drop and keyboard placement (incl. RTL), generation wizard, self-service, PDF download.
+- CI: SQL Server 2022 installed from Microsoft's apt repository (no containers); integration tests run on SQL Server (migrations included); the published app is started with migrations + demo seed and verified (health, login, SPA hosting, JSON 404); Playwright e2e.
+- Docs: README, design tokens, dynamic proof.
