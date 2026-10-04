@@ -30,6 +30,8 @@ public interface IIdentityService
     Task<IReadOnlyList<UserListItemDto>> ListUsersAsync(Guid institutionId, string? search, CancellationToken ct);
     Task<Result<Guid>> UpsertUserAsync(Guid institutionId, Guid? userId, UpsertUserInput input, CancellationToken ct);
     Task<string?> GetPreferredLanguageAsync(Guid userId, CancellationToken ct);
+    /// <summary>Active users linked to any of the given instructors or student groups (self-service accounts).</summary>
+    Task<IReadOnlyList<Guid>> LinkedUsersAsync(IReadOnlyCollection<Guid> instructorIds, IReadOnlyCollection<Guid> groupIds, CancellationToken ct);
 }
 
 public sealed record InstitutionMembership(Guid InstitutionId, string Code, string? NameAr, string? NameEn, IReadOnlyList<string> RoleCodes);

@@ -19,7 +19,7 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
         }
         else if (exception is DbUpdateException dbe && IsUniqueViolation(dbe))
         {
-            problem = ApiResults.ToProblem(Error.Conflict("MOVE_CONFLICT"), ctx);
+            problem = ApiResults.ToProblem(Error.Conflict("SAVE_CONFLICT"), ctx);
         }
         else
         {

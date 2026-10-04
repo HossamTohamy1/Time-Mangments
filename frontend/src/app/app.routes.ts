@@ -24,6 +24,18 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/shell').then((m) => m.Shell),
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: 'timetable', canActivate: [permissionGuard('timetable.view|timetable.edit')], providers: [provideTranslocoScope('timetable')],
+        loadComponent: () => import('./features/timetable/timetable.page').then((m) => m.TimetablePage),
+      },
+      {
+        path: 'conflicts', canActivate: [permissionGuard('timetable.view|timetable.edit')], providers: [provideTranslocoScope('timetable')],
+        loadComponent: () => import('./features/timetable/conflicts.page').then((m) => m.ConflictsPage),
+      },
+      {
+        path: 'schedules', canActivate: [permissionGuard('timetable.view|timetable.edit')], providers: [provideTranslocoScope('timetable')],
+        loadComponent: () => import('./features/timetable/schedules.page').then((m) => m.SchedulesPage),
+      },
       { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.page').then((m) => m.DashboardPage), providers: [provideTranslocoScope('dashboard')] },
       entity('rooms'), entity('buildings'), entity('instructors'), entity('courses'), entity('groups'), entity('sessions'),
       entity('terms'), entity('travel-times'), entity('offerings'),

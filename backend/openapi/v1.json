@@ -3653,6 +3653,687 @@
         }
       }
     },
+    "/api/v1/schedules": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "termId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ScheduleSummaryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScheduleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/board": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleBoardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/changes": {
+      "get": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ScheduleChangeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/clone": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloneScheduleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloneScheduleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloneScheduleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/name": {
+      "put": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameScheduleRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameScheduleRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameScheduleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}": {
+      "delete": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/validate": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationReportDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/publish": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/entries": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEntryRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEntryRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEntryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/entries/{entryId}/move": {
+      "put": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveEntryRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveEntryRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveEntryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/entries/{entryId}": {
+      "delete": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "rowVersion",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/entries/{entryId}/pin": {
+      "put": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "entryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PinEntryRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PinEntryRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PinEntryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/entries/swap": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SwapEntriesRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SwapEntriesRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SwapEntriesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/entries/auto-place": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutoPlaceRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutoPlaceRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutoPlaceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/undo": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/schedules/{id}/redo": {
+      "post": {
+        "tags": [
+          "Schedules"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MutationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/sessions": {
       "get": {
         "tags": [
@@ -4439,6 +5120,44 @@
         },
         "additionalProperties": false
       },
+      "AssignEntryRequest": {
+        "required": [
+          "day",
+          "sessionId",
+          "startSlot"
+        ],
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "weekMask": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AssignmentProbe": {
         "required": [
           "day",
@@ -4546,6 +5265,20 @@
         },
         "additionalProperties": false
       },
+      "AutoPlaceRequest": {
+        "type": "object",
+        "properties": {
+          "sessionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AvailabilityCell": {
         "required": [
           "dayOfWeek",
@@ -4606,6 +5339,131 @@
           "Room"
         ],
         "type": "string"
+      },
+      "BoardResourceDto": {
+        "required": [
+          "code",
+          "id",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BoardSessionDto": {
+        "required": [
+          "courseCode",
+          "courseId",
+          "duration",
+          "groupIds",
+          "id",
+          "instructorOptions",
+          "perWeek",
+          "requiresRoom",
+          "sessionTypeId",
+          "studentCount",
+          "weekMask"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseCode": {
+            "type": "string"
+          },
+          "nameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "sessionTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "perWeek": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "fixedInstructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorOptions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "requiredRoomTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "weekMask": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "studentCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requiresRoom": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
       },
       "BuildingDto": {
         "required": [
@@ -4736,6 +5594,16 @@
           },
           "newPassword": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CloneScheduleRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4971,6 +5839,23 @@
           "defaultLanguage": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateScheduleRequest": {
+        "required": [
+          "name",
+          "termId"
+        ],
+        "type": "object",
+        "properties": {
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -5351,6 +6236,67 @@
           "id": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EntryDto": {
+        "required": [
+          "day",
+          "duration",
+          "id",
+          "occurrence",
+          "pinned",
+          "rowVersion",
+          "sessionId",
+          "startSlot",
+          "weekMask"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "occurrence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "weekMask": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pinned": {
+            "type": "boolean"
+          },
+          "rowVersion": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -6088,6 +7034,90 @@
         },
         "additionalProperties": false
       },
+      "MoveEntryRequest": {
+        "required": [
+          "day",
+          "startSlot"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "instructorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "rowVersion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MutationResultDto": {
+        "required": [
+          "canRedo",
+          "canUndo",
+          "failed",
+          "kind",
+          "penalty",
+          "removed",
+          "upserted",
+          "warnings"
+        ],
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "upserted": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntryDto"
+            }
+          },
+          "removed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "penalty": {
+            "type": "number",
+            "format": "double"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ViolationDto"
+            }
+          },
+          "canUndo": {
+            "type": "boolean"
+          },
+          "canRedo": {
+            "type": "boolean"
+          },
+          "failed": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "OfferingDto": {
         "required": [
           "courseId",
@@ -6778,6 +7808,18 @@
         },
         "additionalProperties": false
       },
+      "PinEntryRequest": {
+        "required": [
+          "pinned"
+        ],
+        "type": "object",
+        "properties": {
+          "pinned": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "ProfileUpdate": {
         "type": "object",
         "properties": {
@@ -6800,6 +7842,18 @@
           "displayNameEn": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RenameScheduleRequest": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -7178,6 +8232,105 @@
         },
         "additionalProperties": false
       },
+      "ScheduleBoardDto": {
+        "required": [
+          "canRedo",
+          "canUndo",
+          "editable",
+          "entries",
+          "groups",
+          "instructors",
+          "rooms",
+          "schedule",
+          "sessions"
+        ],
+        "type": "object",
+        "properties": {
+          "schedule": {
+            "$ref": "#/components/schemas/ScheduleSummaryDto"
+          },
+          "editable": {
+            "type": "boolean"
+          },
+          "canUndo": {
+            "type": "boolean"
+          },
+          "canRedo": {
+            "type": "boolean"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntryDto"
+            }
+          },
+          "sessions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BoardSessionDto"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BoardResourceDto"
+            }
+          },
+          "instructors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BoardResourceDto"
+            }
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BoardResourceDto"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduleChangeDto": {
+        "required": [
+          "at",
+          "entries",
+          "id",
+          "kind",
+          "sequence",
+          "undone"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequence": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "undone": {
+            "type": "boolean"
+          },
+          "entries": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "ScheduleImpactDto": {
         "required": [
           "hardAfter",
@@ -7230,6 +8383,76 @@
             "items": {
               "$ref": "#/components/schemas/ViolationDto"
             }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScheduleSummaryDto": {
+        "required": [
+          "createdAt",
+          "entryCount",
+          "id",
+          "locked",
+          "name",
+          "status",
+          "termId",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "termId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "softScore": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "hardViolations": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "locked": {
+            "type": "boolean"
+          },
+          "sourceScheduleId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "entryCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7607,6 +8830,24 @@
             "items": {
               "$ref": "#/components/schemas/ViolationDto"
             }
+          }
+        },
+        "additionalProperties": false
+      },
+      "SwapEntriesRequest": {
+        "required": [
+          "firstEntryId",
+          "secondEntryId"
+        ],
+        "type": "object",
+        "properties": {
+          "firstEntryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "secondEntryId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false

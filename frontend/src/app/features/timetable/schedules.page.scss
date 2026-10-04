@@ -1,0 +1,8 @@
+.head-icon { color: var(--tt-primary); }
+.table-wrap { overflow: auto; }
+.num { text-align: end; font-variant-numeric: tabular-nums; }
+.bad { color: var(--tt-conflict); font-weight: 600; }
+.name { font-weight: 600; }
+tr.current td { background: var(--tt-primary-soft); }
+.actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+td .tt-chip { margin-inline-start: 4px; }

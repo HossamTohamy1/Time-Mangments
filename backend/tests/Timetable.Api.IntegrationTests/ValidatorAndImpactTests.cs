@@ -8,21 +8,6 @@ namespace Timetable.Api.IntegrationTests;
 [Collection(ApiCollection.Name)]
 public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
 {
-    private async Task<(Guid A, Guid B, Guid Room)> TwoClassSessionsOfSameClass(string institution) => await factory.WithDb(async db =>
-    {
-        var inst = await db.Institutions.FirstAsync(i => i.Code == institution);
-        // A group with a home room (school) or the first top-level group (university), and two sessions of its first session type.
-        var groups = await db.StudentGroups.Where(g => g.InstitutionId == inst.Id).OrderBy(g => g.Code).ToListAsync();
-        var group = groups.FirstOrDefault(g => g.HomeRoomId != null) ?? groups.First(g => g.ParentGroupId == null);
-        var all = (await db.Sessions.Where(s => s.InstitutionId == inst.Id).ToListAsync()).Where(s => s.GroupIds.Count == 1 && s.GroupIds.Contains(group.Id)).ToList();
-        var typeId = all.GroupBy(s => s.SessionTypeId).OrderByDescending(g => g.Count()).First().Key;
-        var sessions = all.Where(s => s.SessionTypeId == typeId).OrderBy(s => s.SessionsPerWeek).Reverse().Take(2).ToList();
-        var requiredType = sessions[0].RequiredRoomTypeId;
-        var room = group.HomeRoomId ?? await db.Rooms.Where(r => r.InstitutionId == inst.Id && (requiredType == null || r.RoomTypeId == requiredType) && r.Capacity >= group.StudentCount)
-            .OrderBy(r => r.Capacity).Select(r => r.Id).FirstAsync();
-        return (sessions[0].Id, sessions[1].Id, room);
-    });
-
     [Theory]
     [InlineData("SEC")]
     [InlineData("UNI")]
@@ -30,7 +15,7 @@ public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
     {
         var client = await factory.LoginAsync(institutionCode: code);
         var schedule = await factory.NewDraft(code, $"conflicts-{code}");
-        var (a, b, room) = await TwoClassSessionsOfSameClass(code);
+        var (a, b, room) = await factory.TwoSessionsOfOneGroup(code);
         await factory.Place(schedule, a, 0, 0, room);
         await factory.Place(schedule, b, 0, 0);
         var report = await client.GetJson($"/api/v1/schedules/{schedule}/conflicts");
@@ -47,7 +32,7 @@ public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
         client.DefaultRequestHeaders.AcceptLanguage.ParseAdd("ar");
         await client.PutAsJsonAsync("/api/v1/auth/profile", new { preferredLanguage = "ar" });
         var schedule = await factory.NewDraft("SEC", "ar-messages");
-        var (a, b, room) = await TwoClassSessionsOfSameClass("SEC");
+        var (a, b, room) = await factory.TwoSessionsOfOneGroup("SEC");
         await factory.Place(schedule, a, 1, 0, room);
         await factory.Place(schedule, b, 1, 0);
         var report = await client.GetJson($"/api/v1/schedules/{schedule}/conflicts");
@@ -61,7 +46,7 @@ public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
     {
         var client = await factory.LoginAsync(institutionCode: "SEC");
         var schedule = await factory.NewDraft("SEC", "valid-slots");
-        var (a, b, room) = await TwoClassSessionsOfSameClass("SEC");
+        var (a, b, room) = await factory.TwoSessionsOfOneGroup("SEC");
         await factory.Place(schedule, a, 2, 0, room);
         var options = (await client.GetJson($"/api/v1/sessions/{b}/valid-slots?scheduleId={schedule}")).AsArray();
         options.Count.ShouldBeGreaterThan(20);
@@ -77,7 +62,7 @@ public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
     {
         var client = await factory.LoginAsync(institutionCode: "SEC");
         var schedule = await factory.NewDraft("SEC", "validate-move");
-        var (a, b, room) = await TwoClassSessionsOfSameClass("SEC");
+        var (a, b, room) = await factory.TwoSessionsOfOneGroup("SEC");
         await factory.Place(schedule, a, 3, 1, room);
         var res = await client.PostJson($"/api/v1/schedules/{schedule}/entries/validate-move", new { sessionId = b, day = 3, startSlot = 1, roomId = room });
         res["status"]!.GetValue<string>().ShouldBe("invalid");
@@ -89,7 +74,7 @@ public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
     {
         var client = await factory.LoginAsync(institutionCode: "SEC");
         var schedule = await factory.NewDraft("SEC", "rule-preview");
-        var (a, b, room) = await TwoClassSessionsOfSameClass("SEC");
+        var (a, b, room) = await factory.TwoSessionsOfOneGroup("SEC");
         await factory.Place(schedule, a, 0, 0, room);
         await factory.Place(schedule, b, 0, 1, room);
         var preview = await client.PostJson("/api/v1/rules/preview", new
@@ -106,7 +91,7 @@ public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
     {
         var client = await factory.LoginAsync(institutionCode: "SEC");
         var schedule = await factory.NewDraft("SEC", "impact");
-        var (a, _, room) = await TwoClassSessionsOfSameClass("SEC");
+        var (a, _, room) = await factory.TwoSessionsOfOneGroup("SEC");
         await factory.Place(schedule, a, 4, 0, room, occurrence: 0);
         await factory.Place(schedule, a, 4, 1, room, occurrence: 1);
         await client.GetJson($"/api/v1/schedules/{schedule}/conflicts"); // baseline
@@ -135,7 +120,7 @@ public sealed class ValidatorAndImpactTests(TimetableApiFactory factory)
     {
         var client = await factory.LoginAsync(institutionCode: "SEC");
         var schedule = await factory.NewDraft("SEC", "time-impact");
-        var (a, _, room) = await TwoClassSessionsOfSameClass("SEC");
+        var (a, _, room) = await factory.TwoSessionsOfOneGroup("SEC");
         await factory.Place(schedule, a, 1, 7, room);
         var cfg = await client.GetJson("/api/v1/config/effective");
         var time = cfg["time"]!.AsObject();

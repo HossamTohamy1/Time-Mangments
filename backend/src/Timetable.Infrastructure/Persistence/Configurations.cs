@@ -238,8 +238,8 @@ internal sealed class ScheduleEntryConfig : IEntityTypeConfiguration<ScheduleEnt
 {
     public void Configure(EntityTypeBuilder<ScheduleEntry> b)
     {
-        // Last line of defence against room double-booking (the validator is the primary guard).
-        b.HasIndex(x => new { x.ScheduleId, x.DayOfWeek, x.StartSlot, x.RoomId, x.WeekMask }).IsUnique().HasFilter("RoomId IS NOT NULL");
+        // Lookup index for room occupancy (not unique: shareable session types may legitimately share a room; the validator guards double-booking).
+        b.HasIndex(x => new { x.ScheduleId, x.DayOfWeek, x.StartSlot, x.RoomId, x.WeekMask });
         b.HasIndex(x => new { x.ScheduleId, x.SessionId, x.OccurrenceIndex }).IsUnique();
         b.HasIndex(x => new { x.ScheduleId, x.InstructorId });
         b.HasOne<Session>().WithMany().HasForeignKey(x => x.SessionId).OnDelete(DeleteBehavior.Restrict);

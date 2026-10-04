@@ -32,6 +32,7 @@ public static partial class DependencyInjection
         services.AddScoped<Features.Scheduling.ConstraintConfigurationProvider>();
         services.AddScoped<Features.Scheduling.ScheduleStateService>();
         services.AddScoped<Features.Scheduling.ScheduleValidator>();
+        services.AddScoped<Features.Scheduling.ScheduleEditor>();
         services.AddScoped<Features.Scheduling.IScheduleValidator>(sp => sp.GetRequiredService<Features.Scheduling.ScheduleValidator>());
         services.AddScoped<Features.Scheduling.ImpactAnalyzer>();
         services.AddScoped<Features.Scheduling.RulePreviewer>();

@@ -2290,9 +2290,7 @@ namespace Timetable.Infrastructure.Persistence.Migrations
                     b.HasIndex("ScheduleId", "SessionId", "OccurrenceIndex")
                         .IsUnique();
 
-                    b.HasIndex("ScheduleId", "DayOfWeek", "StartSlot", "RoomId", "WeekMask")
-                        .IsUnique()
-                        .HasFilter("RoomId IS NOT NULL");
+                    b.HasIndex("ScheduleId", "DayOfWeek", "StartSlot", "RoomId", "WeekMask");
 
                     b.ToTable("ScheduleEntries");
                 });

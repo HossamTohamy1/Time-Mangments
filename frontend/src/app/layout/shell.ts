@@ -14,6 +14,7 @@ import { Icon } from '../shared/ui/icon';
 import { TermPipe, LocalNamePipe } from '../shared/pipes/pipes';
 import { NAV, NavItem } from './nav';
 import { ShellStatus } from './shell-status';
+import { ScheduleContext } from '../core/schedule/schedule-context';
 
 @Component({
   selector: 'app-shell',
@@ -30,6 +31,7 @@ export class Shell {
   protected readonly status = inject(ShellStatus);
   private readonly realtime = inject(RealtimeService);
   private readonly router = inject(Router);
+  private readonly schedules = inject(ScheduleContext);
 
   protected readonly navOpen = signal(false);
   protected readonly collapsed = signal(false);
@@ -67,6 +69,7 @@ export class Shell {
 
   protected async switchInstitution(id: string): Promise<void> {
     await this.auth.switchInstitution(id);
+    this.schedules.reset();
     await afterSignIn(this.auth, this.config, this.realtime);
     await this.router.navigateByUrl('/dashboard');
   }
@@ -74,6 +77,7 @@ export class Shell {
   protected logout(): void {
     void this.realtime.disconnect();
     this.config.clear();
+    this.schedules.reset();
     void this.auth.logout();
   }
 }

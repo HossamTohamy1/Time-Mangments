@@ -108,6 +108,11 @@ public sealed class IdentityService(
             return await db.Users.Where(u => u.Id == userId).Select(u => u.PreferredLanguage).FirstOrDefaultAsync(ct);
         });
 
+    public async Task<IReadOnlyList<Guid>> LinkedUsersAsync(IReadOnlyCollection<Guid> instructorIds, IReadOnlyCollection<Guid> groupIds, CancellationToken ct) =>
+        await db.Users.Where(u => u.IsActive && ((u.InstructorId != null && instructorIds.Contains(u.InstructorId.Value))
+                || (u.StudentGroupId != null && groupIds.Contains(u.StudentGroupId.Value))))
+            .Select(u => u.Id).ToListAsync(ct);
+
     public async Task<IReadOnlyList<UserListItemDto>> ListUsersAsync(Guid institutionId, string? search, CancellationToken ct)
     {
         var assignments = await db.UserRoleAssignments.IgnoreQueryFilters().Where(a => a.InstitutionId == institutionId)

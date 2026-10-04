@@ -1,0 +1,250 @@
+<div class="editor" *transloco="let t" [style.--zoom]="zoom()">
+  <!-- Toolbar 1: what is shown -->
+  <div class="toolbar">
+    <label class="schedule-select">
+      <span class="sr-only">{{ t('timetable.editor.schedule') }}</span>
+      <app-icon name="history" />
+      <select class="tt-input" [value]="context.currentId() ?? ''" (change)="selectSchedule($any($event.target).value)">
+        @for (s of context.schedules(); track s.id) { <option [value]="s.id">{{ scheduleLabel(s) }}</option> }
+      </select>
+    </label>
+    <div class="tt-seg view-seg" role="group" [attr.aria-label]="t('timetable.editor.viewBy')">
+      @for (v of views; track v) {
+        <button type="button" [attr.aria-pressed]="store.view() === v" (click)="setView(v)">
+          <app-icon [name]="v === 'group' ? 'cap' : v === 'instructor' ? 'user' : 'door'" />
+          <span class="lbl">{{ t('timetable.editor.by', { what: (v === 'group' ? 'group' : v === 'instructor' ? 'instructor' : 'room') | term }) }}</span>
+        </button>
+      }
+    </div>
+    <label class="resource-select">
+      <span class="sr-only">{{ t('timetable.editor.resource') }}</span>
+      <select class="tt-input" [value]="store.resourceId() ?? ''" (change)="selectResource($any($event.target).value)">
+        @for (r of store.resources(); track r.id) { <option [value]="r.id" [selected]="r.id === store.resourceId()">{{ resourceLabel(r) }}</option> }
+      </select>
+    </label>
+    @if (weekLabels().length > 1) {
+      <div class="tt-seg solid" role="group" [attr.aria-label]="t('timetable.editor.week')">
+        @for (w of weekLabels(); track $index) {
+          <button type="button" [attr.aria-pressed]="store.week() === $index" (click)="store.week.set($index)">{{ t('timetable.editor.weekLabel', { label: w }) }}</button>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Toolbar 2: actions -->
+  <div class="toolbar">
+    <div class="btn-group">
+      <button type="button" class="tt-btn icon" [disabled]="!canEdit() || !store.canUndo() || store.busy()" (click)="store.undo()" [attr.aria-label]="t('timetable.editor.undo')" [title]="t('timetable.editor.undo')"><app-icon name="undo" /></button>
+      <button type="button" class="tt-btn icon" [disabled]="!canEdit() || !store.canRedo() || store.busy()" (click)="store.redo()" [attr.aria-label]="t('timetable.editor.redo')" [title]="t('timetable.editor.redo')"><app-icon name="redo" /></button>
+    </div>
+    <div class="btn-group zoom">
+      <button type="button" class="tt-btn icon" (click)="zoomBy(-0.1)" [attr.aria-label]="t('timetable.editor.zoomOut')"><app-icon name="zoomOut" /></button>
+      <span class="zoom-val" aria-live="polite">{{ zoom() * 100 | num:0 }}%</span>
+      <button type="button" class="tt-btn icon" (click)="zoomBy(0.1)" [attr.aria-label]="t('timetable.editor.zoomIn')"><app-icon name="zoomIn" /></button>
+    </div>
+    <button type="button" class="tt-btn" [cdkMenuTriggerFor]="filterMenu" [class.soft]="hiddenTypes().size > 0">
+      <app-icon name="filter" /> {{ t('timetable.editor.filter') }}
+    </button>
+    <ng-template #filterMenu>
+      <div class="tt-menu" cdkMenu>
+        @for (st of sessionTypes(); track st.id) {
+          <button type="button" class="tt-menu-item" cdkMenuItemCheckbox [cdkMenuItemChecked]="!hiddenTypes().has(st.id)" (cdkMenuItemTriggered)="toggleType(st.id)">
+            <app-icon [name]="hiddenTypes().has(st.id) ? 'eye' : 'check'" /> {{ st | localName }}
+          </button>
+        }
+      </div>
+    </ng-template>
+
+    <div class="tb-push">
+      @if (store.hardCount() > 0) {
+        <a class="tt-btn danger" routerLink="/conflicts"><app-icon name="alert" /> {{ t('timetable.editor.conflictsFound', { count: store.hardCount() }) }}</a>
+      } @else if (store.report()) {
+        <span class="tt-chip valid ok-chip"><app-icon name="checkCircle" [size]="14" /> {{ t('timetable.editor.noHard') }}</span>
+      }
+      @if (canEdit()) {
+        <button type="button" class="tt-btn outline-primary" (click)="validate()"><app-icon name="checkList" /> {{ t('timetable.editor.validate') }}</button>
+        @if (canPublish()) {
+          <button type="button" class="tt-btn primary" [disabled]="store.hardCount() > 0 || store.busy()" (click)="publish()"><app-icon name="rocket" /> {{ t('timetable.editor.publish') }}</button>
+        }
+      } @else if (store.board() && auth.has('timetable.edit')) {
+        <button type="button" class="tt-btn primary" (click)="newDraft(true)"><app-icon name="copy" /> {{ t('timetable.editor.editCopy') }}</button>
+      }
+    </div>
+  </div>
+
+  @if (store.board(); as b) {
+    @if (!b.editable) {
+      <div class="banner" role="status">
+        <app-icon name="lock" />
+        <span>{{ t(b.schedule.locked ? 'timetable.editor.lockedByJob' : 'timetable.editor.readOnly', { status: t('schedules.status.' + b.schedule.status) }) }}</span>
+      </div>
+    }
+    @if (store.pick(); as p) {
+      <div class="banner pick" role="status" aria-live="polite">
+        <app-icon name="target" />
+        <span>{{ t(p.entryId ? 'timetable.editor.pickMove' : 'timetable.editor.pickPlace', { name: pickedSession()?.courseCode ?? '' }) }}</span>
+        <button type="button" class="tt-btn sm ghost" (click)="cancel()">{{ t('common.cancel') }}</button>
+      </div>
+    } @else if (store.swapFrom()) {
+      <div class="banner pick" role="status" aria-live="polite">
+        <app-icon name="swap" /><span>{{ t('timetable.editor.swapHint') }}</span>
+        <button type="button" class="tt-btn sm ghost" (click)="cancel()">{{ t('common.cancel') }}</button>
+      </div>
+    }
+  }
+
+  @if (!context.loaded() || store.loading()) {
+    <div class="tt-card loading"><div class="tt-skeleton" style="block-size: 320px"></div></div>
+  } @else if (context.schedules().length === 0) {
+    <div class="tt-card tt-empty">
+      <p>{{ t('timetable.editor.noSchedules') }}</p>
+      <button type="button" class="tt-btn primary" *hasPermission="'timetable.edit'" (click)="newDraft(false)"><app-icon name="plus" /> {{ t('timetable.editor.newDraft') }}</button>
+    </div>
+  } @else if (store.board()) {
+    <div class="workspace" cdkDropListGroup>
+      <!-- Board -->
+      <section class="board tt-card" [attr.aria-label]="t('timetable.editor.grid')">
+        <div class="board-scroll">
+          <div class="grid" role="grid" [attr.aria-label]="selectedResource() ? resourceLabel(selectedResource()!) : ''"
+               [style.--days]="days().length" [style.--col-units]="columnUnits()" [style.grid-template-columns]="gridColumns()" [attr.aria-rowcount]="rows().length + 1" [attr.aria-colcount]="days().length + 1">
+            <div class="corner" role="columnheader"><app-icon name="clock" /></div>
+            @for (d of days(); track d; let last = $last) {
+              <div class="day-h" role="columnheader" [class.today]="d === todayDow" [class.last-col]="last">
+                <span class="name">{{ d | dayName }}</span>
+                @if (d === todayDow) { <span class="sub">{{ t('timetable.editor.today') }}</span> }
+              </div>
+            }
+            @for (r of rows(); track r.slot) {
+              @if (r.isBreak) {
+                <div class="break-time" role="rowheader">{{ r.start }}<br />{{ r.end }}</div>
+                <div class="break" role="gridcell"><app-icon name="food" /> {{ (lang.pick(r.nameAr, r.nameEn) || t('timetable.editor.break')) }}</div>
+              } @else {
+                <div class="time-cell" role="rowheader">
+                  <span class="t1">{{ r.start }}</span><span class="t2">{{ r.end }}</span>
+                  <span class="dur">{{ t('timetable.editor.minutes', { count: r.minutes }) }}</span>
+                </div>
+                @for (d of days(); track d; let last = $last) {
+                  @let state = cellState(d, r.slot);
+                  @let here = entriesAt(d, r.slot);
+                  <div class="cell" role="gridcell" [id]="'cell-' + d + '-' + r.slot"
+                       cdkDropList [cdkDropListData]="{ day: d, slot: r.slot }" cdkDropListSortingDisabled
+                       [cdkDropListDisabled]="!canEdit()"
+                       (cdkDropListDropped)="droppedOnCell($event)" (cdkDropListEntered)="hover.set(d + ':' + r.slot)"
+                       [class.last-col]="last" [class.valid]="state === 'valid'" [class.penalty]="state === 'penalty'" [class.invalid]="state === 'invalid'"
+                       [class.hovered]="hover() === d + ':' + r.slot" [class.disabled]="disabledCells().has(d + ':' + r.slot)"
+                       [attr.tabindex]="store.pick() ? 0 : -1" [attr.title]="state ? cellReasons(d, r.slot) : null"
+                       [attr.aria-label]="(d | dayName) + ' ' + r.start + (state ? ' — ' + t('timetable.status.' + state) : '')"
+                       (click)="cellClicked(d, r.slot)" (keydown)="cellKeydown($event, d, r.slot)">
+                    @for (e of here; track e.id) {
+                      @let s = store.sessions().get(e.sessionId);
+                      @if (s) {
+                        <div class="slot-item" cdkDrag [cdkDragData]="{ sessionId: e.sessionId, entryId: e.id }" [cdkDragDisabled]="!canEdit() || e.pinned"
+                             (cdkDragStarted)="dragStarted($event)" (cdkDragEnded)="dragEnded()"
+                             [style.--span]="e.duration" [class.dim]="dimmed(e.sessionId)" [class.flash]="highlight() === e.id"
+                             [class.moving]="store.pick()?.entryId === e.id" [class.swap-source]="store.swapFrom() === e.id"
+                             [attr.data-entry]="e.id" tabindex="0" (click)="cardClicked(e, $event)" (keydown)="cardKeydown(e, $event)"
+                             [attr.aria-label]="s.courseCode + ' ' + (s | localName) + ', ' + instructorName(e, e.sessionId) + ', ' + roomName(e)">
+                          <app-session-card [session]="s" [instructor]="instructorName(e, e.sessionId)" [room]="roomName(e)"
+                                            [group]="groupNames(e.sessionId)" [pinned]="e.pinned" [violations]="violations(e)" />
+                          @if (canEdit()) {
+                            <button type="button" class="kebab" [cdkMenuTriggerFor]="entryMenu" [cdkMenuTriggerData]="{ $implicit: e }"
+                                    [attr.aria-label]="t('timetable.editor.actions')" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                              <app-icon name="more" />
+                            </button>
+                          }
+                          <div *cdkDragPlaceholder class="drop-placeholder"></div>
+                        </div>
+                      }
+                    }
+                    @if (here.length === 0 && state === 'valid' && !dragging()) {
+                      <div class="feasible" aria-hidden="true">
+                        <app-icon name="plus" />
+                        <strong>{{ t('timetable.editor.feasible') }}</strong>
+                      </div>
+                    }
+                    @if (dragging() && hover() === d + ':' + r.slot && pickedSession(); as ps) {
+                      <div class="preview" [class.bad]="state === 'invalid'" [class.warn]="state === 'penalty'" aria-hidden="true">
+                        <span class="pv-title">{{ ps.courseCode }}</span>
+                        <span class="pv-note">{{ t('timetable.editor.movingTo', { day: (d | dayName), time: r.start }) }}</span>
+                        <span class="pv-ok">{{ t('timetable.status.' + (state ?? 'invalid')) }}</span>
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            }
+          </div>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="dot valid"></i>{{ t('timetable.legend.feasible') }}</span>
+          <span><i class="dot penalty"></i>{{ t('timetable.legend.penalty') }}</span>
+          <span><i class="dot invalid"></i>{{ t('timetable.legend.hard') }}</span>
+          <span><app-icon name="lock" [size]="13" />{{ t('timetable.legend.pinned') }}</span>
+          <span><app-icon name="grip" [size]="13" />{{ t('timetable.legend.drag') }}</span>
+        </div>
+      </section>
+
+      <!-- Unplaced sessions -->
+      <aside class="panel tt-card" cdkDropList [cdkDropListData]="'unplaced'" cdkDropListSortingDisabled [cdkDropListDisabled]="!canEdit()"
+             (cdkDropListDropped)="droppedOnPanel($event)" [attr.aria-label]="t('timetable.unplaced.title')">
+        <div class="panel-head">
+          <div class="panel-title">
+            <app-icon name="inbox" /> {{ t('timetable.unplaced.title') }}
+            <span class="left">{{ t('timetable.unplaced.left', { count: store.unplacedTotal() }) }}</span>
+          </div>
+          <label class="search">
+            <app-icon name="search" />
+            <input type="search" [value]="search()" (input)="search.set($any($event.target).value)" [placeholder]="t('timetable.unplaced.filter')" [attr.aria-label]="t('timetable.unplaced.filter')" />
+          </label>
+          <div class="chips" role="group" [attr.aria-label]="t('timetable.unplaced.byType')">
+            <button type="button" class="chip" [attr.aria-pressed]="typeChip() === null" (click)="typeChip.set(null)">{{ t('common.all') }}</button>
+            @for (c of unplacedChips(); track c.type.id) {
+              <button type="button" class="chip" [attr.aria-pressed]="typeChip() === c.type.id" (click)="typeChip.set(c.type.id)">{{ c.type | localName }} ({{ c.count | num:0 }})</button>
+            }
+          </div>
+        </div>
+        @if (filteredUnplaced().length === 0) {
+          <div class="tt-empty all-placed"><app-icon name="checkCircle" [size]="28" /><p>{{ t('timetable.unplaced.none') }}</p></div>
+        } @else {
+          <cdk-virtual-scroll-viewport class="panel-list" itemSize="104" minBufferPx="400" maxBufferPx="800">
+            <div *cdkVirtualFor="let u of filteredUnplaced(); trackBy: trackUnplaced" class="u-item" cdkDrag [cdkDragData]="{ sessionId: u.session.id }"
+                 [cdkDragDisabled]="!canEdit()" (cdkDragStarted)="dragStarted($event)" (cdkDragEnded)="dragEnded()"
+                 [class.active]="store.pick()?.sessionId === u.session.id && !store.pick()?.entryId"
+                 tabindex="0" role="button" (click)="pickUnplaced(u)" (keydown.enter)="pickUnplaced(u)" (keydown.space)="$event.preventDefault(); pickUnplaced(u)"
+                 [attr.aria-label]="t('timetable.unplaced.itemLabel', { name: u.session.courseCode + ' ' + (u.session | localName), count: u.missing })">
+              <app-session-card [session]="u.session" [instructor]="instructorName(null, u.session.id)" [group]="groupNames(u.session.id)" [compact]="false"
+                                [room]="t('timetable.unplaced.slots', { count: u.session.duration })" />
+              @if (u.missing > 1) { <span class="missing">×{{ u.missing }}</span> }
+              <div *cdkDragPlaceholder class="drop-placeholder"></div>
+            </div>
+          </cdk-virtual-scroll-viewport>
+        }
+        @if (canEdit()) {
+          <div class="panel-foot">
+            <button type="button" class="tt-btn soft" [disabled]="filteredUnplaced().length === 0 || store.busy()" (click)="autoPlace()">
+              <app-icon name="wand" /> {{ t('timetable.unplaced.autoPlace', { count: store.unplacedTotal() }) }}
+            </button>
+          </div>
+        }
+      </aside>
+    </div>
+  }
+
+  <ng-template #entryMenu let-e>
+    <div class="tt-menu" cdkMenu>
+      <button type="button" class="tt-menu-item" cdkMenuItem (cdkMenuItemTriggered)="store.togglePin(e)">
+        <app-icon [name]="e.pinned ? 'unlock' : 'lock'" /> {{ t(e.pinned ? 'timetable.menu.unpin' : 'timetable.menu.pin') }}
+      </button>
+      <button type="button" class="tt-menu-item" cdkMenuItem [disabled]="e.pinned" (cdkMenuItemTriggered)="beginSwap(e)">
+        <app-icon name="swap" /> {{ t('timetable.menu.swap') }}
+      </button>
+      <button type="button" class="tt-menu-item" cdkMenuItem [disabled]="e.pinned" (cdkMenuItemTriggered)="findAlternative(e)">
+        <app-icon name="target" /> {{ t('timetable.menu.alternative') }}
+      </button>
+      <hr />
+      <button type="button" class="tt-menu-item danger" cdkMenuItem [disabled]="e.pinned" (cdkMenuItemTriggered)="store.unplace(e)">
+        <app-icon name="inbox" /> {{ t('timetable.menu.unplace') }}
+      </button>
+    </div>
+  </ng-template>
+</div>

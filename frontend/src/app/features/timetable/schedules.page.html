@@ -1,0 +1,60 @@
+<div class="tt-page" *transloco="let t">
+  <div class="tt-page-head">
+    <app-icon name="history" [size]="22" class="head-icon" />
+    <h1>{{ t('timetable.versions.title') }}</h1>
+  </div>
+  <p class="tt-muted">{{ t('timetable.versions.subtitle') }}</p>
+  <div class="tt-card table-wrap">
+    <table class="tt-table">
+      <thead>
+        <tr>
+          <th scope="col">{{ t('timetable.versions.name') }}</th>
+          <th scope="col">{{ t('timetable.versions.status') }}</th>
+          <th scope="col" class="num">{{ t('timetable.versions.entries') }}</th>
+          <th scope="col" class="num">{{ t('timetable.conflicts.hard') }}</th>
+          <th scope="col" class="num">{{ t('timetable.conflicts.soft') }}</th>
+          <th scope="col">{{ t('timetable.versions.updated') }}</th>
+          <th scope="col"><span class="sr-only">{{ t('common.actions') }}</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of context.schedules(); track s.id) {
+          <tr [class.current]="s.id === context.currentId()">
+            <td>
+              @if (renaming() === s.id) {
+                <input #nameInput class="tt-input" [value]="s.name" [attr.aria-label]="t('timetable.versions.name')"
+                       (keydown.enter)="rename(s, nameInput.value)" (keydown.escape)="renaming.set(null)" (blur)="rename(s, nameInput.value)" />
+              } @else {
+                <span class="name">{{ s.name }}</span> <span class="tt-muted">v{{ s.version }}</span>
+                @if (s.id === context.currentId()) { <span class="tt-chip primary">{{ t('timetable.versions.current') }}</span> }
+              }
+            </td>
+            <td>
+              <span class="tt-chip" [class.valid]="s.status === 'Published'" [class.primary]="s.status === 'Draft'">{{ t('schedules.status.' + s.status) }}</span>
+              @if (s.locked) { <span class="tt-chip penalty"><app-icon name="lock" [size]="11" /> {{ t('timetable.versions.generating') }}</span> }
+            </td>
+            <td class="num">{{ s.entryCount | num:0 }}</td>
+            <td class="num" [class.bad]="(s.hardViolations ?? 0) > 0">{{ s.hardViolations ?? '—' }}</td>
+            <td class="num">{{ s.softScore === null || s.softScore === undefined ? '—' : (s.softScore | num:1) }}</td>
+            <td>{{ (s.modifiedAt ?? s.createdAt) | localDate:'datetime' }}</td>
+            <td class="actions">
+              <button type="button" class="tt-btn sm" (click)="open(s)"><app-icon name="table" /> {{ t('timetable.versions.open') }}</button>
+              @if (canEdit()) {
+                <button type="button" class="tt-btn sm" [disabled]="busy()" (click)="clone(s)" [title]="t('timetable.versions.copy')" [attr.aria-label]="t('timetable.versions.copy')"><app-icon name="copy" /></button>
+                <button type="button" class="tt-btn sm" [disabled]="busy()" (click)="renaming.set(s.id)" [title]="t('common.edit')" [attr.aria-label]="t('common.edit')"><app-icon name="edit" /></button>
+              }
+              @if (s.status === 'Draft' && canPublish()) {
+                <button type="button" class="tt-btn sm outline-primary" [disabled]="busy() || (s.hardViolations ?? 0) > 0" (click)="publish(s)"><app-icon name="rocket" /> {{ t('timetable.editor.publish') }}</button>
+              }
+              @if (s.status !== 'Published' && canEdit()) {
+                <button type="button" class="tt-btn sm danger" [disabled]="busy()" (click)="remove(s)" [title]="t('common.delete')" [attr.aria-label]="t('common.delete')"><app-icon name="trash" /></button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="7" class="tt-empty">{{ t('timetable.editor.noSchedules') }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

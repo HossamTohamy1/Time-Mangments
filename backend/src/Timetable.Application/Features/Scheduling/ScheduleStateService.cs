@@ -32,6 +32,11 @@ public sealed class ScheduleStateStore
         if (Entries.TryGetValue(scheduleId, out var e)) e.Stale = true;
     }
 
+    public void InvalidateAll()
+    {
+        foreach (var e in Entries.Values) e.Stale = true;
+    }
+
     public void InvalidateInstitution(Guid institutionId)
     {
         foreach (var e in Entries.Values.Where(x => x.InstitutionId == institutionId)) e.Stale = true;
