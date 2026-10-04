@@ -15,6 +15,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Google.OrTools" />
     <PackageReference Include="QuestPDF" />
     <PackageReference Include="ClosedXML" />
@@ -22,5 +23,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Templates\*.json" />
     <EmbeddedResource Include="Fonts\*.ttf" />
+    <EmbeddedResource Include="Localization\*.json" />
   </ItemGroup>
 </Project>

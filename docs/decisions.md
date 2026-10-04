@@ -1,0 +1,48 @@
+# Decision log
+
+Every non-obvious choice, every flow gap found and fixed, and every feature added because a flow needed it.
+Format: **what** — why — which flow it affects.
+
+## Platform & tooling
+
+- **.NET 10 (LTS) + EF Core 10, Angular 22 (standalone, zoneless, signals)** — latest LTS / stable at build time.
+- **Node 24 LTS required for the frontend** — Angular CLI 22 requires Node ≥ 22.22.3 / 24.15. `package.json` declares `engines`.
+- **MediatR 12.5 (Apache-2.0)** — MediatR 13+ requires a commercial licence key; 12.5 has everything needed (pipeline behaviours).
+- **Shouldly instead of FluentAssertions** — FluentAssertions 8 is commercially licensed.
+- **QuestPDF Community licence** — free for organisations under the revenue threshold; switch `QuestPDF.Settings.License` if that does not apply.
+- **No Hangfire** — generation jobs use a `BackgroundService` + `Channel<T>` queue (no extra storage, no extra licence; jobs are persisted in `GenerationJobs`).
+- **Angular Material (M3) over PrimeNG** — CDK is required anyway for drag-drop/virtual scroll; Material 3 theming is driven by CSS custom properties, which lets us wire it to our own design tokens for light/dark with no duplicated palettes.
+- **Transloco + messageformat plugin** — runtime language switch without reload, lazy per-feature scopes, ICU plurals (Arabic has six plural categories).
+- **ng-openapi-gen** for typed API clients (`npm run generate:api`, input `backend/openapi/v1.json`, exported by the API in Development at `/api/swagger/v1/swagger.json`).
+- **Swagger UI at `/api/swagger`** (Development only) — keeps every API URL under `/api`, so the SPA fallback rules stay trivial.
+
+## Hosting / packaging
+
+- **Angular `deleteOutputPath` wipes `wwwroot`** — `npm run build:prod` re-creates `wwwroot/.gitkeep` (scripts/postbuild.mjs). Uploads/exports are written to `App_Data/` (config `Storage:Root`), never to `wwwroot`.
+- **Unknown `/api/*` and `/hubs/*` → RFC 7807 404 JSON**, mapped as explicit catch-all routes so `MapFallbackToFile("index.html")` can never swallow them.
+- **Cache headers** — `index.html` no-cache; hashed bundles (`name-HASH.ext`) `public, max-age=31536000, immutable`; other static files 1h.
+- **MSBuild `BuildAngularClient` target** runs `npm ci && npm run build:prod` before publish; skip with `-p:SkipClientBuild=true` (used by build.sh after it has already built and tested the client).
+
+## Data & persistence
+
+- **SQL Server is the only production database.** The sandbox used to build this repo cannot install SQL Server (package host blocked), so integration tests use a dedicated SQL Server database when `TIMETABLE_TEST_SQLSERVER` is set (created + dropped per run) and otherwise fall back to in-memory SQLite. Provider-specific bits are isolated in `AppDbContext.OnModelCreating` (row version: SQL Server `rowversion` vs app-generated token; DateTimeOffset stored as ticks on SQLite). Migrations are SQL Server migrations; `Database:ApplyMigrationsOnStartup` applies them in Development.
+- **GUID v7 keys** — sortable, generated client-side, no round trip.
+- **Primitive collections (JSON columns)** for tags, equipment codes, qualified course ids, session group ids, role permissions — small, read together with the owner, no join tables needed.
+- **Named EF query filters (EF 10)**: `Tenant` (institution scoping) and `SoftDelete`, combined. System operations call `ITenantContext.Bypass()`.
+- **Audit**: `AuditableEntity` fields are set in `SaveChangesAsync`; configuration entities additionally write `ConfigAuditEntries` (before/after JSON) regardless of entry point (UI, import, template apply).
+- **Config change propagation**: saving any configuration row bumps the institution's `ConfigVersion` (cache keys, ETag), invalidates permission caches and broadcasts `ConfigChanged` over SignalR.
+- **Week cycles are bit masks** (`0` = every week, bit *i* = week *i* of an N-week rotation), so overlap checks are a single AND.
+
+## Domain / dynamic design
+
+- **No business enums.** Session types, instructor types, room types, group kinds, org-unit levels, equipment are lookup rows with stable `Code`s. An architecture test fails if an enum outside the technical allow-list is added or if enum members look like business concepts.
+- **Constraint severity is configuration, not code.** Constraints only report an "amount" of badness; the configured instance decides whether it is a hard violation or a weighted soft penalty. Any built-in can therefore be switched Hard ↔ Soft ↔ Off (except the `IsCore` ones).
+- **Incremental evaluation** — aggregate constraints compute candidate deltas (with − without) over small buckets (group/day, instructor/week, …) using an in-memory occupancy index.
+- **All slot numbers in configuration and UI are 1-based**; the engine uses 0-based slot indexes internally.
+- **Session ordering default is Soft in the University template** (Admin can switch it to Hard); keeps generation feasible on partially entered data.
+
+## Security
+
+- **Permissions, not roles, are checked** (`[HasPermission]` policies + `AuthorizationBehavior` for MediatR requests). Roles are data per institution. `X-Institution-Id` selects the institution and is validated against the caller's memberships.
+- **Refresh tokens**: random 512-bit, stored as SHA-256 hash, rotated on every refresh, HttpOnly + Secure + SameSite=Strict cookie scoped to `/api/v1/auth`; re-use of a rotated token revokes the user's whole token family.
+- **Org-unit scoped role assignments** are stored and returned but not yet used to filter editable data (listed as deferred in progress.md).

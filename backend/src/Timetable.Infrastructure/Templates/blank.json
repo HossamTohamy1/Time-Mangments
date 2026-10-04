@@ -1,0 +1,96 @@
+{
+  "code": "blank",
+  "version": 1,
+  "nameAr": "فارغ / مخصص",
+  "nameEn": "Blank / Custom",
+  "descriptionAr": "لا شيء محمّل مسبقاً؛ ابنِ كل شيء بنفسك.",
+  "descriptionEn": "Nothing preloaded; build everything by hand.",
+  "defaultLanguage": "en",
+  "orgUnitTypes": [],
+  "roomTypes": [],
+  "instructorTypes": [],
+  "groupKinds": [],
+  "equipmentTags": [],
+  "sessionTypes": [],
+  "terminology": [],
+  "time": {
+    "workingDays": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "weekStartDay": 0,
+    "weekCycleLength": 1,
+    "weekCycleLabels": [],
+    "periods": [],
+    "shifts": [],
+    "dayOverrides": []
+  },
+  "constraints": [],
+  "rules": [],
+  "featureFlags": {
+    "shared-sessions": false,
+    "week-cycles": false,
+    "shifts": false,
+    "substitutions": false,
+    "home-rooms": false,
+    "instructor-pools": false,
+    "buildings-travel": false,
+    "import-export": true,
+    "curriculum": false,
+    "auto-generation": true,
+    "custom-fields": true,
+    "rule-builder": true
+  },
+  "customFields": [],
+  "roles": [
+    {
+      "code": "ADMIN",
+      "nameAr": "مدير النظام",
+      "nameEn": "Administrator",
+      "permissions": [
+        "*"
+      ]
+    },
+    {
+      "code": "SCHEDULER",
+      "nameAr": "منسق الجداول",
+      "nameEn": "Scheduler",
+      "permissions": [
+        "dashboard.view",
+        "timetable.view",
+        "timetable.edit",
+        "schedule.generate",
+        "schedule.publish",
+        "resources.view",
+        "resources.manage",
+        "availability.manage",
+        "exports.run",
+        "imports.run",
+        "substitutions.manage",
+        "audit.view"
+      ]
+    },
+    {
+      "code": "INSTRUCTOR",
+      "nameAr": "عضو هيئة التدريس",
+      "nameEn": "Instructor",
+      "permissions": [
+        "timetable.view.own",
+        "availability.manage.own",
+        "exports.run"
+      ]
+    },
+    {
+      "code": "STUDENT",
+      "nameAr": "طالب",
+      "nameEn": "Student",
+      "permissions": [
+        "timetable.view.own",
+        "exports.run"
+      ]
+    }
+  ]
+}
